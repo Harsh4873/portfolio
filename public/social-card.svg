@@ -7,7 +7,7 @@
   <path d="M910 130h260M1040 0c45 45 45 215 0 260M1040 0c-45 45-45 215 0 260" fill="none" stroke="#1f1f1f" stroke-width="2"/>
   <circle cx="1098" cy="70" r="18" fill="#d6d3c4" stroke="#1f1f1f" stroke-width="4"/>
   <text x="90" y="118" fill="#500000" font-family="ui-monospace, monospace" font-size="20" letter-spacing="5">HARSH DAVE / PORTFOLIO</text>
-  <text x="82" y="286" fill="#1f1f1f" font-family="Georgia, serif" font-size="112" font-weight="700" letter-spacing="-5">Build systems.</text>
+  <text x="82" y="286" fill="#181815" font-family="Georgia, serif" font-size="112" font-weight="700" letter-spacing="-5">Inspect systems.</text>
   <text x="82" y="402" fill="#500000" font-family="Georgia, serif" font-size="112" font-style="italic" letter-spacing="-5">Find signal.</text>
-  <text x="90" y="520" fill="#595959" font-family="Arial, sans-serif" font-size="28">Software · Data · Computational Genomics</text>
+  <text x="90" y="520" fill="#595959" font-family="Arial, sans-serif" font-size="28">Computer Science · Statistics · Computational Genomics</text>
 </svg>

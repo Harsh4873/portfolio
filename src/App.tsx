@@ -1,4 +1,5 @@
 import {
+  Activity,
   ArrowRight,
   ArrowUpRight,
   Atom,
@@ -7,24 +8,41 @@ import {
   BrainCircuit,
   CircleDot,
   Code2,
+  Cpu,
+  Database,
+  Dumbbell,
   Github,
   GraduationCap,
   Layers3,
   Mail,
   MapPin,
   Microscope,
+  Network,
   Printer,
+  Search,
+  ServerCog,
   Sparkles,
   TerminalSquare,
+  Trophy,
 } from 'lucide-react';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import {
+  curiosityThreads,
   experiences,
+  labProjects,
   navigation,
+  operatingQuestions,
+  personalCoordinates,
+  personalLenses,
+  principles,
   projects,
   proofPoints,
+  researchChecks,
+  researchStages,
   skillGroups,
+  sports,
   type Experience,
+  type LabCategory,
   type Project,
   type RouteId,
 } from './content';
@@ -158,14 +176,14 @@ function StartPage() {
     <>
       <section className="start-hero" aria-labelledby="start-heading">
         <div className="hero-copy">
-          <p className="eyebrow"><span>Portfolio / 2026</span> College Station, Texas</p>
+          <p className="eyebrow"><span>Portfolio / 2026</span> Researcher · Builder · Persistent question-asker</p>
           <h1 id="start-heading">
-            <span>Build systems.</span>
+            <span>Inspect systems.</span>
             <em>Find signal.</em>
-            <span>Explain why.</span>
+            <span>Build better.</span>
           </h1>
           <p className="hero-lede">
-            I&apos;m Harsh—computer scientist, statistician, and computational genomics researcher building reliable software at the intersection of AI, data, and biology.
+            I&apos;m Harsh—a computer scientist, statistician, and computational genomics researcher. I like taking complicated systems apart, understanding what the evidence can actually support, and rebuilding them into something useful.
           </p>
           <div className="hero-actions">
             <RouteLink route="projects" className="button button-primary">
@@ -185,12 +203,30 @@ function StartPage() {
           <ThreadDiagram />
           <div className="now-note">
             <span>Now</span>
-            <p>Pursuing M.S. Computer Science, Expected 2028, while researching computational genomics in the Ioerger Lab.</p>
+            <p>Pursuing an M.S. in Computer Science while studying positive selection in tuberculosis genomes in the Ioerger Lab.</p>
           </div>
         </aside>
       </section>
 
       <ProofRibbon />
+
+      <section className="coordinates-section" aria-labelledby="coordinates-heading">
+        <header className="coordinates-heading">
+          <p className="chapter-label">Current coordinates</p>
+          <h2 id="coordinates-heading">Now, next, and the long horizon.</h2>
+          <p>A direction of travel, not a perfectly linear plan.</p>
+        </header>
+        <div className="coordinate-list">
+          {personalCoordinates.map((coordinate) => (
+            <article key={coordinate.index}>
+              <span className="coordinate-index">{coordinate.index}</span>
+              <p>{coordinate.horizon}</p>
+              <h3>{coordinate.title}</h3>
+              <span>{coordinate.copy}</span>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="discipline-section" aria-labelledby="discipline-heading">
         <div className="section-intro">
@@ -214,6 +250,42 @@ function StartPage() {
         </div>
       </section>
 
+      <section className="curiosity-section" aria-labelledby="curiosity-heading">
+        <header>
+          <p className="chapter-label light">Questions in orbit</p>
+          <h2 id="curiosity-heading">The subjects change.<br />The instinct does not.</h2>
+          <p>I keep returning to places where the system is complex, the evidence is messy, and a clearer tool could change what someone is able to understand.</p>
+        </header>
+        <div className="curiosity-grid">
+          {curiosityThreads.map((thread) => (
+            <article key={thread.index}>
+              <span>{thread.index}</span>
+              <h3>{thread.title}</h3>
+              <p>{thread.copy}</p>
+              <div className="signal-line" aria-label="Related subjects">
+                {thread.signals.map((signal) => <small key={signal}>{signal}</small>)}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="question-console" aria-labelledby="questions-heading">
+        <div className="console-heading">
+          <p className="chapter-label">Operating questions</p>
+          <h2 id="questions-heading">My default debugging loop.</h2>
+          <p>These questions follow me from genomic pipelines to product decisions, sports arguments, and training plans.</p>
+        </div>
+        <ol>
+          {operatingQuestions.map((question, index) => (
+            <li key={question}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <p>{question}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <section className="contact-band">
         <p>Have an interesting system, dataset, or research question?</p>
         <a href={'mailto:' + EMAIL}>Let&apos;s compare notes <ArrowUpRight aria-hidden="true" /></a>
@@ -222,12 +294,12 @@ function StartPage() {
   );
 }
 
-function PageHeading({ chapter, title, lede, aside }: { chapter: string; title: string; lede: string; aside: string }) {
+function PageHeading({ headingId, chapter, title, lede, aside }: { headingId: string; chapter: string; title: string; lede: string; aside: string }) {
   return (
-    <header className="page-heading">
+    <header className="page-heading" aria-labelledby={headingId}>
       <p className="chapter-label">{chapter}</p>
       <div>
-        <h1>{title}</h1>
+        <h1 id={headingId}>{title}</h1>
         <p>{lede}</p>
       </div>
       <p className="heading-aside">{aside}</p>
@@ -256,6 +328,10 @@ function ExperienceEntry({ experience, index }: { experience: Experience; index:
         <div className="tool-line" aria-label="Tools and methods">
           {experience.tools.map((tool) => <span key={tool}>{tool}</span>)}
         </div>
+        <div className="experience-translation">
+          <ArrowRight aria-hidden="true" />
+          <span><strong>What it sharpened</strong>{experience.translation}</span>
+        </div>
       </div>
     </article>
   );
@@ -265,9 +341,10 @@ function ExperiencePage() {
   return (
     <>
       <PageHeading
+        headingId="experience-heading"
         chapter="01 / Experience"
         title="Work that crosses boundaries."
-        lede="My best work lives between disciplines: software with scientific rigor, research with production discipline, and AI grounded in the problem it is meant to solve."
+        lede="My best work lives between disciplines: software with scientific rigor, research with production discipline, and AI grounded in the system around it. Each role taught me a different way to translate complexity."
         aside="A selected chronology · 2022—Now"
       />
       <section className="experience-list" aria-label="Selected experience">
@@ -284,7 +361,7 @@ function ExperiencePage() {
 }
 
 function ResearchPage() {
-  const methods = ['Genome-wide analysis', 'Bayesian MCMC', 'dN/dS', 'Python pipelines', 'Slurm arrays', 'PAML', 'Statistical validation', 'Scientific writing'];
+  const methods = ['~4,000 genes', 'Cohort comparison', 'Bayesian MCMC', 'GenomegaMap', 'Posterior analysis', 'Python pipelines', 'Slurm arrays', 'HPRC', 'pN/pS', 'Chi-square', 'FDR', 'PAML'];
 
   return (
     <>
@@ -292,9 +369,9 @@ function ResearchPage() {
         <div className="research-title-block">
           <p className="chapter-label light">02 / Research</p>
           <span className="research-status"><i aria-hidden="true" /> Active · Ioerger Lab</span>
-          <h1 id="research-heading">When genomes change,<br /><em>what is the signal?</em></h1>
+          <h1 id="research-heading">When cohorts differ,<br /><em>what is the signal?</em></h1>
           <p>
-            I build computational workflows to study evidence of evolutionary selection in <i>Mycobacterium tuberculosis</i>—and to make the path from sequence data to scientific interpretation reproducible.
+            I study evidence of positive selection in <i>Mycobacterium tuberculosis</i> isolates from patient cohorts with and without diabetes—and build the computational path from sequence data to interpretation so every step can be inspected.
           </p>
         </div>
         <div className="sequence-field" aria-hidden="true">
@@ -307,13 +384,13 @@ function ResearchPage() {
           <span>01 / Question</span>
           <BrainCircuit aria-hidden="true" />
           <h2>Start with the contrast.</h2>
-          <p>Define a biological comparison that can be tested with sequence evidence, then make assumptions and uncertainty explicit.</p>
+          <p>Define the diabetes versus non-diabetes cohort comparison in a way that can be tested with sequence evidence, then keep confounding, assumptions, and uncertainty visible.</p>
         </article>
         <article>
           <span>02 / System</span>
           <TerminalSquare aria-hidden="true" />
           <h2>Build for repeatability.</h2>
-          <p>Automate filtering, compute, post-processing, statistics, and artifact generation so the result can be rebuilt—not merely remembered.</p>
+          <p>Automate inputs, genome-wide compute, posterior extraction, statistical checks, and artifact generation so roughly 4,000 gene analyses can be rebuilt—not merely remembered.</p>
         </article>
         <article>
           <span>03 / Story</span>
@@ -321,6 +398,26 @@ function ResearchPage() {
           <h2>Translate without flattening.</h2>
           <p>Turn technical output into tables, figures, and prose that preserve nuance while helping a biology-first audience see the evidence.</p>
         </article>
+      </section>
+
+      <section className="research-pipeline" aria-labelledby="pipeline-heading">
+        <header>
+          <p className="chapter-label">Analysis trace</p>
+          <h2 id="pipeline-heading">From cohort definition to a defensible claim.</h2>
+          <p>The workflow is designed as a chain of inspectable decisions. A result is only as trustworthy as the path that produced it.</p>
+        </header>
+        <ol>
+          {researchStages.map((stage) => (
+            <li key={stage.index}>
+              <div className="pipeline-node"><span>{stage.index}</span><i aria-hidden="true" /></div>
+              <article>
+                <p>{stage.label}</p>
+                <h3>{stage.title}</h3>
+                <span>{stage.copy}</span>
+              </article>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section className="methods-band" aria-label="Research methods">
@@ -337,7 +434,7 @@ function ResearchPage() {
         </div>
         <div className="research-detail-copy">
           <p>
-            Every step—from cohort definition and reference alignment to posterior comparison and validation—shapes what a result can honestly say. My job is to make those steps inspectable and the final evidence useful.
+            GenomegaMap supplies a Bayesian view of selection, but no single model gets the final word. I compare posterior behavior and intervals between cohorts, then use complementary statistics to ask whether an apparent signal persists under a different lens.
           </p>
           <div className="manuscript-note">
             <Atom aria-hidden="true" />
@@ -346,6 +443,23 @@ function ResearchPage() {
               Computational genomics research with Dr. Thomas Ioerger at Texas A&M University.
             </span>
           </div>
+        </div>
+      </section>
+
+      <section className="validation-section" aria-labelledby="validation-heading">
+        <header>
+          <p className="chapter-label">Triangulation</p>
+          <h2 id="validation-heading">Confidence should come from convergence.</h2>
+          <p>These checks are validation paths, not claims of a finished biological result. Their purpose is to expose method dependence before interpretation.</p>
+        </header>
+        <div>
+          {researchChecks.map((check, index) => (
+            <article key={check.label}>
+              <span>{String(index + 1).padStart(2, '0')} / {check.label}</span>
+              <h3>{check.title}</h3>
+              <p>{check.copy}</p>
+            </article>
+          ))}
         </div>
       </section>
       <section className="next-chapter dark-next">
@@ -376,21 +490,92 @@ function ProjectRow({ project, featured = false }: { project: Project; featured?
   );
 
   if (project.link) {
-    return <a className={featured ? 'project-row featured' : 'project-row'} href={project.link} target="_blank" rel="noreferrer">{content}<span className="sr-only"> (opens Devpost in a new tab)</span></a>;
+    return <a className={featured ? 'project-row featured' : 'project-row'} href={project.link} target="_blank" rel="noreferrer">{content}<span className="sr-only"> (opens in a new tab)</span></a>;
   }
 
   return <article className={featured ? 'project-row featured' : 'project-row'}>{content}</article>;
+}
+
+const labFilters: Array<'All' | LabCategory> = ['All', 'Signals', 'Research', 'Life systems'];
+
+function SystemsLab() {
+  const [activeFilter, setActiveFilter] = useState<(typeof labFilters)[number]>('All');
+  const visibleProjects = activeFilter === 'All'
+    ? labProjects
+    : labProjects.filter((project) => project.category === activeFilter);
+
+  return (
+    <section className="systems-lab" aria-labelledby="systems-lab-heading">
+      <header>
+        <div>
+          <p className="chapter-label light"><Cpu aria-hidden="true" /> Independent systems lab · harsh.bet</p>
+          <h2 id="systems-lab-heading">Software for the things I keep trying to understand.</h2>
+        </div>
+        <p>
+          Separate from coursework and hackathons, these are living products I maintain for research, routines, training, nutrition, and sports analysis. Each began with a question I wanted the software to make easier to answer.
+        </p>
+      </header>
+
+      <div className="lab-controls">
+        <div role="group" aria-label="Filter independent projects">
+          {labFilters.map((filter) => (
+            <button
+              type="button"
+              aria-pressed={activeFilter === filter}
+              onClick={() => setActiveFilter(filter)}
+              key={filter}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+        <p role="status" aria-live="polite">Showing {visibleProjects.length} of {labProjects.length} systems</p>
+      </div>
+
+      <div className="lab-grid">
+        {visibleProjects.map((project) => (
+          <a className="lab-card" href={project.href} target="_blank" rel="noreferrer" key={project.code}>
+            <div className="lab-card-meta">
+              <span>{project.code}</span>
+              <span>{project.category}</span>
+            </div>
+            <div className="lab-card-title">
+              <div>
+                <small>{project.status}</small>
+                <h3>{project.title}</h3>
+              </div>
+              <ArrowUpRight aria-hidden="true" />
+            </div>
+            <p>{project.summary}</p>
+            <blockquote>{project.question}</blockquote>
+            <div className="tool-line" aria-label="Project focus">
+              {project.tools.map((tool) => <span key={tool}>{tool}</span>)}
+            </div>
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 function ProjectsPage() {
   return (
     <>
       <PageHeading
+        headingId="projects-heading"
         chapter="03 / Projects"
         title="Proof through making."
-        lede="These projects are where I test ideas quickly, make tradeoffs visible, and learn which parts of a system deserve the most care."
-        aside="Selected builds · AI, data, full stack"
+        lede="Team projects, coursework, and hackathons taught me how to build under constraints. My independent lab is where the questions become personal and the systems keep evolving after the deadline."
+        aside="Selected builds · Team work + independent systems"
       />
+      <section className="project-chapter-intro" aria-labelledby="selected-builds-heading">
+        <span>Part I / Selected builds</span>
+        <div>
+          <h2 id="selected-builds-heading">Teams, deadlines, and fast feedback.</h2>
+          <p>Work shaped by collaboration, competition, course constraints, and the discipline of shipping a coherent result.</p>
+        </div>
+      </section>
       <section className="project-list" aria-label="Selected projects">
         {projects.map((project, index) => <ProjectRow project={project} featured={index === 0} key={project.title} />)}
       </section>
@@ -398,6 +583,7 @@ function ProjectsPage() {
         <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer"><Github aria-hidden="true" /> More code on GitHub <ArrowUpRight aria-hidden="true" /></a>
         <a href="https://devpost.com/hdav3228" target="_blank" rel="noreferrer"><Sparkles aria-hidden="true" /> Hackathons on Devpost <ArrowUpRight aria-hidden="true" /></a>
       </div>
+      <SystemsLab />
       <section className="next-chapter">
         <span>Next chapter</span>
         <RouteLink route="about">Education, tools & interests <ArrowRight aria-hidden="true" /></RouteLink>
@@ -407,21 +593,37 @@ function ProjectsPage() {
 }
 
 function AboutPage() {
+  const personalLensIcons = [Search, BookOpen, ServerCog, Microscope];
+  const principleIcons = [Braces, Layers3, BrainCircuit, Database];
+
   return (
     <>
       <PageHeading
+        headingId="about-heading"
         chapter="04 / About"
-        title="Two lenses are better than one."
-        lede="Computer science taught me how to build. Statistics taught me how to ask whether the result is trustworthy. Research keeps both instincts honest."
+        title="I keep asking what is underneath."
+        lede="Computer science taught me how to build. Statistics taught me how to ask whether the result is trustworthy. Biology gave those skills harder, more meaningful questions. Curiosity is what keeps pulling the three together."
         aside="Harsh Dave · College Station, Texas"
       />
+
+      <section className="about-manifesto" aria-labelledby="manifesto-heading">
+        <div className="manifesto-mark" aria-hidden="true"><Network /></div>
+        <div>
+          <p className="chapter-label">The connecting instinct</p>
+          <h2 id="manifesto-heading">Understand the system. Find the friction. Make it useful.</h2>
+        </div>
+        <div className="manifesto-copy">
+          <p>I am probably an excessive asker of “but how does that actually work?” The subject might be a Bayesian model, an AI request moving through a data center, a training plateau, or a sports statistic whose context feels incomplete.</p>
+          <p>The common thread is practical: inspect the machinery, identify what the evidence says, and turn the understanding into a clearer process or product.</p>
+        </div>
+      </section>
 
       <section className="education-record" aria-labelledby="education-heading">
         <div className="education-seal"><GraduationCap aria-hidden="true" /><span>TAMU</span></div>
         <div>
           <p className="chapter-label">Education</p>
           <h2 id="education-heading">Texas A&amp;M University</h2>
-          <p>Dual B.S. degrees in Computer Science and Statistics · May 2026 · <strong>Summa Cum Laude</strong></p>
+          <p>Dual B.S. degrees in Computer Science and Statistics · May 2026 · <strong>3.92 GPA · Summa Cum Laude</strong></p>
           <p className="masters-line">Pursuing M.S. Computer Science, Expected 2028</p>
         </div>
         <span className="education-place"><MapPin aria-hidden="true" /> College Station, TX</span>
@@ -443,19 +645,48 @@ function AboutPage() {
         </div>
       </section>
 
+      <section className="personal-lenses" aria-labelledby="personal-lenses-heading">
+        <header>
+          <p className="chapter-label light">Four personal lenses</p>
+          <h2 id="personal-lenses-heading">The person behind the project list.</h2>
+        </header>
+        <div>
+          {personalLenses.map((lens, index) => {
+            const Icon = personalLensIcons[index];
+            return (
+              <article key={lens.index}>
+                <span>{lens.index} / {lens.label}</span>
+                <Icon aria-hidden="true" />
+                <h3>{lens.title}</h3>
+                <p>{lens.copy}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
       <section className="about-grid">
         <article className="principles-panel">
           <p className="chapter-label">What I optimize for</p>
           <ul>
-            <li><Braces aria-hidden="true" /><span><strong>Legibility</strong>Complex systems should still explain themselves.</span></li>
-            <li><Layers3 aria-hidden="true" /><span><strong>Reproducibility</strong>A result is stronger when someone else can rebuild it.</span></li>
-            <li><BrainCircuit aria-hidden="true" /><span><strong>Useful curiosity</strong>Explore widely, then turn the insight into something practical.</span></li>
+            {principles.map((principle, index) => {
+              const Icon = principleIcons[index];
+              return <li key={principle.title}><Icon aria-hidden="true" /><span><strong>{principle.title}</strong>{principle.copy}</span></li>;
+            })}
           </ul>
         </article>
         <article className="offscreen-panel">
           <p className="chapter-label light">Away from the keyboard</p>
-          <h2>Movement, competition, and a good side quest.</h2>
-          <p>Away from the keyboard, I make time for strength training and team sports. Hackathons are my favorite kind of side quest: a reason to make something real before every answer is obvious.</p>
+          <h2>Movement is another system to learn.</h2>
+          <p>Lifting gives me measurable progress; badminton and soccer bring out my competitive side. I also make room for basketball, boxing, swimming, cricket, and jump rope—different combinations of technique, conditioning, timing, and adaptation.</p>
+          <div className="movement-signals" aria-label="What sport gives me">
+            <span><Dumbbell aria-hidden="true" /> Progress</span>
+            <span><Trophy aria-hidden="true" /> Competition</span>
+            <span><Activity aria-hidden="true" /> Adaptation</span>
+          </div>
+          <ul className="sport-list" aria-label="Sports and physical interests">
+            {sports.map((sport) => <li key={sport}>{sport}</li>)}
+          </ul>
           <a href="https://harsh.bet/gym/">Visit the training log <ArrowUpRight aria-hidden="true" /></a>
         </article>
       </section>
@@ -463,7 +694,8 @@ function AboutPage() {
       <section className="contact-card">
         <div>
           <p className="chapter-label light">Open line</p>
-          <h2>Let&apos;s build something worth explaining.</h2>
+          <h2>Bring the difficult question.</h2>
+          <p>I am especially interested in research engineering, computational biology, trustworthy AI systems, and products that make complex evidence easier to use.</p>
         </div>
         <div className="contact-actions">
           <a href={'mailto:' + EMAIL}><Mail aria-hidden="true" /> {EMAIL}</a>
@@ -510,7 +742,14 @@ export default function App() {
     <div className={'site-shell route-' + route}>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <SiteHeader route={route} />
-      <main id="main-content" className="page-content" tabIndex={-1} ref={mainRef} key={route}>
+      <main
+        id="main-content"
+        className="page-content"
+        tabIndex={-1}
+        ref={mainRef}
+        key={route}
+        aria-label={`${navigation.find((item) => item.id === route)?.label ?? 'Portfolio'} section`}
+      >
         <CurrentPage route={route} />
       </main>
       <SiteFooter />

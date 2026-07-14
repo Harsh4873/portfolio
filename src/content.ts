@@ -14,6 +14,7 @@ export interface Experience {
   summary: string;
   highlights: string[];
   tools: string[];
+  translation: string;
 }
 
 export interface Project {
@@ -24,6 +25,53 @@ export interface Project {
   proof: string;
   tools: string[];
   link?: string;
+}
+
+export interface PersonalCoordinate {
+  index: string;
+  horizon: string;
+  title: string;
+  copy: string;
+}
+
+export interface CuriosityThread {
+  index: string;
+  title: string;
+  copy: string;
+  signals: string[];
+}
+
+export type LabCategory = 'Signals' | 'Research' | 'Life systems';
+
+export interface LabProject {
+  code: string;
+  title: string;
+  category: LabCategory;
+  href: string;
+  status: string;
+  summary: string;
+  question: string;
+  tools: string[];
+}
+
+export interface ResearchStage {
+  index: string;
+  label: string;
+  title: string;
+  copy: string;
+}
+
+export interface ResearchCheck {
+  label: string;
+  title: string;
+  copy: string;
+}
+
+export interface PersonalLens {
+  index: string;
+  label: string;
+  title: string;
+  copy: string;
 }
 
 export const navigation: NavigationItem[] = [
@@ -43,26 +91,78 @@ export const routeTitles: Record<RouteId, string> = {
 };
 
 export const proofPoints = [
+  { value: '3.92', label: 'Undergraduate GPA' },
   { value: '2× B.S.', label: 'Computer Science + Statistics' },
-  { value: 'Summa', label: 'Cum Laude' },
-  { value: 'M.S. 2028', label: 'Computer Science, in progress' },
-  { value: 'Research', label: 'Computational genomics' },
+  { value: 'Summa', label: 'Cum Laude · May 2026' },
+  { value: 'M.S. ’28', label: 'Computer Science, in progress' },
+];
+
+export const personalCoordinates: PersonalCoordinate[] = [
+  {
+    index: '01',
+    horizon: 'Now',
+    title: 'Read evolution through data.',
+    copy: 'In the Ioerger Lab, I am studying positive selection in Mycobacterium tuberculosis across patient cohorts while making the analysis reproducible enough to inspect gene by gene.',
+  },
+  {
+    index: '02',
+    horizon: 'Next',
+    title: 'Become fluent across the boundary.',
+    copy: 'My M.S. is a chance to deepen both sides of the work: the statistical judgment to ask a defensible question and the engineering discipline to build the system that answers it.',
+  },
+  {
+    index: '03',
+    horizon: 'Long horizon',
+    title: 'Build biotechnology that earns trust.',
+    copy: 'I want to help create tools for biological discovery, diagnostics, and health that make difficult evidence more useful to researchers and, eventually, to patients.',
+  },
+];
+
+export const operatingQuestions = [
+  'What data do we actually have?',
+  'What are we really measuring?',
+  'Which assumption is carrying the result?',
+  'What breaks when the scale changes?',
+  'Can someone else reproduce this?',
+  'Is there a simpler way to make it useful?',
+];
+
+export const curiosityThreads: CuriosityThread[] = [
+  {
+    index: 'A',
+    title: 'Biological inference',
+    copy: 'How do we separate a meaningful evolutionary signal from noise, modeling choices, and cohort differences?',
+    signals: ['Genomes', 'Uncertainty', 'Disease'],
+  },
+  {
+    index: 'B',
+    title: 'Compute underneath AI',
+    copy: 'What happens between pressing Enter and receiving an answer—from routing and accelerators to scheduling, context, and failure modes?',
+    signals: ['Agents', 'HPC', 'Infrastructure'],
+  },
+  {
+    index: 'C',
+    title: 'Measurable everyday systems',
+    copy: 'How can software reduce friction in planning, training, nutrition, and sports analysis without turning life into a spreadsheet?',
+    signals: ['Routines', 'Training', 'Sports'],
+  },
 ];
 
 export const experiences: Experience[] = [
   {
     period: 'Jun 2026 — Now',
-    role: 'Research Assistant, Computational Genomics',
+    role: 'Graduate Assistant Research — Computational Genomics',
     organization: 'Ioerger Lab · Texas A&M University',
     kind: 'Research',
     summary:
-      'Building reproducible computational workflows that study evolutionary selection in Mycobacterium tuberculosis and turn large genomic analyses into clear, inspectable scientific outputs.',
+      'Building reproducible computational workflows to compare evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes.',
     highlights: [
-      'Develop Python and Slurm pipelines for genome-wide Bayesian selection analysis on Texas A&M high-performance computing systems.',
-      'Translate model outputs into publication-ready tables, figures, and biology-first explanations.',
-      'Collaborate with Dr. Thomas Ioerger on a computational genomics manuscript in preparation.',
+      'Prepare and orchestrate genome-wide analysis across approximately 4,000 genes with Python, GenomegaMap, Slurm arrays, and Texas A&M high-performance computing systems.',
+      'Compare Bayesian posterior outputs across cohorts and develop complementary pN/pS, chi-square, FDR-controlled, and PAML validation views.',
+      'Translate model output into inspectable tables, figures, and biology-first explanations for a computational genomics manuscript in preparation.',
     ],
-    tools: ['Python', 'Slurm', 'Bayesian MCMC', 'PAML', 'HPC'],
+    tools: ['Python', 'Slurm', 'GenomegaMap', 'Bayesian MCMC', 'PAML', 'HPC'],
+    translation: 'Scientific computing taught me that a pipeline is not just automation; every transformation is part of the argument.',
   },
   {
     period: 'Aug — Dec 2025',
@@ -70,12 +170,14 @@ export const experiences: Experience[] = [
     organization: 'Amazon-sponsored · Texas A&M University',
     kind: 'Applied AI',
     summary:
-      'Built a breach-intelligence platform with a three-person team, connecting automated data ingestion, AI-assisted processing, search, and analyst-facing exploration.',
+      'Built a breach-intelligence platform with a three-person team, connecting automated ingestion, AI-assisted processing, search, graph relationships, and analyst-facing exploration.',
     highlights: [
-      'Designed a multi-system pipeline spanning AWS storage, document databases, search, caching, and graph relationships.',
-      'Integrated AI-assisted enrichment while keeping the workflow inspectable for analysts.',
+      'Designed a multi-system data path spanning AWS S3, MongoDB, Elasticsearch, Redis, and AWS Neptune.',
+      'Integrated LangChain-assisted enrichment and delivered Streamlit and Kibana views for querying breach data by sector and geography.',
+      'Worked across architecture, implementation, and delivery constraints instead of treating the model as the entire product.',
     ],
-    tools: ['Python', 'AWS', 'LangChain', 'Elasticsearch', 'MongoDB'],
+    tools: ['Python', 'AWS', 'LangChain', 'Elasticsearch', 'MongoDB', 'Neptune'],
+    translation: 'The useful AI work was the connective tissue: dependable ingestion, clear provenance, and an interface that helped an analyst decide what to inspect next.',
   },
   {
     period: '2025 — 2026',
@@ -86,9 +188,11 @@ export const experiences: Experience[] = [
       'Supported students learning Java and object-oriented programming by turning abstract concepts, debugging patterns, and assignment feedback into practical next steps.',
     highlights: [
       'Guided more than 23 students each week through Java, object-oriented programming, and problem-solving fundamentals.',
-      'Reviewed more than 180 weekly submissions while giving actionable, consistent feedback.',
+      'Reviewed more than 180 weekly submissions with actionable, consistent feedback.',
+      'Used questions and small examples to reveal the mental model behind a bug rather than only supplying a correction.',
     ],
     tools: ['Java', 'Object-oriented programming', 'Mentorship', 'Code review'],
+    translation: 'Teaching exposed the difference between being able to do something and being able to explain why it works.',
   },
   {
     period: 'Jan — May 2025',
@@ -96,12 +200,14 @@ export const experiences: Experience[] = [
     organization: 'UrbanResilience.AI Lab · Texas A&M University',
     kind: 'Data systems',
     summary:
-      'Developed Python data pipelines for air-quality and wildfire-response analysis, bringing together sensor APIs, web data, and predictive modeling.',
+      'Developed Python data workflows for air-quality and wildfire-response analysis, joining environmental sensor APIs, web data, and predictive modeling context.',
     highlights: [
       'Connected environmental sensor data with emergency-response context for Los Angeles-area analysis.',
       'Built reusable scraping and preparation workflows for downstream modeling.',
+      'Worked through the practical mismatch between real-world sources: formats, coverage, timing, and missingness.',
     ],
     tools: ['Python', 'APIs', 'Web scraping', 'Predictive modeling'],
+    translation: 'Messy public data made source quality and missing context feel as important as the eventual model.',
   },
   {
     period: 'May — Aug 2024',
@@ -109,13 +215,14 @@ export const experiences: Experience[] = [
     organization: 'Videomagic · Remote',
     kind: 'Product engineering',
     summary:
-      'Worked across applied AI and backend systems for video-generation workflows, from model experimentation to authenticated product APIs.',
+      'Worked across applied machine learning and backend systems for video-generation workflows, from model experimentation and data preparation to authenticated product APIs.',
     highlights: [
       'Applied PyTorch and Hugging Face models to AI video-generation and deepfake-detection workflows.',
       'Built authenticated APIs with Feathers.js, MySQL, Knex, Auth0, and JWT.',
       'Contributed to workflows associated with 20% less manual editing time and 15% higher engagement.',
     ],
     tools: ['PyTorch', 'Hugging Face', 'TypeScript', 'MySQL', 'Auth0'],
+    translation: 'A promising model becomes a product only after the data, API, authentication, and human workflow all meet it.',
   },
   {
     period: 'Jan — May 2022',
@@ -123,12 +230,65 @@ export const experiences: Experience[] = [
     organization: 'SpaceCraft VR · College Station, Texas',
     kind: 'Cloud systems',
     summary:
-      'Helped an eight-person research team automate cloud infrastructure for simulation work and build a secure React/TypeScript sandbox.',
+      'Helped an eight-person research team automate cloud infrastructure for simulation work and build a secure React and TypeScript sandbox.',
     highlights: [
       'Improved deployment speed by 25% through cloud infrastructure automation.',
       'Hardened access flows with Auth0, reducing unauthorized access by 30%.',
+      'Learned to treat deployment and access control as part of the experience rather than after-the-fact infrastructure.',
     ],
     tools: ['React', 'TypeScript', 'Cloud infrastructure', 'Auth0'],
+    translation: 'The earliest systems lesson still holds: reliability and access are product features, even when users never see the machinery.',
+  },
+];
+
+export const researchStages: ResearchStage[] = [
+  {
+    index: '01',
+    label: 'Contrast',
+    title: 'Define the cohort question.',
+    copy: 'Frame a comparison between M. tuberculosis isolates from patients with diabetes and patients without diabetes without assuming that any observed difference is automatically biological.',
+  },
+  {
+    index: '02',
+    label: 'Prepare',
+    title: 'Make thousands of genes comparable.',
+    copy: 'Validate inputs, align the workflow, and preserve enough metadata to trace approximately 4,000 gene-level analyses back to their source cohorts and parameters.',
+  },
+  {
+    index: '03',
+    label: 'Model',
+    title: 'Estimate selection under uncertainty.',
+    copy: 'Run Bayesian GenomegaMap analyses and retain posterior distributions and intervals rather than collapsing a complex signal into a single convenient number.',
+  },
+  {
+    index: '04',
+    label: 'Scale',
+    title: 'Treat compute as a system.',
+    copy: 'Use Python orchestration, Slurm arrays, and high-performance computing to make genome-wide work traceable and reproducible.',
+  },
+  {
+    index: '05',
+    label: 'Compare',
+    title: 'Ask what the evidence can support.',
+    copy: 'Compare cohort posteriors and use complementary statistical checks before deciding whether a pattern is robust enough to interpret.',
+  },
+];
+
+export const researchChecks: ResearchCheck[] = [
+  {
+    label: 'Posterior view',
+    title: 'Bayesian comparison',
+    copy: 'Compare posterior parameters and credible intervals across cohorts while keeping model uncertainty visible.',
+  },
+  {
+    label: 'Count-based view',
+    title: 'pN/pS + chi-square',
+    copy: 'Use polymorphism ratios and contingency tests as a complementary lens, then control the multiple-testing burden with FDR.',
+  },
+  {
+    label: 'Evolutionary view',
+    title: 'PAML validation',
+    copy: 'Use an independent evolutionary-modeling workflow to check whether the broader interpretation is method-dependent.',
   },
 ];
 
@@ -174,9 +334,82 @@ export const projects: Project[] = [
     title: 'ProfFinder',
     kicker: 'Course planning, made legible',
     summary:
-      'A course-section search and scheduling tool backed by a custom database assembled from Texas A&M course data.',
+      'A student discovery and planning tool backed by a custom database assembled from Texas A&M data.',
     proof: 'Combined SQL, JavaScript, HTML/CSS, and data collection into one practical student tool.',
     tools: ['SQL', 'JavaScript', 'Data pipelines', 'Product design'],
+  },
+];
+
+export const labProjects: LabProject[] = [
+  {
+    code: 'SYS-01',
+    title: 'PickLedger',
+    category: 'Signals',
+    href: '/pickledger/',
+    status: 'Public daily board',
+    summary: 'A sports-pick intelligence ledger for daily cards, public source records, consensus signals, player props, and graded outcomes.',
+    question: 'Can prediction records stay transparent enough to evaluate the process, not just celebrate the wins?',
+    tools: ['Sports data', 'Automated grading', 'Evidence trails'],
+  },
+  {
+    code: 'SYS-02',
+    title: 'MtbScope',
+    category: 'Research',
+    href: '/genes/',
+    status: '4,018-gene browser',
+    summary: 'A comparison-first browser for tuberculosis genes, with fast search, detailed gene views, and multi-gene exploration.',
+    question: 'How can a large biological dataset become navigable while preserving its source annotations and comparisons?',
+    tools: ['Genomics', 'Search', 'Data visualization'],
+  },
+  {
+    code: 'SYS-03',
+    title: 'Sift',
+    category: 'Research',
+    href: '/research/',
+    status: 'Source-grounded workspace',
+    summary: 'A paper-reading workspace for PDFs, structured briefs, claim tracking, notes, and contextual analysis.',
+    question: 'Can analysis move faster while every important claim stays connected to its source?',
+    tools: ['Local analysis', 'PDF workflows', 'Claim tracking'],
+  },
+  {
+    code: 'SYS-04',
+    title: 'Daymark',
+    category: 'Life systems',
+    href: '/daymark/',
+    status: 'Local-first habits',
+    summary: 'A flexible habit tracker for goals, streaks, reviews, notes, and optional cross-device sync.',
+    question: 'What if consistency could bend around real life without losing the long-term signal?',
+    tools: ['Local-first', 'Reflection', 'Progress'],
+  },
+  {
+    code: 'SYS-05',
+    title: 'Slate',
+    category: 'Life systems',
+    href: '/slate/',
+    status: 'Daily planning',
+    summary: 'A local-first planner that pairs a time-boxed schedule with flexible, organized to-do lists.',
+    question: 'How little structure is needed to turn intention into a day that is actually possible?',
+    tools: ['Timeboxing', 'Tasks', 'Local-first'],
+  },
+  {
+    code: 'SYS-06',
+    title: 'Fare',
+    category: 'Life systems',
+    href: '/fare/',
+    status: 'Private nutrition log',
+    summary: 'A fast calorie and macro tracker built around personal foods, barcode search, and durable history.',
+    question: 'Can lower-friction logging make nutrition data more honest and therefore more useful?',
+    tools: ['Nutrition', 'Barcode search', 'Private data'],
+  },
+  {
+    code: 'SYS-07',
+    title: 'Gym',
+    category: 'Life systems',
+    href: '/gym/',
+    status: 'Personal training log',
+    summary: 'A workout system for programs, sets, supersets, calendars, weekly progress, and milestones.',
+    question: 'How do you make progressive overload visible without letting tracking interrupt the workout?',
+    tools: ['Training', 'Programs', 'Progress history'],
   },
 ];
 
@@ -197,4 +430,61 @@ export const skillGroups = [
     label: 'Research',
     items: ['Slurm', 'HPRC', 'GenomegaMap', 'PAML', 'dN/dS', 'MCMC', 'FASTA pipelines'],
   },
+];
+
+export const personalLenses: PersonalLens[] = [
+  {
+    index: '01',
+    label: 'How I think',
+    title: 'Persistent, practical, and suspicious of magic.',
+    copy: 'I like ambitious ideas, but I bring them back to concrete questions: what is measured, which assumption matters, what could fail, and whether there is a simpler path. “It just works” and “it just does not work” both make me want to look underneath.',
+  },
+  {
+    index: '02',
+    label: 'How I teach',
+    title: 'Find the missing mental model.',
+    copy: 'Teaching introductory computer science showed me that people rarely need more rules. They need an explanation that connects the new concept to something they already understand—and enough room to reason through the next bug themselves.',
+  },
+  {
+    index: '03',
+    label: 'What fascinates me',
+    title: 'The infrastructure behind the interface.',
+    copy: 'I test AI tools constantly, but the deeper question is what happens after someone presses Enter: routing, context, accelerators, scheduling, data centers, and the path back to the screen. HPC research makes that invisible machinery feel tangible.',
+  },
+  {
+    index: '04',
+    label: 'Where I am going',
+    title: 'Research judgment plus engineering range.',
+    copy: 'Long term, I want to help build biotechnology products—research infrastructure, discovery tools, diagnostics, or something not yet obvious—with enough scientific understanding to ask the right question and enough engineering skill to investigate it.',
+  },
+];
+
+export const principles = [
+  {
+    title: 'Legibility',
+    copy: 'Complex systems should explain their state, assumptions, and next action.',
+  },
+  {
+    title: 'Reproducibility',
+    copy: 'A result becomes stronger when someone else can rebuild and challenge it.',
+  },
+  {
+    title: 'Useful curiosity',
+    copy: 'Explore widely, then convert the interesting part into something practical.',
+  },
+  {
+    title: 'Evidence before confidence',
+    copy: 'A clean story is not a substitute for a trustworthy measurement.',
+  },
+];
+
+export const sports = [
+  'Strength training',
+  'Badminton',
+  'Soccer',
+  'Basketball',
+  'Boxing',
+  'Swimming',
+  'Cricket',
+  'Jump rope',
 ];
