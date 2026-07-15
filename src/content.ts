@@ -151,7 +151,7 @@ export const curiosityThreads: CuriosityThread[] = [
 export const experiences: Experience[] = [
   {
     period: 'Jun 2026 — Now',
-    role: 'Graduate Assistant Research — Computational Genomics',
+    role: 'Graduate Assistant Research (Computational Genomics)',
     organization: 'Ioerger Lab · Texas A&M University',
     kind: 'Research',
     summary:
@@ -176,19 +176,19 @@ export const experiences: Experience[] = [
       'Integrated LangChain-assisted enrichment and delivered Streamlit and Kibana views for querying breach data by sector and geography.',
       'Worked across architecture, implementation, and delivery constraints instead of treating the model as the entire product.',
     ],
-    tools: ['Python', 'AWS', 'LangChain', 'Elasticsearch', 'MongoDB', 'Neptune'],
+    tools: ['Python', 'AWS', 'LangChain', 'Elasticsearch', 'MongoDB', 'AWS Neptune'],
     translation: 'The useful AI work was the connective tissue: dependable ingestion, clear provenance, and an interface that helped an analyst decide what to inspect next.',
   },
   {
-    period: '2025 — 2026',
+    period: 'Spring 2026',
     role: 'Teaching Assistant, CS 111',
     organization: 'Texas A&M University',
     kind: 'Teaching',
     summary:
       'Supported students learning Java and object-oriented programming by turning abstract concepts, debugging patterns, and assignment feedback into practical next steps.',
     highlights: [
-      'Guided more than 23 students each week through Java, object-oriented programming, and problem-solving fundamentals.',
-      'Reviewed more than 180 weekly submissions with actionable, consistent feedback.',
+      'Guided students through Java, object-oriented programming, and problem-solving fundamentals.',
+      'Reviewed weekly submissions with actionable, consistent feedback.',
       'Used questions and small examples to reveal the mental model behind a bug rather than only supplying a correction.',
     ],
     tools: ['Java', 'Object-oriented programming', 'Mentorship', 'Code review'],
@@ -215,25 +215,25 @@ export const experiences: Experience[] = [
     organization: 'Videomagic · Remote',
     kind: 'Product engineering',
     summary:
-      'Worked across applied machine learning and backend systems for video-generation workflows, from model experimentation and data preparation to authenticated product APIs.',
+      'Worked across machine-learning workflow automation, deepfake-detection data, and backend systems, from data preparation to authenticated product APIs.',
     highlights: [
-      'Applied PyTorch and Hugging Face models to AI video-generation and deepfake-detection workflows.',
+      'Applied PyTorch and Hugging Face models to AI-generated video detection workflows.',
       'Built authenticated APIs with Feathers.js, MySQL, Knex, Auth0, and JWT.',
-      'Contributed to workflows associated with 20% less manual editing time and 15% higher engagement.',
+      'Connected model experimentation to the data, API, authentication, and workflow requirements around it.',
     ],
     tools: ['PyTorch', 'Hugging Face', 'TypeScript', 'MySQL', 'Auth0'],
     translation: 'A promising model becomes a product only after the data, API, authentication, and human workflow all meet it.',
   },
   {
-    period: 'Jan — May 2022',
+    period: 'Early undergraduate research',
     role: 'Cloud Team Research Member',
     organization: 'SpaceCraft VR · College Station, Texas',
     kind: 'Cloud systems',
     summary:
       'Helped an eight-person research team automate cloud infrastructure for simulation work and build a secure React and TypeScript sandbox.',
     highlights: [
-      'Improved deployment speed by 25% through cloud infrastructure automation.',
-      'Hardened access flows with Auth0, reducing unauthorized access by 30%.',
+      'Automated cloud infrastructure and deployment work for the research platform.',
+      'Hardened access flows with Auth0 and clearer authentication boundaries.',
       'Learned to treat deployment and access control as part of the experience rather than after-the-fact infrastructure.',
     ],
     tools: ['React', 'TypeScript', 'Cloud infrastructure', 'Auth0'],
@@ -332,10 +332,10 @@ export const projects: Project[] = [
   {
     index: '05',
     title: 'ProfFinder',
-    kicker: 'Course planning, made legible',
+    kicker: 'Faculty discovery, made legible',
     summary:
-      'A student discovery and planning tool backed by a custom database assembled from Texas A&M data.',
-    proof: 'Combined SQL, JavaScript, HTML/CSS, and data collection into one practical student tool.',
+      'A professor-discovery tool that helped students explore faculty research interests using a custom database assembled from Texas A&M data.',
+    proof: 'Combined SQL, JavaScript, HTML/CSS, and collected faculty data in a student-facing interface.',
     tools: ['SQL', 'JavaScript', 'Data pipelines', 'Product design'],
   },
 ];
@@ -357,7 +357,7 @@ export const labProjects: LabProject[] = [
     category: 'Research',
     href: '/genes/',
     status: '4,018-gene browser',
-    summary: 'A comparison-first browser for tuberculosis genes, with fast search, detailed gene views, and multi-gene exploration.',
+    summary: 'A comparison-first browser for tuberculosis genes, with fast search, multi-gene comparison, and source annotations.',
     question: 'How can a large biological dataset become navigable while preserving its source annotations and comparisons?',
     tools: ['Genomics', 'Search', 'Data visualization'],
   },
@@ -449,7 +449,7 @@ export const personalLenses: PersonalLens[] = [
     index: '03',
     label: 'What fascinates me',
     title: 'The infrastructure behind the interface.',
-    copy: 'I test AI tools constantly, but the deeper question is what happens after someone presses Enter: routing, context, accelerators, scheduling, data centers, and the path back to the screen. HPC research makes that invisible machinery feel tangible.',
+    copy: 'I test AI tools regularly, but the deeper question is what happens after someone presses Enter: routing, context, accelerators, scheduling, data centers, and the path back to the screen. HPC research makes that invisible machinery feel tangible.',
   },
   {
     index: '04',

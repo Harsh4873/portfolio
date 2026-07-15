@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#500000" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#11110f" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="apple-mobile-web-app-title" content="Portfolio" />
     <meta name="description" content="Harsh Dave is a computer scientist, statistician, and computational genomics researcher building useful systems across AI, data, biology, and everyday life." />
     <meta name="author" content="Harsh Dave" />
@@ -18,6 +18,19 @@
     <link rel="icon" type="image/svg+xml" href="/portfolio/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/portfolio/apple-touch-icon.png" />
     <title>Portfolio — Harsh Dave</title>
+    <script>
+      (() => {
+        try {
+          const savedTheme = localStorage.getItem('harsh-theme');
+          const theme = savedTheme === 'light' || savedTheme === 'dark'
+            ? savedTheme
+            : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.dataset.theme = theme;
+        } catch {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
