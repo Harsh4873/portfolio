@@ -143,7 +143,7 @@ function SiteRail({ route, theme, mobileOpen, onThemeChange, onToggleMobile, onN
             <button type="button" aria-pressed={theme === 'dark'} onClick={() => onThemeChange('dark')}>Dark</button>
           </div>
           <a href="/">harsh.bet</a>
-          <a href="/resume.pdf">Resume</a>
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
         </div>
       </div>
     </aside>
@@ -503,7 +503,7 @@ function SiteFooter() {
         <a href="/">harsh.bet</a>
         <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
         <a href="https://devpost.com/hdav3228" target="_blank" rel="noreferrer">Devpost</a>
-        <a href="/resume.pdf">Resume</a>
+        <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
         <a href={'mailto:' + EMAIL}>Email</a>
       </nav>
     </footer>

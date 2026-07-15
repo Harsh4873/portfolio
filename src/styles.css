@@ -32,6 +32,10 @@
   --rule-strong: rgba(235, 233, 228, 0.31);
   --accent: #c76f73;
   --accent-strong: #e09a9d;
+  --rail-bg: #151513;
+  --rail-text: #ebe9e4;
+  --rail-muted: #aaa8a2;
+  --rail-rule: rgba(235, 233, 228, 0.17);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -44,6 +48,10 @@
     --rule-strong: rgba(235, 233, 228, 0.31);
     --accent: #c76f73;
     --accent-strong: #e09a9d;
+    --rail-bg: #151513;
+    --rail-text: #ebe9e4;
+    --rail-muted: #aaa8a2;
+    --rail-rule: rgba(235, 233, 228, 0.17);
   }
 }
 
