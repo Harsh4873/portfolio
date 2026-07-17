@@ -157,9 +157,9 @@ export const experiences: Experience[] = [
     summary:
       'Building reproducible computational workflows to compare evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes.',
     highlights: [
-      'Prepare and orchestrate genome-wide analysis across approximately 4,000 genes with Python, GenomegaMap, Slurm arrays, and Texas A&M high-performance computing systems.',
+      'Prepare and orchestrate genome-wide analysis with Python, GenomegaMap, Slurm arrays, and Texas A&M high-performance computing systems.',
       'Compare Bayesian posterior outputs across cohorts and develop complementary pN/pS, chi-square, FDR-controlled, and PAML validation views.',
-      'Translate model output into inspectable tables, figures, and biology-first explanations for a computational genomics manuscript in preparation.',
+      'Translate model output into inspectable tables, figures, and biology-first explanations for ongoing computational genomics research.',
     ],
     tools: ['Python', 'Slurm', 'GenomegaMap', 'Bayesian MCMC', 'PAML', 'HPC'],
     translation: 'Scientific computing taught me that a pipeline is not just automation; every transformation is part of the argument.',
@@ -252,7 +252,7 @@ export const researchStages: ResearchStage[] = [
     index: '02',
     label: 'Prepare',
     title: 'Make thousands of genes comparable.',
-    copy: 'Validate inputs, align the workflow, and preserve enough metadata to trace approximately 4,000 gene-level analyses back to their source cohorts and parameters.',
+    copy: 'Validate inputs, align the workflow, and preserve enough metadata to trace genome-wide, gene-level analyses back to their source cohorts and parameters.',
   },
   {
     index: '03',
@@ -356,7 +356,7 @@ export const labProjects: LabProject[] = [
     title: 'MtbScope',
     category: 'Research',
     href: '/genes/',
-    status: '4,018-gene browser',
+    status: 'Whole-genome browser',
     summary: 'A comparison-first browser for tuberculosis genes, with fast search, multi-gene comparison, and source annotations.',
     question: 'How can a large biological dataset become navigable while preserving its source annotations and comparisons?',
     tools: ['Genomics', 'Search', 'Data visualization'],
