@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { experiences, labProjects, projects, sports, type Experience, type Project } from './content';
 
-const EMAIL = 'hdav3228@gmail.com';
+const EMAIL = 'hdav4873@gmail.com';
 const THEME_KEY = 'harsh-theme';
 
 const sections = [
@@ -80,7 +80,7 @@ function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate
     <aside className="site-rail" data-mobile-open={mobileOpen ? 'true' : 'false'} aria-label="Portfolio navigation">
       <div className="rail-topline">
         <a className="rail-mark" href="#start" onClick={onNavigate} aria-label="Harsh Dave">
-          <img src="/portfolio/favicon.svg" alt="" />
+          <span aria-hidden="true">HD</span>
         </a>
         <button
           ref={menuButtonRef}
