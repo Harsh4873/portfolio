@@ -1,36 +1,18 @@
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
-import {
-  experiences,
-  labProjects,
-  navigation,
-  operatingQuestions,
-  personalCoordinates,
-  personalLenses,
-  principles,
-  projects,
-  researchChecks,
-  researchStages,
-  skillGroups,
-  sports,
-  type Experience,
-  type LabCategory,
-  type Project,
-  type RouteId,
-} from './content';
-import { routeHref, useRoute } from './useRoute';
+import { useEffect, useRef, useState, type RefObject } from 'react';
+import { experiences, labProjects, projects, sports, type Experience, type Project } from './content';
 
 const EMAIL = 'hdav3228@gmail.com';
 const THEME_KEY = 'harsh-theme';
 
-type Theme = 'light' | 'dark';
+const sections = [
+  { id: 'start', index: '00', label: 'Profile' },
+  { id: 'experience', index: '01', label: 'Work' },
+  { id: 'research', index: '02', label: 'Research' },
+  { id: 'projects', index: '03', label: 'Projects' },
+  { id: 'about', index: '04', label: 'Contact' },
+] as const;
 
-const railLabels: Record<RouteId, string> = {
-  start: 'Index',
-  experience: 'Work',
-  research: 'Research',
-  projects: 'Projects',
-  about: 'About',
-};
+type Theme = 'light' | 'dark';
 
 function initialTheme(): Theme {
   const initial = document.documentElement.dataset.theme;
@@ -39,7 +21,7 @@ function initialTheme(): Theme {
     const saved = window.localStorage.getItem(THEME_KEY);
     if (saved === 'light' || saved === 'dark') return saved;
   } catch {
-    // Fall through to the operating-system preference when storage is unavailable.
+    // Use the operating-system preference when storage is unavailable.
   }
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
@@ -77,7 +59,7 @@ function useTheme() {
     try {
       window.localStorage.setItem(THEME_KEY, nextTheme);
     } catch {
-      // The chosen theme still applies for the current visit.
+      // The selected theme still applies for the current visit.
     }
   };
 
@@ -85,20 +67,19 @@ function useTheme() {
 }
 
 interface SiteRailProps {
-  route: RouteId;
   theme: Theme;
   mobileOpen: boolean;
   onThemeChange: (theme: Theme) => void;
   onToggleMobile: () => void;
-  onNavigate: (route: RouteId) => void;
+  onNavigate: () => void;
   menuButtonRef: RefObject<HTMLButtonElement>;
 }
 
-function SiteRail({ route, theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate, menuButtonRef }: SiteRailProps) {
+function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate, menuButtonRef }: SiteRailProps) {
   return (
-    <aside className="site-rail" data-mobile-open={mobileOpen ? 'true' : 'false'} aria-label="Portfolio identity and navigation">
+    <aside className="site-rail" data-mobile-open={mobileOpen ? 'true' : 'false'} aria-label="Portfolio navigation">
       <div className="rail-topline">
-        <a className="rail-mark" href={routeHref('start')} onClick={() => onNavigate('start')} aria-label="Harsh Dave, portfolio index">
+        <a className="rail-mark" href="#start" onClick={onNavigate} aria-label="Harsh Dave">
           <img src="/portfolio/favicon.svg" alt="" />
         </a>
         <button
@@ -116,22 +97,14 @@ function SiteRail({ route, theme, mobileOpen, onThemeChange, onToggleMobile, onN
       <div className="rail-content" id="portfolio-rail-content">
         <div className="rail-identity rail-detail">
           <p>Harsh Dave</p>
-          <span>Computer scientist, statistician, researcher, builder.</span>
-          <small>College Station, Texas</small>
+          <span>M.S. Computer Science<br />Texas A&amp;M University</span>
         </div>
 
         <nav className="rail-nav" aria-label="Portfolio sections">
-          {navigation.map((item) => (
-            <a
-              className={item.id === route ? 'rail-nav-link active' : 'rail-nav-link'}
-              href={routeHref(item.id)}
-              aria-label={railLabels[item.id]}
-              aria-current={item.id === route ? 'page' : undefined}
-              onClick={() => onNavigate(item.id)}
-              key={item.id}
-            >
+          {sections.map((item) => (
+            <a className="rail-nav-link" href={`#${item.id}`} onClick={onNavigate} key={item.id}>
               <span className="rail-index">{item.index}</span>
-              <span className="rail-detail">{railLabels[item.id]}</span>
+              <span className="rail-detail">{item.label}</span>
             </a>
           ))}
         </nav>
@@ -142,413 +115,167 @@ function SiteRail({ route, theme, mobileOpen, onThemeChange, onToggleMobile, onN
             <span aria-hidden="true">·</span>
             <button type="button" aria-pressed={theme === 'dark'} onClick={() => onThemeChange('dark')}>Dark</button>
           </div>
-          <a href="/">harsh.bet</a>
           <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+          <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
       </div>
     </aside>
   );
 }
 
-function RouteLink({ route, children }: { route: RouteId; children: ReactNode }) {
-  return <a href={routeHref(route)}>{children}</a>;
-}
-
-function PageHeading({ id, chapter, title, lede, aside }: { id: string; chapter: string; title: string; lede: string; aside: string }) {
+function SectionHeading({ label, title }: { label: string; title: string }) {
   return (
-    <header className="page-heading" aria-labelledby={id}>
-      <p className="section-code">{chapter}</p>
-      <h1 id={id}>{title}</h1>
-      <p className="page-lede">{lede}</p>
-      <p className="page-aside">{aside}</p>
+    <header className="section-heading">
+      <p className="section-code">{label}</p>
+      <h2>{title}</h2>
     </header>
   );
 }
 
-function StartPage() {
-  const featuredSystems = [labProjects[1], labProjects[0], labProjects[6]];
-
-  return (
-    <>
-      <section className="profile-intro" aria-labelledby="index-heading">
-        <div>
-          <p className="section-code">Portfolio / 2026</p>
-          <h1 id="index-heading">Harsh Dave</h1>
-          <p className="profile-degree">M.S. Computer Science at Texas A&amp;M</p>
-          <p className="profile-role">Graduate Research Assistant · Computational genomics</p>
-          <p className="profile-summary">I work on reproducible genomics research, build software for questions that keep bothering me, and spend a lot of time lifting, playing sports, and making tools for the rest of life.</p>
-        </div>
-        <dl className="profile-facts" aria-label="A quick introduction">
-          <div><dt>Right now</dt><dd>Positive selection in <i>Mycobacterium tuberculosis</i></dd></div>
-          <div><dt>Background</dt><dd>B.S. Computer Science + Statistics · 2026</dd></div>
-          <div><dt>Usually building</dt><dd>Research tools, personal systems, and sports data projects</dd></div>
-        </dl>
-      </section>
-
-      <section className="personal-snapshot" aria-label="Current work and interests">
-        <article>
-          <p className="section-code">In the lab</p>
-          <h2>Making the checks part of the work.</h2>
-          <p>I am studying positive selection across patient cohorts, then building scripts that catch the quiet problems before they turn into a result.</p>
-          <RouteLink route="research">See the research notes</RouteLink>
-        </article>
-        <article>
-          <p className="section-code">What I make</p>
-          <h2>Tools I wanted to have myself.</h2>
-          <p>Some started as research interfaces. Others started because I wanted a better way to remember, plan, log, train, or keep a record.</p>
-          <RouteLink route="projects">See the project shelf</RouteLink>
-        </article>
-        <article>
-          <p className="section-code">Outside the screen</p>
-          <h2>Movement, competition, and teaching.</h2>
-          <p>Lifting, badminton, soccer, basketball, and helping people find the mental model behind a stubborn bug.</p>
-          <RouteLink route="about">A little more about me</RouteLink>
-        </article>
-      </section>
-
-      <section className="featured-work" aria-labelledby="featured-heading">
-        <header>
-          <p className="section-code">A few things I keep open</p>
-          <h2 id="featured-heading">The work is more convincing when you can actually see it.</h2>
-        </header>
-        <div>
-          {featuredSystems.map((project) => (
-            <a className="project-preview" href={project.href} key={project.code}>
-              <img src={project.image} alt={`${project.title} interface`} />
-              <span>{project.category}</span>
-              <strong>{project.title}</strong>
-              <p>{project.summary}</p>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section className="now-section" aria-labelledby="now-heading">
-        <p className="section-code">This month</p>
-        <div>
-          <h2 id="now-heading">I am learning that a script beats a reminder.</h2>
-          <p>My research has made me picky about silent failures. When a job, input, or cohort can drift without announcing itself, the fix is usually a check I can run again, not a note to remember later.</p>
-        </div>
-      </section>
-
-      <section className="question-section" aria-labelledby="questions-heading">
-        <header>
-          <p className="section-code">Questions I keep asking</p>
-          <h2 id="questions-heading">The same questions show up everywhere.</h2>
-          <p>Research pipelines, product decisions, sports arguments, and training plans all get better when I slow down long enough to ask them.</p>
-        </header>
-        <ol>
-          {operatingQuestions.map((question, index) => (
-            <li key={question}><span>{String(index + 1).padStart(2, '0')}</span>{question}</li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="coordinate-section" aria-labelledby="coordinates-heading">
-        <header>
-          <p className="section-code">What I am working toward</p>
-          <h2 id="coordinates-heading">A direction, not a slogan.</h2>
-        </header>
-        <div>
-          {personalCoordinates.map((coordinate) => (
-            <article key={coordinate.index}>
-              <span>{coordinate.index}</span>
-              <p>{coordinate.horizon}</p>
-              <h3>{coordinate.title}</h3>
-              <p>{coordinate.copy}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-    </>
-  );
-}
-
-function ExperienceEntry({ experience, index }: { experience: Experience; index: number }) {
+function ExperienceEntry({ experience }: { experience: Experience }) {
   return (
     <article className="experience-entry">
-      <div className="experience-meta">
-        <span>{String(index + 1).padStart(2, '0')}</span>
-        <p>{experience.period}</p>
-        <small>{experience.kind}</small>
-      </div>
+      <p className="experience-period">{experience.period}</p>
       <div className="experience-title">
-        <h2>{experience.role}</h2>
+        <h3>{experience.role}</h3>
         <p>{experience.organization}</p>
       </div>
       <div className="experience-copy">
         <p>{experience.summary}</p>
-        <ul>{experience.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul>
-        <p className="translation"><strong>What it sharpened</strong>{experience.translation}</p>
-        <p className="text-tools" aria-label="Tools and methods">{experience.tools.join(' · ')}</p>
+        <small>{experience.tools.join(' · ')}</small>
       </div>
     </article>
   );
 }
 
-function ExperiencePage() {
+function ProjectCard({ project }: { project: (typeof labProjects)[number] }) {
   return (
-    <>
-      <PageHeading
-        id="experience-heading"
-        chapter="01 / Work"
-        title="Places where I learned to build with other people."
-        lede="The throughline in my work is simple: I like being close to the messy part. That might be a scientific workflow, a teaching conversation, a model pipeline, or the infrastructure that has to work before the interesting thing can happen."
-        aside="Selected work · 2021 - present"
-      />
-      <section className="experience-list" aria-label="Selected experience">
-        {experiences.map((experience, index) => <ExperienceEntry experience={experience} index={index} key={experience.role + experience.organization} />)}
-      </section>
-      <nav className="next-route" aria-label="Next portfolio section">
-        <span>Next</span><RouteLink route="research">Research</RouteLink>
-      </nav>
-    </>
+    <a className="project-card" href={project.href}>
+      <img src={project.image} alt={`${project.title} interface`} />
+      <div>
+        <span>{project.category}</span>
+        <h3>{project.title}</h3>
+        <p>{project.summary}</p>
+      </div>
+    </a>
   );
 }
 
-function ResearchPage() {
-  const methods = ['~4,000 genes', 'Two patient cohorts', 'GenomegaMap', 'Bayesian MCMC', 'Posterior comparison', 'Python', 'Slurm', 'HPRC', 'pN/pS', 'Chi-square', 'FDR', 'PAML'];
-
+function OtherProject({ project }: { project: Project }) {
   return (
-    <>
-      <PageHeading
-        id="research-heading"
-        chapter="02 / Research"
-        title="Research, while it is still messy."
-        lede="I study evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes. The results are still in motion, so I am more interested in making the workflow inspectable than pretending the story is finished."
-        aside="Active work · Ioerger Lab · Manuscript in preparation"
-      />
-
-      <section className="research-facts" aria-label="Research at a glance">
-        <article><span>Question</span><p>Does the evidence for evolutionary selection differ between the two patient cohorts?</p></article>
-        <article><span>Scale</span><p>Approximately 4,000 gene-level analyses, coordinated on Texas A&amp;M high-performance computing systems.</p></article>
-        <article><span>Standard</span><p>Keep uncertainty, provenance, model assumptions, and complementary checks visible before interpretation.</p></article>
-      </section>
-
-      <section className="methods-line" aria-labelledby="methods-heading">
-        <h2 id="methods-heading">Methods in motion</h2>
-        <p>{methods.join(' · ')}</p>
-      </section>
-
-      <section className="process-section" aria-labelledby="process-heading">
-        <header>
-          <p className="section-code">Analysis trace</p>
-          <h2 id="process-heading">What the work looks like in practice.</h2>
-          <p>Every transformation changes what the final evidence can honestly say, so I keep trying to make the next question easy to find.</p>
-        </header>
-        <ol>
-          {researchStages.map((stage) => (
-            <li key={stage.index}>
-              <span>{stage.index}</span>
-              <p>{stage.label}</p>
-              <h3>{stage.title}</h3>
-              <p>{stage.copy}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="validation-section" aria-labelledby="validation-heading">
-        <header>
-          <p className="section-code">Triangulation</p>
-          <h2 id="validation-heading">Ways I try to check myself.</h2>
-          <p>These are validation paths, not a claim that a biological result is final.</p>
-        </header>
-        <div>
-          {researchChecks.map((check, index) => (
-            <article key={check.label}>
-              <span>{String(index + 1).padStart(2, '0')} / {check.label}</span>
-              <h3>{check.title}</h3>
-              <p>{check.copy}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="manuscript-section" aria-labelledby="manuscript-heading">
-        <p className="section-code">Current status</p>
-        <div>
-          <h2 id="manuscript-heading">Still in progress.</h2>
-          <p>Computational genomics research with Dr. Thomas Ioerger at Texas A&amp;M University. This page describes the question, workflow, and validation approach without turning unfinished findings into a finished story.</p>
-        </div>
-      </section>
-
-      <nav className="next-route" aria-label="Next portfolio section">
-        <span>Next</span><RouteLink route="projects">Projects</RouteLink>
-      </nav>
-    </>
-  );
-}
-
-function ProjectRow({ project }: { project: Project }) {
-  return (
-    <article className="project-row">
+    <article className="other-project">
       <span>{project.index}</span>
-      <div><p>{project.kicker}</p><h2>{project.title}</h2></div>
-      <div><p>{project.summary}</p><strong>{project.proof}</strong><small>{project.tools.join(' · ')}</small></div>
+      <div>
+        <h3>{project.title}</h3>
+        <p>{project.kicker}</p>
+      </div>
+      <small>{project.tools.join(' · ')}</small>
     </article>
   );
 }
 
-const labFilters: Array<'All' | LabCategory> = ['All', 'Signals', 'Research', 'Life systems'];
-
-function SystemsLab() {
-  const [activeFilter, setActiveFilter] = useState<(typeof labFilters)[number]>('All');
-  const visibleProjects = activeFilter === 'All' ? labProjects : labProjects.filter((project) => project.category === activeFilter);
-
-  return (
-    <section className="systems-lab" aria-labelledby="systems-heading">
-      <header>
-        <p className="section-code">The project shelf · harsh.bet</p>
-        <h2 id="systems-heading">The projects I keep coming back to.</h2>
-        <p>Research, sports analysis, planning, habits, nutrition, and training. These are the things I still use, adjust, and argue with after the original deadline is gone.</p>
-      </header>
-      <div className="lab-controls">
-        <div role="group" aria-label="Filter independent projects">
-          {labFilters.map((filter) => (
-            <button type="button" aria-pressed={activeFilter === filter} onClick={() => setActiveFilter(filter)} key={filter}>{filter}</button>
-          ))}
-        </div>
-        <p role="status" aria-live="polite">{visibleProjects.length} of {labProjects.length} systems</p>
-      </div>
-      <div className="lab-list">
-        {visibleProjects.map((project) => (
-          <article className="lab-row" key={project.code}>
-            <span>{project.code}</span>
-            <a className="lab-preview" href={project.href}><img src={project.image} alt={`${project.title} interface`} /></a>
-            <div><a href={project.href}>{project.title}</a><small>{project.status}</small></div>
-            <div><p>{project.summary}</p><blockquote>{project.question}</blockquote></div>
-            <div><p>{project.category}</p><small>{project.tools.join(' · ')}</small></div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ProjectsPage() {
+function PortfolioPage() {
   return (
     <>
-      <PageHeading
-        id="projects-heading"
-        chapter="03 / Projects"
-        title="Things I have made and kept working on."
-        lede="Some projects came from teams, classes, and hackathons. The ones below stayed with me because I either kept using them or kept finding a better question to ask of them."
-        aside="AI · data · full stack · research tools"
-      />
-      <section className="project-section" aria-labelledby="selected-heading">
-        <header><p className="section-code">Selected builds</p><h2 id="selected-heading">Built with other people, under real constraints.</h2></header>
-        <div>{projects.map((project) => <ProjectRow project={project} key={project.title} />)}</div>
-        <nav className="project-source-links" aria-label="More project sources">
+      <section className="profile-intro" id="start" aria-labelledby="profile-heading">
+        <div>
+          <p className="section-code">Portfolio</p>
+          <h1 id="profile-heading">Harsh Dave</h1>
+          <p className="profile-degree">M.S. Computer Science, Texas A&amp;M</p>
+          <p className="profile-summary">Graduate research assistant working in computational genomics. I also build software for research, sports, training, and everyday life.</p>
+        </div>
+        <nav className="profile-links" aria-label="Profile links">
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+          <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="https://devpost.com/hdav3228" target="_blank" rel="noreferrer">Devpost</a>
+          <a href={'mailto:' + EMAIL}>Email</a>
         </nav>
       </section>
-      <SystemsLab />
-      <nav className="next-route" aria-label="Next portfolio section">
-        <span>Next</span><RouteLink route="about">About</RouteLink>
-      </nav>
-    </>
-  );
-}
 
-function AboutPage() {
-  return (
-    <>
-      <PageHeading
-        id="about-heading"
-        chapter="04 / About"
-        title="A little more context."
-        lede="I studied computer science because I liked building things, statistics because I wanted to know if they were telling the truth, and biology because the questions got more interesting."
-        aside="M.S. Computer Science · Texas A&amp;M"
-      />
-
-      <section className="education-section" aria-labelledby="education-heading">
-        <p className="section-code">Education</p>
-        <div><h2 id="education-heading">Texas A&amp;M University</h2><p>B.S. degrees in Computer Science and Statistics · May 2026 · <strong>Summa Cum Laude</strong></p><p>Pursuing M.S. Computer Science · Expected 2028</p></div>
-      </section>
-
-      <section className="about-statement" aria-labelledby="connection-heading">
-        <p className="section-code">How I tend to work</p>
-        <h2 id="connection-heading">I usually start by getting curious about the annoying part.</h2>
-        <div><p>The subject might be a Bayesian model, an AI request moving through a data center, a training plateau, or a sports statistic whose context feels incomplete. I want to know how it works before I decide how much to trust it.</p><p>Then I try to make that understanding useful: a cleaner script, a better interface, a tighter explanation, or a tool I would actually come back to tomorrow.</p></div>
-      </section>
-
-      <section className="lens-section" aria-labelledby="lenses-heading">
-        <header><p className="section-code">Personal notes</p><h2 id="lenses-heading">The parts that do not fit in a resume.</h2></header>
-        <div>
-          {personalLenses.map((lens) => (
-            <article key={lens.index}><span>{lens.index} / {lens.label}</span><h3>{lens.title}</h3><p>{lens.copy}</p></article>
-          ))}
+      <section className="content-section" id="experience" aria-labelledby="work-heading">
+        <SectionHeading label="01 / Work" title="Work" />
+        <div className="experience-list">
+          {experiences.map((experience) => <ExperienceEntry experience={experience} key={experience.role + experience.organization} />)}
         </div>
       </section>
 
-      <section className="skills-section" aria-labelledby="skills-heading">
-        <header><p className="section-code">Working vocabulary</p><h2 id="skills-heading">Things I use a lot.</h2><p>I care more about choosing the right abstraction than collecting logos.</p></header>
-        <div>{skillGroups.map((group, index) => <article key={group.label}><span>{String(index + 1).padStart(2, '0')} / {group.label}</span><p>{group.items.join(' · ')}</p></article>)}</div>
+      <section className="content-section research-section" id="research" aria-labelledby="research-heading">
+        <SectionHeading label="02 / Research" title="Research" />
+        <div className="research-summary">
+          <p>I study positive selection in <i>Mycobacterium tuberculosis</i> isolates from patient cohorts with and without diabetes.</p>
+          <dl>
+            <div><dt>Lab</dt><dd>Ioerger Lab, Texas A&amp;M</dd></div>
+            <div><dt>Tools</dt><dd>Python, GenomegaMap, Slurm, HPRC, PAML</dd></div>
+            <div><dt>Focus</dt><dd>Reproducible genome-wide analysis and validation</dd></div>
+          </dl>
+        </div>
       </section>
 
-      <section className="principles-section" aria-labelledby="principles-heading">
-        <header><p className="section-code">What I do not want to skip</p><h2 id="principles-heading">A few standards I keep around.</h2></header>
-        <ol>{principles.map((principle, index) => <li key={principle.title}><span>{String(index + 1).padStart(2, '0')}</span><h3>{principle.title}</h3><p>{principle.copy}</p></li>)}</ol>
+      <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
+        <SectionHeading label="03 / Projects" title="Projects" />
+        <div className="project-grid">
+          {labProjects.map((project) => <ProjectCard project={project} key={project.code} />)}
+        </div>
+        <div className="other-projects">
+          <p className="section-code">Other work</p>
+          {projects.map((project) => <OtherProject project={project} key={project.title} />)}
+        </div>
       </section>
 
-      <section className="movement-section" aria-labelledby="movement-heading">
-        <p className="section-code">Away from the keyboard</p>
-        <div><h2 id="movement-heading">What I do after I close the laptop.</h2><p>Lifting gives me measurable progress. Badminton and soccer bring out my competitive side. Basketball, boxing, swimming, cricket, and jump rope keep giving me different reasons to learn timing, technique, conditioning, and adaptation.</p><p className="sports-line">{sports.join(' · ')}</p><a href="/gym/">Open the training log</a></div>
-      </section>
-
-      <section className="contact-section" aria-labelledby="contact-heading">
-        <p className="section-code">Open line</p>
-        <div><h2 id="contact-heading">Say hello.</h2><p>I am especially interested in research engineering, computational biology, trustworthy AI systems, and products that make complex evidence easier to use.</p></div>
-        <a href={'mailto:' + EMAIL}>{EMAIL}</a>
+      <section className="content-section about-section" id="about" aria-labelledby="about-heading">
+        <SectionHeading label="04 / About" title="About & contact" />
+        <div className="about-grid">
+          <article>
+            <p className="section-code">Education</p>
+            <h3>Texas A&amp;M University</h3>
+            <p>B.S. in Computer Science and Statistics, 2026<br />Summa Cum Laude</p>
+            <p>M.S. in Computer Science, expected 2028</p>
+          </article>
+          <article>
+            <p className="section-code">Outside work</p>
+            <h3>Sports and training</h3>
+            <p>{sports.join(' · ')}</p>
+            <a href="/gym/">Training log</a>
+          </article>
+          <article>
+            <p className="section-code">Contact</p>
+            <div className="contact-links">
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+              <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
+              <a href="https://devpost.com/hdav3228" target="_blank" rel="noreferrer">Devpost</a>
+              <a href={'mailto:' + EMAIL}>Email</a>
+            </div>
+          </article>
+        </div>
       </section>
     </>
   );
-}
-
-function CurrentPage({ route }: { route: RouteId }) {
-  if (route === 'experience') return <ExperiencePage />;
-  if (route === 'research') return <ResearchPage />;
-  if (route === 'projects') return <ProjectsPage />;
-  if (route === 'about') return <AboutPage />;
-  return <StartPage />;
 }
 
 function SiteFooter() {
   return (
     <footer className="site-footer">
-      <p>College Station, Texas</p>
-      <nav aria-label="Contact and profile links">
-        <a href="/">harsh.bet</a>
-        <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="https://devpost.com/hdav3228" target="_blank" rel="noreferrer">Devpost</a>
-        <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
-        <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-        <a href={'mailto:' + EMAIL}>Email</a>
-      </nav>
+      <a href="/">harsh.bet</a>
+      <a href="#start">Back to top</a>
     </footer>
   );
 }
 
 export default function App() {
-  const route = useRoute();
   const [theme, setTheme] = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const mainRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const contentFrameRef = useRef<HTMLDivElement>(null);
   const restoreMenuFocus = useRef(false);
-  const previousRoute = useRef<RouteId>(route);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' });
-    setMobileOpen(false);
-    if (previousRoute.current !== route) {
-      mainRef.current?.focus({ preventScroll: true });
+    const oldRoute = window.location.hash.replace(/^#\/?/, '');
+    if (sections.some((section) => section.id === oldRoute)) {
+      window.history.replaceState(null, '', `#${oldRoute}`);
     }
-    previousRoute.current = route;
-  }, [route]);
+    document.title = 'Harsh Dave';
+  }, []);
 
   useEffect(() => {
     const desktopLayout = window.matchMedia('(min-width: 821px)');
@@ -613,11 +340,15 @@ export default function App() {
     };
   }, [mobileOpen]);
 
+  const closeAfterNavigation = () => {
+    restoreMenuFocus.current = false;
+    setMobileOpen(false);
+  };
+
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to content</a>
       <SiteRail
-        route={route}
         theme={theme}
         mobileOpen={mobileOpen}
         onThemeChange={setTheme}
@@ -625,10 +356,7 @@ export default function App() {
           if (mobileOpen) restoreMenuFocus.current = true;
           setMobileOpen((open) => !open);
         }}
-        onNavigate={(nextRoute) => {
-          restoreMenuFocus.current = mobileOpen && nextRoute === route;
-          setMobileOpen(false);
-        }}
+        onNavigate={closeAfterNavigation}
         menuButtonRef={menuButtonRef}
       />
       <button
@@ -642,15 +370,8 @@ export default function App() {
         tabIndex={-1}
       />
       <div className="content-frame" ref={contentFrameRef}>
-        <main
-          id="main-content"
-          className="page-content"
-          tabIndex={-1}
-          ref={mainRef}
-          key={route}
-          aria-label={`${railLabels[route]} section`}
-        >
-          <CurrentPage route={route} />
+        <main id="main-content" className="page-content" tabIndex={-1} aria-label="Harsh Dave portfolio">
+          <PortfolioPage />
         </main>
         <SiteFooter />
       </div>
