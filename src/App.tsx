@@ -166,57 +166,76 @@ function PageHeading({ id, chapter, title, lede, aside }: { id: string; chapter:
 }
 
 function StartPage() {
-  const featuredSystems = labProjects.slice(0, 3);
+  const featuredSystems = [labProjects[1], labProjects[0], labProjects[6]];
 
   return (
     <>
-      <section className="index-intro" aria-labelledby="index-heading">
-        <p className="section-code">Harsh Dave / Portfolio 2026</p>
-        <h1 id="index-heading">I take complicated systems apart, figure out what the evidence can support, and build something useful.</h1>
-        <p className="index-lede">Computer scientist, statistician, and computational genomics researcher pursuing an M.S. at Texas A&amp;M. My current work studies positive selection in tuberculosis genomes; my independent work turns questions about research, sports, and everyday routines into inspectable software.</p>
-        <p className="index-quote">I rarely accept “that is just how it works” without asking several more questions.</p>
+      <section className="profile-intro" aria-labelledby="index-heading">
+        <div>
+          <p className="section-code">Portfolio / 2026</p>
+          <h1 id="index-heading">Harsh Dave</h1>
+          <p className="profile-degree">M.S. Computer Science at Texas A&amp;M</p>
+          <p className="profile-role">Graduate Research Assistant · Computational genomics</p>
+          <p className="profile-summary">I work on reproducible genomics research, build software for questions that keep bothering me, and spend a lot of time lifting, playing sports, and making tools for the rest of life.</p>
+        </div>
+        <dl className="profile-facts" aria-label="A quick introduction">
+          <div><dt>Right now</dt><dd>Positive selection in <i>Mycobacterium tuberculosis</i></dd></div>
+          <div><dt>Background</dt><dd>B.S. Computer Science + Statistics · 2026</dd></div>
+          <div><dt>Usually building</dt><dd>Research tools, personal systems, and sports data projects</dd></div>
+        </dl>
       </section>
 
-      <section className="index-columns" aria-label="Current work and interests">
+      <section className="personal-snapshot" aria-label="Current work and interests">
         <article>
-          <h2>In the lab</h2>
-          <p><strong>Positive selection in <i>Mycobacterium tuberculosis</i></strong></p>
-          <p>Comparing patient cohorts with and without diabetes across approximately 4,000 genes using Bayesian modeling and reproducible HPC workflows.</p>
-          <RouteLink route="research">Read the research</RouteLink>
+          <p className="section-code">In the lab</p>
+          <h2>Making the checks part of the work.</h2>
+          <p>I am studying positive selection across patient cohorts, then building scripts that catch the quiet problems before they turn into a result.</p>
+          <RouteLink route="research">See the research notes</RouteLink>
         </article>
         <article>
-          <h2>Selected systems</h2>
-          <ul className="mini-project-list">
-            {featuredSystems.map((project) => (
-              <li key={project.code}>
-                <a href={project.href}>{project.title}</a>
-                <span>{project.summary}</span>
-              </li>
-            ))}
-          </ul>
-          <RouteLink route="projects">View all projects</RouteLink>
+          <p className="section-code">What I make</p>
+          <h2>Tools I wanted to have myself.</h2>
+          <p>Some started as research interfaces. Others started because I wanted a better way to remember, plan, log, train, or keep a record.</p>
+          <RouteLink route="projects">See the project shelf</RouteLink>
         </article>
         <article>
-          <h2>Away from the screen</h2>
-          <p><strong>Movement, competition, and teaching.</strong></p>
-          <p>Lifting, badminton, soccer, basketball, and explaining programming until the mental model—not just the answer—clicks.</p>
-          <RouteLink route="about">More about me</RouteLink>
+          <p className="section-code">Outside the screen</p>
+          <h2>Movement, competition, and teaching.</h2>
+          <p>Lifting, badminton, soccer, basketball, and helping people find the mental model behind a stubborn bug.</p>
+          <RouteLink route="about">A little more about me</RouteLink>
         </article>
+      </section>
+
+      <section className="featured-work" aria-labelledby="featured-heading">
+        <header>
+          <p className="section-code">A few things I keep open</p>
+          <h2 id="featured-heading">The work is more convincing when you can actually see it.</h2>
+        </header>
+        <div>
+          {featuredSystems.map((project) => (
+            <a className="project-preview" href={project.href} key={project.code}>
+              <img src={project.image} alt={`${project.title} interface`} />
+              <span>{project.category}</span>
+              <strong>{project.title}</strong>
+              <p>{project.summary}</p>
+            </a>
+          ))}
+        </div>
       </section>
 
       <section className="now-section" aria-labelledby="now-heading">
-        <p className="section-code">Now</p>
+        <p className="section-code">This month</p>
         <div>
-          <h2 id="now-heading">Researching, building, and learning across the boundary.</h2>
-          <p>I am building reproducible Python and Slurm workflows in the Ioerger Lab, developing independent tools across the harsh.bet ecosystem, and deepening the research-engineering range I want to bring to biotechnology.</p>
+          <h2 id="now-heading">I am learning that a script beats a reminder.</h2>
+          <p>My research has made me picky about silent failures. When a job, input, or cohort can drift without announcing itself, the fix is usually a check I can run again, not a note to remember later.</p>
         </div>
       </section>
 
       <section className="question-section" aria-labelledby="questions-heading">
         <header>
-          <p className="section-code">Operating questions</p>
-          <h2 id="questions-heading">The debugging loop follows me everywhere.</h2>
-          <p>From genomic pipelines to product decisions, sports arguments, and training plans.</p>
+          <p className="section-code">Questions I keep asking</p>
+          <h2 id="questions-heading">The same questions show up everywhere.</h2>
+          <p>Research pipelines, product decisions, sports arguments, and training plans all get better when I slow down long enough to ask them.</p>
         </header>
         <ol>
           {operatingQuestions.map((question, index) => (
@@ -227,8 +246,8 @@ function StartPage() {
 
       <section className="coordinate-section" aria-labelledby="coordinates-heading">
         <header>
-          <p className="section-code">Direction of travel</p>
-          <h2 id="coordinates-heading">Now, next, and the long horizon.</h2>
+          <p className="section-code">What I am working toward</p>
+          <h2 id="coordinates-heading">A direction, not a slogan.</h2>
         </header>
         <div>
           {personalCoordinates.map((coordinate) => (
@@ -273,9 +292,9 @@ function ExperiencePage() {
       <PageHeading
         id="experience-heading"
         chapter="01 / Work"
-        title="Work that crosses boundaries."
-        lede="Software with scientific rigor, research with production discipline, and AI treated as one part of a larger system. Each role taught me a different way to translate complexity into something another person can use."
-        aside="Selected chronology · 2022—Now"
+        title="Places where I learned to build with other people."
+        lede="The throughline in my work is simple: I like being close to the messy part. That might be a scientific workflow, a teaching conversation, a model pipeline, or the infrastructure that has to work before the interesting thing can happen."
+        aside="Selected work · 2021 - present"
       />
       <section className="experience-list" aria-label="Selected experience">
         {experiences.map((experience, index) => <ExperienceEntry experience={experience} index={index} key={experience.role + experience.organization} />)}
@@ -295,9 +314,9 @@ function ResearchPage() {
       <PageHeading
         id="research-heading"
         chapter="02 / Research"
-        title="When cohorts differ, what can the genomes support?"
-        lede="I study evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes. The scientific question matters; so does making every computational step traceable enough to challenge."
-        aside="Active · Ioerger Lab · Manuscript in preparation"
+        title="Research, while it is still messy."
+        lede="I study evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes. The results are still in motion, so I am more interested in making the workflow inspectable than pretending the story is finished."
+        aside="Active work · Ioerger Lab · Manuscript in preparation"
       />
 
       <section className="research-facts" aria-label="Research at a glance">
@@ -314,8 +333,8 @@ function ResearchPage() {
       <section className="process-section" aria-labelledby="process-heading">
         <header>
           <p className="section-code">Analysis trace</p>
-          <h2 id="process-heading">A pipeline is also an argument.</h2>
-          <p>Each transformation changes what the final evidence can honestly say.</p>
+          <h2 id="process-heading">What the work looks like in practice.</h2>
+          <p>Every transformation changes what the final evidence can honestly say, so I keep trying to make the next question easy to find.</p>
         </header>
         <ol>
           {researchStages.map((stage) => (
@@ -332,8 +351,8 @@ function ResearchPage() {
       <section className="validation-section" aria-labelledby="validation-heading">
         <header>
           <p className="section-code">Triangulation</p>
-          <h2 id="validation-heading">Confidence should come from convergence.</h2>
-          <p>These are validation paths—not a claim that a biological result is final.</p>
+          <h2 id="validation-heading">Ways I try to check myself.</h2>
+          <p>These are validation paths, not a claim that a biological result is final.</p>
         </header>
         <div>
           {researchChecks.map((check, index) => (
@@ -349,8 +368,8 @@ function ResearchPage() {
       <section className="manuscript-section" aria-labelledby="manuscript-heading">
         <p className="section-code">Current status</p>
         <div>
-          <h2 id="manuscript-heading">Manuscript in preparation.</h2>
-          <p>Computational genomics research with Dr. Thomas Ioerger at Texas A&amp;M University. The work is ongoing, so this portfolio describes the question, workflow, and validation approach without presenting unfinished findings as settled results.</p>
+          <h2 id="manuscript-heading">Still in progress.</h2>
+          <p>Computational genomics research with Dr. Thomas Ioerger at Texas A&amp;M University. This page describes the question, workflow, and validation approach without turning unfinished findings into a finished story.</p>
         </div>
       </section>
 
@@ -380,9 +399,9 @@ function SystemsLab() {
   return (
     <section className="systems-lab" aria-labelledby="systems-heading">
       <header>
-        <p className="section-code">Independent systems lab · harsh.bet</p>
-        <h2 id="systems-heading">Software for questions I keep returning to.</h2>
-        <p>Living products for research, sports analysis, planning, habits, nutrition, and training—maintained beyond a course or hackathon deadline.</p>
+        <p className="section-code">The project shelf · harsh.bet</p>
+        <h2 id="systems-heading">The projects I keep coming back to.</h2>
+        <p>Research, sports analysis, planning, habits, nutrition, and training. These are the things I still use, adjust, and argue with after the original deadline is gone.</p>
       </header>
       <div className="lab-controls">
         <div role="group" aria-label="Filter independent projects">
@@ -396,6 +415,7 @@ function SystemsLab() {
         {visibleProjects.map((project) => (
           <article className="lab-row" key={project.code}>
             <span>{project.code}</span>
+            <a className="lab-preview" href={project.href}><img src={project.image} alt={`${project.title} interface`} /></a>
             <div><a href={project.href}>{project.title}</a><small>{project.status}</small></div>
             <div><p>{project.summary}</p><blockquote>{project.question}</blockquote></div>
             <div><p>{project.category}</p><small>{project.tools.join(' · ')}</small></div>
@@ -412,12 +432,12 @@ function ProjectsPage() {
       <PageHeading
         id="projects-heading"
         chapter="03 / Projects"
-        title="Proof through making."
-        lede="Team projects, coursework, and hackathons taught me to build under constraints. The independent systems lab is where the questions become personal and the software keeps evolving after the deadline."
-        aside="Selected work · AI, data, full stack, research tools"
+        title="Things I have made and kept working on."
+        lede="Some projects came from teams, classes, and hackathons. The ones below stayed with me because I either kept using them or kept finding a better question to ask of them."
+        aside="AI · data · full stack · research tools"
       />
       <section className="project-section" aria-labelledby="selected-heading">
-        <header><p className="section-code">Selected builds</p><h2 id="selected-heading">Teams, deadlines, and fast feedback.</h2></header>
+        <header><p className="section-code">Selected builds</p><h2 id="selected-heading">Built with other people, under real constraints.</h2></header>
         <div>{projects.map((project) => <ProjectRow project={project} key={project.title} />)}</div>
         <nav className="project-source-links" aria-label="More project sources">
           <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
@@ -438,24 +458,24 @@ function AboutPage() {
       <PageHeading
         id="about-heading"
         chapter="04 / About"
-        title="I keep asking what is underneath."
-        lede="Computer science taught me how to build. Statistics taught me how to ask whether the result is trustworthy. Biology supplied harder, more meaningful questions. Curiosity keeps pulling the three together."
-        aside="Harsh Dave · College Station, Texas"
+        title="A little more context."
+        lede="I studied computer science because I liked building things, statistics because I wanted to know if they were telling the truth, and biology because the questions got more interesting."
+        aside="M.S. Computer Science · Texas A&amp;M"
       />
 
       <section className="education-section" aria-labelledby="education-heading">
         <p className="section-code">Education</p>
-        <div><h2 id="education-heading">Texas A&amp;M University</h2><p>Dual B.S. degrees in Computer Science and Statistics · May 2026 · <strong>3.92 GPA · Summa Cum Laude</strong></p><p>Pursuing M.S. Computer Science · Expected 2028</p></div>
+        <div><h2 id="education-heading">Texas A&amp;M University</h2><p>B.S. degrees in Computer Science and Statistics · May 2026 · <strong>Summa Cum Laude</strong></p><p>Pursuing M.S. Computer Science · Expected 2028</p></div>
       </section>
 
       <section className="about-statement" aria-labelledby="connection-heading">
-        <p className="section-code">The connecting instinct</p>
-        <h2 id="connection-heading">Understand the system. Find the friction. Make it useful.</h2>
-        <div><p>I am probably an excessive asker of “but how does that actually work?” The subject might be a Bayesian model, an AI request moving through a data center, a training plateau, or a sports statistic whose context feels incomplete.</p><p>The common thread is practical: inspect the machinery, identify what the evidence says, and turn that understanding into a clearer process or product.</p></div>
+        <p className="section-code">How I tend to work</p>
+        <h2 id="connection-heading">I usually start by getting curious about the annoying part.</h2>
+        <div><p>The subject might be a Bayesian model, an AI request moving through a data center, a training plateau, or a sports statistic whose context feels incomplete. I want to know how it works before I decide how much to trust it.</p><p>Then I try to make that understanding useful: a cleaner script, a better interface, a tighter explanation, or a tool I would actually come back to tomorrow.</p></div>
       </section>
 
       <section className="lens-section" aria-labelledby="lenses-heading">
-        <header><p className="section-code">Personal lenses</p><h2 id="lenses-heading">The person behind the project list.</h2></header>
+        <header><p className="section-code">Personal notes</p><h2 id="lenses-heading">The parts that do not fit in a resume.</h2></header>
         <div>
           {personalLenses.map((lens) => (
             <article key={lens.index}><span>{lens.index} / {lens.label}</span><h3>{lens.title}</h3><p>{lens.copy}</p></article>
@@ -464,23 +484,23 @@ function AboutPage() {
       </section>
 
       <section className="skills-section" aria-labelledby="skills-heading">
-        <header><p className="section-code">Working vocabulary</p><h2 id="skills-heading">Tools follow the question.</h2><p>I care more about choosing the right abstraction than collecting logos.</p></header>
+        <header><p className="section-code">Working vocabulary</p><h2 id="skills-heading">Things I use a lot.</h2><p>I care more about choosing the right abstraction than collecting logos.</p></header>
         <div>{skillGroups.map((group, index) => <article key={group.label}><span>{String(index + 1).padStart(2, '0')} / {group.label}</span><p>{group.items.join(' · ')}</p></article>)}</div>
       </section>
 
       <section className="principles-section" aria-labelledby="principles-heading">
-        <header><p className="section-code">What I optimize for</p><h2 id="principles-heading">A few durable standards.</h2></header>
+        <header><p className="section-code">What I do not want to skip</p><h2 id="principles-heading">A few standards I keep around.</h2></header>
         <ol>{principles.map((principle, index) => <li key={principle.title}><span>{String(index + 1).padStart(2, '0')}</span><h3>{principle.title}</h3><p>{principle.copy}</p></li>)}</ol>
       </section>
 
       <section className="movement-section" aria-labelledby="movement-heading">
         <p className="section-code">Away from the keyboard</p>
-        <div><h2 id="movement-heading">Movement is another system to learn.</h2><p>Lifting gives me measurable progress; badminton and soccer bring out my competitive side. Basketball, boxing, swimming, cricket, and jump rope add different combinations of timing, technique, conditioning, and adaptation.</p><p className="sports-line">{sports.join(' · ')}</p><a href="/gym/">Training log</a></div>
+        <div><h2 id="movement-heading">What I do after I close the laptop.</h2><p>Lifting gives me measurable progress. Badminton and soccer bring out my competitive side. Basketball, boxing, swimming, cricket, and jump rope keep giving me different reasons to learn timing, technique, conditioning, and adaptation.</p><p className="sports-line">{sports.join(' · ')}</p><a href="/gym/">Open the training log</a></div>
       </section>
 
       <section className="contact-section" aria-labelledby="contact-heading">
         <p className="section-code">Open line</p>
-        <div><h2 id="contact-heading">Bring the difficult question.</h2><p>I am especially interested in research engineering, computational biology, trustworthy AI systems, and products that make complex evidence easier to use.</p></div>
+        <div><h2 id="contact-heading">Say hello.</h2><p>I am especially interested in research engineering, computational biology, trustworthy AI systems, and products that make complex evidence easier to use.</p></div>
         <a href={'mailto:' + EMAIL}>{EMAIL}</a>
       </section>
     </>
@@ -503,6 +523,7 @@ function SiteFooter() {
         <a href="/">harsh.bet</a>
         <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
         <a href="https://devpost.com/hdav3228" target="_blank" rel="noreferrer">Devpost</a>
+        <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
         <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
         <a href={'mailto:' + EMAIL}>Email</a>
       </nav>

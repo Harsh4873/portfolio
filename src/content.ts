@@ -48,6 +48,7 @@ export interface LabProject {
   title: string;
   category: LabCategory;
   href: string;
+  image: string;
   status: string;
   summary: string;
   question: string;
@@ -83,74 +84,72 @@ export const navigation: NavigationItem[] = [
 ];
 
 export const routeTitles: Record<RouteId, string> = {
-  start: 'Portfolio — Harsh Dave',
-  experience: 'Experience · Portfolio — Harsh Dave',
-  research: 'Research · Portfolio — Harsh Dave',
-  projects: 'Projects · Portfolio — Harsh Dave',
-  about: 'About · Portfolio — Harsh Dave',
+  start: 'Portfolio - Harsh Dave',
+  experience: 'Experience · Portfolio - Harsh Dave',
+  research: 'Research · Portfolio - Harsh Dave',
+  projects: 'Projects · Portfolio - Harsh Dave',
+  about: 'About · Portfolio - Harsh Dave',
 };
 
 export const proofPoints = [
-  { value: '3.92', label: 'Undergraduate GPA' },
-  { value: '2× B.S.', label: 'Computer Science + Statistics' },
-  { value: 'Summa', label: 'Cum Laude · May 2026' },
-  { value: 'M.S. ’28', label: 'Computer Science, in progress' },
+  { value: 'M.S.', label: 'Computer Science, in progress' },
+  { value: 'B.S.', label: 'Computer Science + Statistics' },
+  { value: '2026', label: 'Graduated summa cum laude' },
+  { value: 'Lab', label: 'Computational genomics' },
 ];
 
 export const personalCoordinates: PersonalCoordinate[] = [
   {
     index: '01',
     horizon: 'Now',
-    title: 'Read evolution through data.',
-    copy: 'In the Ioerger Lab, I am studying positive selection in Mycobacterium tuberculosis across patient cohorts while making the analysis reproducible enough to inspect gene by gene.',
+    title: 'Make the research easier to trust.',
+    copy: 'I am working on positive selection in Mycobacterium tuberculosis, with a lot of attention on the unglamorous things that keep a result honest: inputs, provenance, failed jobs, and reproducible checks.',
   },
   {
     index: '02',
     horizon: 'Next',
-    title: 'Become fluent across the boundary.',
-    copy: 'My M.S. is a chance to deepen both sides of the work: the statistical judgment to ask a defensible question and the engineering discipline to build the system that answers it.',
+    title: 'Keep getting better at both sides of the work.',
+    copy: 'The M.S. is where I am sharpening the statistical judgment to ask a better question and the engineering habits to build the thing that answers it.',
   },
   {
     index: '03',
     horizon: 'Long horizon',
-    title: 'Build biotechnology that earns trust.',
-    copy: 'I want to help create tools for biological discovery, diagnostics, and health that make difficult evidence more useful to researchers and, eventually, to patients.',
+    title: 'Build for biology, eventually.',
+    copy: 'Long term, I want to work on discovery, diagnostics, or research infrastructure that turns difficult biological evidence into something a person can actually use.',
   },
 ];
 
 export const operatingQuestions = [
-  'What data do we actually have?',
-  'What are we really measuring?',
-  'Which assumption is carrying the result?',
-  'What breaks when the scale changes?',
-  'Can someone else reproduce this?',
-  'Is there a simpler way to make it useful?',
+  'Where did that number come from?',
+  'What would make this result less convincing?',
+  'Can I explain it without skipping the hard part?',
+  'Would I still use this on a tired Tuesday?',
 ];
 
 export const curiosityThreads: CuriosityThread[] = [
   {
     index: 'A',
     title: 'Biological inference',
-    copy: 'How do we separate a meaningful evolutionary signal from noise, modeling choices, and cohort differences?',
+    copy: 'I care about separating a real evolutionary signal from noise, modeling choices, and cohort differences.',
     signals: ['Genomes', 'Uncertainty', 'Disease'],
   },
   {
     index: 'B',
     title: 'Compute underneath AI',
-    copy: 'What happens between pressing Enter and receiving an answer—from routing and accelerators to scheduling, context, and failure modes?',
+    copy: 'I keep pulling apart what happens between pressing Enter and receiving an answer: routing, accelerators, scheduling, context, and failure modes.',
     signals: ['Agents', 'HPC', 'Infrastructure'],
   },
   {
     index: 'C',
     title: 'Measurable everyday systems',
-    copy: 'How can software reduce friction in planning, training, nutrition, and sports analysis without turning life into a spreadsheet?',
+    copy: 'I make software for planning, training, nutrition, and sports analysis because I want the data without turning life into a spreadsheet.',
     signals: ['Routines', 'Training', 'Sports'],
   },
 ];
 
 export const experiences: Experience[] = [
   {
-    period: 'Jun 2026 — Now',
+    period: 'Jun 2026 - present',
     role: 'Graduate Assistant Research (Computational Genomics)',
     organization: 'Ioerger Lab · Texas A&M University',
     kind: 'Research',
@@ -162,10 +161,10 @@ export const experiences: Experience[] = [
       'Translate model output into inspectable tables, figures, and biology-first explanations for ongoing computational genomics research.',
     ],
     tools: ['Python', 'Slurm', 'GenomegaMap', 'Bayesian MCMC', 'PAML', 'HPC'],
-    translation: 'Scientific computing taught me that a pipeline is not just automation; every transformation is part of the argument.',
+    translation: 'The useful part of a pipeline is not that it runs. It is that I can point to what changed, why it changed, and whether the result still holds.',
   },
   {
-    period: 'Aug — Dec 2025',
+    period: 'Aug - Dec 2025',
     role: 'Software Engineering Capstone',
     organization: 'Amazon-sponsored · Texas A&M University',
     kind: 'Applied AI',
@@ -177,7 +176,7 @@ export const experiences: Experience[] = [
       'Worked across architecture, implementation, and delivery constraints instead of treating the model as the entire product.',
     ],
     tools: ['Python', 'AWS', 'LangChain', 'Elasticsearch', 'MongoDB', 'AWS Neptune'],
-    translation: 'The useful AI work was the connective tissue: dependable ingestion, clear provenance, and an interface that helped an analyst decide what to inspect next.',
+    translation: 'This was the first time I saw that the model is only one part of the job. The useful work was getting data, provenance, and the analyst experience to agree.',
   },
   {
     period: 'Spring 2026',
@@ -192,10 +191,10 @@ export const experiences: Experience[] = [
       'Used questions and small examples to reveal the mental model behind a bug rather than only supplying a correction.',
     ],
     tools: ['Java', 'Object-oriented programming', 'Mentorship', 'Code review'],
-    translation: 'Teaching exposed the difference between being able to do something and being able to explain why it works.',
+    translation: 'Teaching made me care more about the missing mental model than the quick fix.',
   },
   {
-    period: 'Jan — May 2025',
+    period: 'Jan - May 2025',
     role: 'Undergraduate Researcher',
     organization: 'UrbanResilience.AI Lab · Texas A&M University',
     kind: 'Data systems',
@@ -207,10 +206,10 @@ export const experiences: Experience[] = [
       'Worked through the practical mismatch between real-world sources: formats, coverage, timing, and missingness.',
     ],
     tools: ['Python', 'APIs', 'Web scraping', 'Predictive modeling'],
-    translation: 'Messy public data made source quality and missing context feel as important as the eventual model.',
+    translation: 'Real public data taught me to look for the missing context before I got attached to a model.',
   },
   {
-    period: 'May — Aug 2024',
+    period: 'May - Aug 2024',
     role: 'AI Engineering Intern',
     organization: 'Videomagic · Remote',
     kind: 'Product engineering',
@@ -222,7 +221,7 @@ export const experiences: Experience[] = [
       'Connected model experimentation to the data, API, authentication, and workflow requirements around it.',
     ],
     tools: ['PyTorch', 'Hugging Face', 'TypeScript', 'MySQL', 'Auth0'],
-    translation: 'A promising model becomes a product only after the data, API, authentication, and human workflow all meet it.',
+    translation: 'A model did not become a product until the data, API, authentication, and human workflow all met in the same place.',
   },
   {
     period: 'Early undergraduate research',
@@ -237,7 +236,7 @@ export const experiences: Experience[] = [
       'Learned to treat deployment and access control as part of the experience rather than after-the-fact infrastructure.',
     ],
     tools: ['React', 'TypeScript', 'Cloud infrastructure', 'Auth0'],
-    translation: 'The earliest systems lesson still holds: reliability and access are product features, even when users never see the machinery.',
+    translation: 'I still think reliability and access are product features, even when a user never sees the machinery underneath.',
   },
 ];
 
@@ -246,31 +245,31 @@ export const researchStages: ResearchStage[] = [
     index: '01',
     label: 'Contrast',
     title: 'Define the cohort question.',
-    copy: 'Frame a comparison between M. tuberculosis isolates from patients with diabetes and patients without diabetes without assuming that any observed difference is automatically biological.',
+    copy: 'Compare isolates from patients with and without diabetes without treating every observed difference as automatically biological.',
   },
   {
     index: '02',
     label: 'Prepare',
     title: 'Make thousands of genes comparable.',
-    copy: 'Validate inputs, align the workflow, and preserve enough metadata to trace genome-wide, gene-level analyses back to their source cohorts and parameters.',
+    copy: 'Validate inputs, align the workflow, and keep enough metadata to trace a gene-level result back to its cohort and parameters.',
   },
   {
     index: '03',
     label: 'Model',
     title: 'Estimate selection under uncertainty.',
-    copy: 'Run Bayesian GenomegaMap analyses and retain posterior distributions and intervals rather than collapsing a complex signal into a single convenient number.',
+    copy: 'Run Bayesian GenomegaMap analyses and keep the posterior distributions and intervals instead of forcing a complex signal into one convenient number.',
   },
   {
     index: '04',
     label: 'Scale',
     title: 'Treat compute as a system.',
-    copy: 'Use Python orchestration, Slurm arrays, and high-performance computing to make genome-wide work traceable and reproducible.',
+    copy: 'Use Python orchestration, Slurm arrays, and high-performance computing to keep genome-wide work traceable when the cluster gets messy.',
   },
   {
     index: '05',
     label: 'Compare',
     title: 'Ask what the evidence can support.',
-    copy: 'Compare cohort posteriors and use complementary statistical checks before deciding whether a pattern is robust enough to interpret.',
+    copy: 'Compare cohort posteriors and use complementary checks before deciding whether a pattern deserves interpretation.',
   },
 ];
 
@@ -346,6 +345,7 @@ export const labProjects: LabProject[] = [
     title: 'PickLedger',
     category: 'Signals',
     href: '/pickledger/',
+    image: '/portfolio/project-captures/pickledger.png',
     status: 'Public daily board',
     summary: 'A sports-pick intelligence ledger for daily cards, public source records, consensus signals, player props, and graded outcomes.',
     question: 'Can prediction records stay transparent enough to evaluate the process, not just celebrate the wins?',
@@ -356,6 +356,7 @@ export const labProjects: LabProject[] = [
     title: 'MtbScope',
     category: 'Research',
     href: '/genes/',
+    image: '/portfolio/project-captures/mtbscope.png',
     status: 'Whole-genome browser',
     summary: 'A comparison-first browser for tuberculosis genes, with fast search, multi-gene comparison, and source annotations.',
     question: 'How can a large biological dataset become navigable while preserving its source annotations and comparisons?',
@@ -363,12 +364,13 @@ export const labProjects: LabProject[] = [
   },
   {
     code: 'SYS-03',
-    title: 'Sift',
+    title: 'Recall',
     category: 'Research',
     href: '/research/',
-    status: 'Source-grounded workspace',
-    summary: 'A paper-reading workspace for PDFs, structured briefs, claim tracking, notes, and contextual analysis.',
-    question: 'Can analysis move faster while every important claim stays connected to its source?',
+    image: '/portfolio/project-captures/sift.png',
+    status: 'Study sets from real notes',
+    summary: 'A local-first study workspace that turns notes and papers into recall sets, then keeps the source material close.',
+    question: 'Can I study from the actual research notes without copying the same terms into another tool?',
     tools: ['Local analysis', 'PDF workflows', 'Claim tracking'],
   },
   {
@@ -376,6 +378,7 @@ export const labProjects: LabProject[] = [
     title: 'Daymark',
     category: 'Life systems',
     href: '/daymark/',
+    image: '/portfolio/project-captures/daymark.png',
     status: 'Local-first habits',
     summary: 'A flexible habit tracker for goals, streaks, reviews, notes, and optional cross-device sync.',
     question: 'What if consistency could bend around real life without losing the long-term signal?',
@@ -386,6 +389,7 @@ export const labProjects: LabProject[] = [
     title: 'Slate',
     category: 'Life systems',
     href: '/slate/',
+    image: '/portfolio/project-captures/slate.png',
     status: 'Daily planning',
     summary: 'A local-first planner that pairs a time-boxed schedule with flexible, organized to-do lists.',
     question: 'How little structure is needed to turn intention into a day that is actually possible?',
@@ -396,6 +400,7 @@ export const labProjects: LabProject[] = [
     title: 'Fare',
     category: 'Life systems',
     href: '/fare/',
+    image: '/portfolio/project-captures/fare.png',
     status: 'Private nutrition log',
     summary: 'A fast calorie and macro tracker built around personal foods, barcode search, and durable history.',
     question: 'Can lower-friction logging make nutrition data more honest and therefore more useful?',
@@ -406,6 +411,7 @@ export const labProjects: LabProject[] = [
     title: 'Gym',
     category: 'Life systems',
     href: '/gym/',
+    image: '/portfolio/project-captures/gym.png',
     status: 'Personal training log',
     summary: 'A workout system for programs, sets, supersets, calendars, weekly progress, and milestones.',
     question: 'How do you make progressive overload visible without letting tracking interrupt the workout?',
@@ -436,26 +442,26 @@ export const personalLenses: PersonalLens[] = [
   {
     index: '01',
     label: 'How I think',
-    title: 'Persistent, practical, and suspicious of magic.',
-    copy: 'I like ambitious ideas, but I bring them back to concrete questions: what is measured, which assumption matters, what could fail, and whether there is a simpler path. “It just works” and “it just does not work” both make me want to look underneath.',
+    title: 'I like useful questions more than clean answers.',
+    copy: 'I get excited about ambitious ideas, then immediately want to know what is measured, which assumption matters, what could fail, and whether there is a simpler way through it.',
   },
   {
     index: '02',
     label: 'How I teach',
-    title: 'Find the missing mental model.',
-    copy: 'Teaching introductory computer science showed me that people rarely need more rules. They need an explanation that connects the new concept to something they already understand—and enough room to reason through the next bug themselves.',
+    title: 'Teaching made me slow down.',
+    copy: 'People rarely need another rule. They need a connection to something they already understand, then enough room to reason through the next bug themselves.',
   },
   {
     index: '03',
     label: 'What fascinates me',
-    title: 'The infrastructure behind the interface.',
-    copy: 'I test AI tools regularly, but the deeper question is what happens after someone presses Enter: routing, context, accelerators, scheduling, data centers, and the path back to the screen. HPC research makes that invisible machinery feel tangible.',
+    title: 'I am drawn to the parts you do not see first.',
+    copy: 'I test AI tools all the time, but the more interesting question is what happens after someone presses Enter: routing, context, accelerators, scheduling, data centers, and the path back to the screen.',
   },
   {
     index: '04',
     label: 'Where I am going',
-    title: 'Research judgment plus engineering range.',
-    copy: 'Long term, I want to help build biotechnology products—research infrastructure, discovery tools, diagnostics, or something not yet obvious—with enough scientific understanding to ask the right question and enough engineering skill to investigate it.',
+    title: 'I want to build in biotechnology.',
+    copy: 'Research infrastructure, discovery tools, diagnostics, or something I have not thought of yet. I want enough scientific understanding to ask a useful question and enough engineering range to investigate it.',
   },
 ];
 
