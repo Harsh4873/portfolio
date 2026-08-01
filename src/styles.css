@@ -455,6 +455,11 @@ img {
   line-height: 1.1;
 }
 
+.experience-entry[data-open='true'] .experience-title h3,
+.other-project[data-open='true'] h3 {
+  color: var(--accent);
+}
+
 .experience-title p {
   margin-top: 10px;
   color: var(--accent);
@@ -475,45 +480,6 @@ img {
   letter-spacing: 0.04em;
   line-height: 1.55;
   text-transform: uppercase;
-}
-
-.detail-trigger {
-  display: inline-flex;
-  min-height: 34px;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 0;
-  color: var(--muted);
-  background: transparent;
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.detail-trigger:hover,
-.detail-trigger:focus-visible,
-[data-open='true'] > .detail-trigger,
-[data-open='true'] .detail-trigger {
-  color: var(--accent);
-}
-
-.detail-trigger-mark {
-  display: inline-grid;
-  width: 12px;
-  height: 12px;
-  place-items: center;
-  border: 1px solid currentColor;
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 1;
-  transition: transform 160ms ease;
-}
-
-[data-open='true'] .detail-trigger-mark {
-  transform: rotate(45deg);
 }
 
 .detail-panel {
@@ -538,7 +504,7 @@ img {
 
 .experience-details {
   grid-column: 2 / -1;
-  margin-top: -10px;
+  margin-top: -25px;
 }
 
 .experience-detail-inner {
@@ -638,8 +604,6 @@ img {
   display: flex;
   min-height: 56px;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
 }
 
 .research-details-topline > p {
@@ -649,6 +613,10 @@ img {
   font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.research-details[data-open='true'] .research-details-topline > p {
+  color: var(--accent);
 }
 
 .research-detail-inner {
@@ -757,7 +725,7 @@ img {
 }
 
 .project-card-details {
-  margin-top: 3px;
+  margin-top: 0;
 }
 
 .project-detail-inner {
@@ -831,7 +799,7 @@ img {
 
 .other-project-details {
   grid-column: 2 / -1;
-  margin-top: -15px;
+  margin-top: -20px;
 }
 
 .other-project-detail-inner {
@@ -1146,10 +1114,6 @@ img {
     margin-top: -4px;
   }
 
-  .detail-trigger {
-    min-height: 40px;
-  }
-
   .about-grid {
     grid-template-columns: 1fr;
   }
@@ -1210,10 +1174,6 @@ img {
   .profile-intro {
     min-height: 0;
     padding-top: 30px;
-  }
-
-  .detail-trigger {
-    display: none;
   }
 
   .detail-panel {

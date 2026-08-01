@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type FocusEvent, type RefObject } from 'react';
+import { useEffect, useRef, useState, type FocusEvent, type RefObject } from 'react';
 import { experiences, labProjects, projects, researchChecks, researchStages, sports, type Experience, type Project } from './content';
 
 const EMAIL = 'hdav4873@gmail.com';
@@ -133,11 +133,20 @@ function SectionHeading({ label, title }: { label: string; title: string }) {
 }
 
 function useDetailPanel() {
-  const [pinned, setPinned] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
-  const panelId = useId();
-  const open = pinned || hovered || focused;
+  const [alwaysOpen, setAlwaysOpen] = useState(false);
+
+  useEffect(() => {
+    const touchOnly = window.matchMedia('(hover: none)');
+    const updateInteraction = () => setAlwaysOpen(touchOnly.matches);
+
+    updateInteraction();
+    touchOnly.addEventListener('change', updateInteraction);
+    return () => touchOnly.removeEventListener('change', updateInteraction);
+  }, []);
+
+  const open = alwaysOpen || hovered || focused;
 
   const onBlurCapture = (event: FocusEvent<HTMLElement>) => {
     const nextFocused = event.relatedTarget;
@@ -148,7 +157,6 @@ function useDetailPanel() {
 
   return {
     open,
-    panelId,
     containerProps: {
       'data-open': open ? 'true' : 'false',
       onMouseEnter: () => setHovered(true),
@@ -156,41 +164,14 @@ function useDetailPanel() {
       onFocusCapture: () => setFocused(true),
       onBlurCapture,
     },
-    toggle: () => setPinned((isPinned) => !isPinned),
   };
-}
-
-function DetailTrigger({
-  item,
-  expanded,
-  controlsId,
-  onToggle,
-}: {
-  item: string;
-  expanded: boolean;
-  controlsId: string;
-  onToggle: () => void;
-}) {
-  return (
-    <button
-      className="detail-trigger"
-      type="button"
-      aria-controls={controlsId}
-      aria-expanded={expanded}
-      aria-label={`${expanded ? 'Hide' : 'Show'} details for ${item}`}
-      onClick={onToggle}
-    >
-      <span>More</span>
-      <span className="detail-trigger-mark" aria-hidden="true">+</span>
-    </button>
-  );
 }
 
 function ExperienceEntry({ experience }: { experience: Experience }) {
   const detail = useDetailPanel();
 
   return (
-    <article className="experience-entry" {...detail.containerProps}>
+    <article className="experience-entry" tabIndex={0} {...detail.containerProps}>
       <p className="experience-period">{experience.period}</p>
       <div className="experience-title">
         <h3>{experience.role}</h3>
@@ -201,13 +182,7 @@ function ExperienceEntry({ experience }: { experience: Experience }) {
         <small>{experience.tools.join(' · ')}</small>
       </div>
       <div className="experience-details">
-        <DetailTrigger
-          item={experience.role}
-          expanded={detail.open}
-          controlsId={detail.panelId}
-          onToggle={detail.toggle}
-        />
-        <div className="detail-panel" id={detail.panelId} aria-hidden={!detail.open}>
+        <div className="detail-panel" aria-hidden={!detail.open}>
           <div className="detail-panel-inner experience-detail-inner">
             <ul>
               {experience.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
@@ -234,13 +209,7 @@ function ProjectCard({ project }: { project: (typeof labProjects)[number] }) {
         </div>
       </a>
       <div className="project-card-details">
-        <DetailTrigger
-          item={project.title}
-          expanded={detail.open}
-          controlsId={detail.panelId}
-          onToggle={detail.toggle}
-        />
-        <div className="detail-panel" id={detail.panelId} aria-hidden={!detail.open}>
+        <div className="detail-panel" aria-hidden={!detail.open}>
           <div className="detail-panel-inner project-detail-inner">
             <p className="detail-status">{project.status}</p>
             <p>{project.question}</p>
@@ -256,7 +225,7 @@ function OtherProject({ project }: { project: Project }) {
   const detail = useDetailPanel();
 
   return (
-    <article className="other-project" {...detail.containerProps}>
+    <article className="other-project" tabIndex={0} {...detail.containerProps}>
       <span>{project.index}</span>
       <div>
         <h3>{project.title}</h3>
@@ -264,13 +233,7 @@ function OtherProject({ project }: { project: Project }) {
       </div>
       <small>{project.tools.join(' · ')}</small>
       <div className="other-project-details">
-        <DetailTrigger
-          item={project.title}
-          expanded={detail.open}
-          controlsId={detail.panelId}
-          onToggle={detail.toggle}
-        />
-        <div className="detail-panel" id={detail.panelId} aria-hidden={!detail.open}>
+        <div className="detail-panel" aria-hidden={!detail.open}>
           <div className="detail-panel-inner other-project-detail-inner">
             <p>{project.summary}</p>
             <p className="detail-proof">{project.proof}</p>
@@ -285,17 +248,11 @@ function ResearchDetails() {
   const detail = useDetailPanel();
 
   return (
-    <article className="research-details" {...detail.containerProps}>
+    <article className="research-details" tabIndex={0} {...detail.containerProps}>
       <div className="research-details-topline">
         <p>~4,000 genes · 900+ clinical isolates</p>
-        <DetailTrigger
-          item="the genomics research"
-          expanded={detail.open}
-          controlsId={detail.panelId}
-          onToggle={detail.toggle}
-        />
       </div>
-      <div className="detail-panel" id={detail.panelId} aria-hidden={!detail.open}>
+      <div className="detail-panel" aria-hidden={!detail.open}>
         <div className="detail-panel-inner research-detail-inner">
           <div>
             <p className="detail-status">Workflow</p>
