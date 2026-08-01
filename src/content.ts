@@ -156,9 +156,9 @@ export const experiences: Experience[] = [
     summary:
       'Building reproducible computational workflows to compare evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes.',
     highlights: [
-      'Prepare and orchestrate genome-wide analysis with Python, GenomegaMap, Slurm arrays, and Texas A&M high-performance computing systems.',
-      'Compare Bayesian posterior outputs across cohorts and develop complementary pN/pS, chi-square, FDR-controlled, and PAML validation views.',
-      'Translate model output into inspectable tables, figures, and biology-first explanations for ongoing computational genomics research.',
+      'Run a Python and Slurm workflow across roughly 4,000 M. tuberculosis genes from 900+ clinical isolates.',
+      'Keep GenomegaMap posterior comparisons alongside pN/pS, chi-square with FDR control, and independent PAML checks.',
+      'Trace each comparison back to its cohort, inputs, and parameters before interpreting a biological signal.',
     ],
     tools: ['Python', 'Slurm', 'GenomegaMap', 'Bayesian MCMC', 'PAML', 'HPC'],
     translation: 'The useful part of a pipeline is not that it runs. It is that I can point to what changed, why it changed, and whether the result still holds.',
@@ -171,8 +171,9 @@ export const experiences: Experience[] = [
     summary:
       'Built a breach-intelligence platform with a three-person team, connecting automated ingestion, AI-assisted processing, search, graph relationships, and analyst-facing exploration.',
     highlights: [
+      'Worked on a three-person team to take Scrapy and Tor ingestion through LangChain and Gemini entity and threat processing.',
       'Designed a multi-system data path spanning AWS S3, MongoDB, Elasticsearch, Redis, and AWS Neptune.',
-      'Integrated LangChain-assisted enrichment and delivered Streamlit and Kibana views for querying breach data by sector and geography.',
+      'Delivered Streamlit and Kibana views for querying breach data by sector and geography.',
       'Worked across architecture, implementation, and delivery constraints instead of treating the model as the entire product.',
     ],
     tools: ['Python', 'AWS', 'LangChain', 'Elasticsearch', 'MongoDB', 'AWS Neptune'],
@@ -201,7 +202,7 @@ export const experiences: Experience[] = [
     summary:
       'Developed Python data workflows for air-quality and wildfire-response analysis, joining environmental sensor APIs, web data, and predictive modeling context.',
     highlights: [
-      'Connected environmental sensor data with emergency-response context for Los Angeles-area analysis.',
+      'Joined Los Angeles air-quality APIs with scraped wildfire data before the modeling stage.',
       'Built reusable scraping and preparation workflows for downstream modeling.',
       'Worked through the practical mismatch between real-world sources: formats, coverage, timing, and missingness.',
     ],
@@ -216,9 +217,9 @@ export const experiences: Experience[] = [
     summary:
       'Worked across machine-learning workflow automation, deepfake-detection data, and backend systems, from data preparation to authenticated product APIs.',
     highlights: [
-      'Applied PyTorch and Hugging Face models to AI-generated video detection workflows.',
+      'Evaluated PyTorch and Hugging Face frame-level AI-video detection workflows and failure modes.',
       'Built authenticated APIs with Feathers.js, MySQL, Knex, Auth0, and JWT.',
-      'Connected model experimentation to the data, API, authentication, and workflow requirements around it.',
+      'Shipped AI features associated with a 15% lift in engagement while connecting model work to the data, API, and authentication around it.',
     ],
     tools: ['PyTorch', 'Hugging Face', 'TypeScript', 'MySQL', 'Auth0'],
     translation: 'A model did not become a product until the data, API, authentication, and human workflow all met in the same place.',
@@ -298,7 +299,7 @@ export const projects: Project[] = [
     kicker: 'Tidal Hackathon · 1st place',
     summary:
       'An interactive math-learning environment that orchestrates multiple AI and visualization tools so students can move from a question to an explorable explanation.',
-    proof: 'Reduced tool-call failure from 25% to 6% while coordinating Gemini, OpenRouter, Claude, Manim, Desmos, and Wolfram Alpha.',
+    proof: 'Input normalization and validation reduced tool-call failure from 25% to 6%. The build also included Math Studio, notes, and source/PDF uploads around the multi-tool workflow.',
     tools: ['React', 'TypeScript', 'Multi-model AI', 'Visualization'],
   },
   {
@@ -324,8 +325,8 @@ export const projects: Project[] = [
     title: 'Sign Sense',
     kicker: 'Computer vision + real-time recognition',
     summary:
-      'A sign-language recognition experience that connects a YOLOv5 vision model with a Svelte product interface and FastAPI backend.',
-    proof: 'Built with AWS SageMaker, Svelte, and FastAPI around a YOLOv5 recognition workflow.',
+      'A gamified sign-language learning experience with real-time hand-sign feedback, lessons, progress, and a DIY practice flow.',
+    proof: 'The team labeled and split training data for a YOLOv5 model on SageMaker, then served recognition through FastAPI to a Svelte interface.',
     tools: ['YOLOv5', 'SageMaker', 'Svelte', 'FastAPI'],
   },
   {
@@ -334,7 +335,7 @@ export const projects: Project[] = [
     kicker: 'Faculty discovery, made legible',
     summary:
       'A professor-discovery tool that helped students explore faculty research interests using a custom database assembled from Texas A&M data.',
-    proof: 'Combined SQL, JavaScript, HTML/CSS, and collected faculty data in a student-facing interface.',
+    proof: 'Built under a 24-hour HowdyHack deadline: a manually assembled course database powered class and section search, schedule cards, GPA distributions, and professor reviews.',
     tools: ['SQL', 'JavaScript', 'Data pipelines', 'Product design'],
   },
 ];
@@ -346,9 +347,9 @@ export const labProjects: LabProject[] = [
     category: 'Signals',
     href: '/pickledger/',
     image: '/portfolio/project-captures/pickledger.png',
-    status: 'Public daily board',
+    status: 'Auditable daily board',
     summary: 'A sports-pick intelligence ledger for daily cards, public source records, consensus signals, player props, and graded outcomes.',
-    question: 'Can prediction records stay transparent enough to evaluate the process, not just celebrate the wins?',
+    question: 'Scheduled workflows commit dated JSON, browser rankings aggregate the history, and an ESPN-backed auto-grader settles results. It can publish “Sit out” when there is not enough signal.',
     tools: ['Sports data', 'Automated grading', 'Evidence trails'],
   },
   {
@@ -357,9 +358,9 @@ export const labProjects: LabProject[] = [
     category: 'Research',
     href: '/genes/',
     image: '/portfolio/project-captures/mtbscope.png',
-    status: 'Whole-genome browser',
+    status: 'H37Rv gene browser',
     summary: 'A comparison-first browser for tuberculosis genes, with fast search, multi-gene comparison, and source annotations.',
-    question: 'How can a large biological dataset become navigable while preserving its source annotations and comparisons?',
+    question: 'Search by Rv ID, symbol, or product, then pin up to eight genes while carrying annotations, locus and operon context, and selection evidence into comparison.',
     tools: ['Genomics', 'Search', 'Data visualization'],
   },
   {
@@ -370,7 +371,7 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/sift.png',
     status: 'Study sets from real notes',
     summary: 'A local-first study workspace that turns notes and papers into recall sets, then keeps the source material close.',
-    question: 'Can I study from the actual research notes without copying the same terms into another tool?',
+    question: 'Turn markdown into flashcards, quizzes, cloze prompts, matching, and a reading mode while keeping source material, progress, and regeneration paths connected.',
     tools: ['Local analysis', 'PDF workflows', 'Claim tracking'],
   },
   {
@@ -381,7 +382,7 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/daymark.png',
     status: 'Local-first habits',
     summary: 'A flexible habit tracker for goals, streaks, reviews, notes, and optional cross-device sync.',
-    question: 'What if consistency could bend around real life without losing the long-term signal?',
+    question: 'Goals can be checks, counts, durations, quantities, or distances across daily, weekly, and monthly rhythms, with skips, notes, pauses, heatmaps, and reviews.',
     tools: ['Local-first', 'Reflection', 'Progress'],
   },
   {
@@ -392,7 +393,7 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/slate.png',
     status: 'Daily planning',
     summary: 'A local-first planner that pairs a time-boxed schedule with flexible, organized to-do lists.',
-    question: 'How little structure is needed to turn intention into a day that is actually possible?',
+    question: 'A 7:30–23:30 half-hour grid lives beside sectioned to-do lists; time blocks can move or copy across days and stay local-first.',
     tools: ['Timeboxing', 'Tasks', 'Local-first'],
   },
   {
@@ -403,7 +404,7 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/fare.png',
     status: 'Private nutrition log',
     summary: 'A fast calorie and macro tracker built around personal foods, barcode search, and durable history.',
-    question: 'Can lower-friction logging make nutrition data more honest and therefore more useful?',
+    question: 'Food and meal memory learns from pins, frequency, recency, weekday, and mealtime; every diary entry keeps an immutable nutrition and source snapshot.',
     tools: ['Nutrition', 'Barcode search', 'Private data'],
   },
   {
@@ -414,7 +415,7 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/gym.png',
     status: 'Personal training log',
     summary: 'A workout system for programs, sets, supersets, calendars, weekly progress, and milestones.',
-    question: 'How do you make progressive overload visible without letting tracking interrupt the workout?',
+    question: 'Reusable programs track sets, reps, rest, supersets, calendar history, volume trends, and PRs without breaking old workout records when programs change.',
     tools: ['Training', 'Programs', 'Progress history'],
   },
 ];

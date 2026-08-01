@@ -477,6 +477,111 @@ img {
   text-transform: uppercase;
 }
 
+.detail-trigger {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detail-trigger:hover,
+.detail-trigger:focus-visible,
+[data-open='true'] > .detail-trigger,
+[data-open='true'] .detail-trigger {
+  color: var(--accent);
+}
+
+.detail-trigger-mark {
+  display: inline-grid;
+  width: 12px;
+  height: 12px;
+  place-items: center;
+  border: 1px solid currentColor;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform 160ms ease;
+}
+
+[data-open='true'] .detail-trigger-mark {
+  transform: rotate(45deg);
+}
+
+.detail-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  opacity: 0;
+  transition: grid-template-rows 180ms ease, opacity 160ms ease, visibility 0s linear 180ms;
+}
+
+.detail-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+[data-open='true'] .detail-panel {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.experience-details {
+  grid-column: 2 / -1;
+  margin-top: -10px;
+}
+
+.experience-detail-inner {
+  max-width: 720px;
+  padding: 16px 0 2px 17px;
+  border-left: 1px solid var(--accent);
+}
+
+.experience-detail-inner ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.experience-detail-inner li,
+.experience-detail-inner > p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.58;
+}
+
+.experience-detail-inner li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.experience-detail-inner li::before {
+  position: absolute;
+  top: 0.7em;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  content: '';
+}
+
+.experience-detail-inner > p {
+  margin: 16px 0 0;
+  color: var(--text);
+}
+
 .research-summary {
   display: grid;
   grid-template-columns: minmax(0, 0.88fr) minmax(250px, 1.12fr);
@@ -523,6 +628,77 @@ img {
   line-height: 1.55;
 }
 
+.research-details {
+  margin-top: 36px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.research-details-topline {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.research-details-topline > p {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.research-detail-inner {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  padding: 2px 0 26px;
+}
+
+.research-detail-inner > div {
+  padding-top: 17px;
+  border-top: 1px solid var(--rule);
+}
+
+.detail-status {
+  margin: 0;
+  color: var(--accent) !important;
+  font-family: var(--font-mono);
+  font-size: 8px !important;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.research-detail-inner ol,
+.research-detail-inner ul {
+  display: grid;
+  gap: 15px;
+  margin: 15px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.research-detail-inner li {
+  display: grid;
+  gap: 4px;
+}
+
+.research-detail-inner strong {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.research-detail-inner li span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -532,6 +708,9 @@ img {
 .project-card {
   display: grid;
   align-content: start;
+}
+
+.project-card-link {
   color: inherit;
   text-decoration: none;
 }
@@ -545,7 +724,7 @@ img {
   background: var(--surface);
 }
 
-.project-card > div {
+.project-card-copy {
   padding: 16px 0 0;
 }
 
@@ -573,9 +752,32 @@ img {
   line-height: 1.55;
 }
 
-.project-card:hover img,
-.project-card:focus-visible img {
+.project-card[data-open='true'] img {
   border-color: var(--accent);
+}
+
+.project-card-details {
+  margin-top: 3px;
+}
+
+.project-detail-inner {
+  padding: 13px 0 2px;
+  border-top: 1px solid var(--rule);
+}
+
+.project-detail-inner > p:not(.detail-status) {
+  margin-top: 8px;
+}
+
+.project-detail-inner small {
+  display: block;
+  margin-top: 13px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  line-height: 1.55;
+  text-transform: uppercase;
 }
 
 .other-projects {
@@ -625,6 +827,28 @@ img {
   font-size: 8px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.other-project-details {
+  grid-column: 2 / -1;
+  margin-top: -15px;
+}
+
+.other-project-detail-inner {
+  max-width: 690px;
+  padding: 13px 0 2px;
+  border-top: 1px solid var(--rule);
+}
+
+.other-project-detail-inner > p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.58;
+}
+
+.other-project-detail-inner .detail-proof {
+  margin-top: 13px;
+  color: var(--text);
 }
 
 .about-grid {
@@ -863,6 +1087,15 @@ img {
     font-size: 25px;
   }
 
+  .experience-details {
+    grid-column: 1;
+    margin-top: -6px;
+  }
+
+  .experience-detail-inner {
+    padding-left: 14px;
+  }
+
   .research-summary {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -870,6 +1103,20 @@ img {
 
   .research-summary > p {
     font-size: 24px;
+  }
+
+  .research-details {
+    margin-top: 28px;
+  }
+
+  .research-details-topline {
+    min-height: 52px;
+  }
+
+  .research-detail-inner {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-bottom: 22px;
   }
 
   .project-grid {
@@ -892,6 +1139,15 @@ img {
 
   .other-project small {
     grid-column: 2;
+  }
+
+  .other-project-details {
+    grid-column: 2;
+    margin-top: -4px;
+  }
+
+  .detail-trigger {
+    min-height: 40px;
   }
 
   .about-grid {
@@ -954,5 +1210,15 @@ img {
   .profile-intro {
     min-height: 0;
     padding-top: 30px;
+  }
+
+  .detail-trigger {
+    display: none;
+  }
+
+  .detail-panel {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    opacity: 1;
   }
 }

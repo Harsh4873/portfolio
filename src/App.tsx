@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type RefObject } from 'react';
-import { experiences, labProjects, projects, sports, type Experience, type Project } from './content';
+import { useEffect, useId, useRef, useState, type FocusEvent, type RefObject } from 'react';
+import { experiences, labProjects, projects, researchChecks, researchStages, sports, type Experience, type Project } from './content';
 
 const EMAIL = 'hdav4873@gmail.com';
 const THEME_KEY = 'harsh-theme';
@@ -132,9 +132,65 @@ function SectionHeading({ label, title }: { label: string; title: string }) {
   );
 }
 
-function ExperienceEntry({ experience }: { experience: Experience }) {
+function useDetailPanel() {
+  const [pinned, setPinned] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const panelId = useId();
+  const open = pinned || hovered || focused;
+
+  const onBlurCapture = (event: FocusEvent<HTMLElement>) => {
+    const nextFocused = event.relatedTarget;
+    if (!(nextFocused instanceof Node) || !event.currentTarget.contains(nextFocused)) {
+      setFocused(false);
+    }
+  };
+
+  return {
+    open,
+    panelId,
+    containerProps: {
+      'data-open': open ? 'true' : 'false',
+      onMouseEnter: () => setHovered(true),
+      onMouseLeave: () => setHovered(false),
+      onFocusCapture: () => setFocused(true),
+      onBlurCapture,
+    },
+    toggle: () => setPinned((isPinned) => !isPinned),
+  };
+}
+
+function DetailTrigger({
+  item,
+  expanded,
+  controlsId,
+  onToggle,
+}: {
+  item: string;
+  expanded: boolean;
+  controlsId: string;
+  onToggle: () => void;
+}) {
   return (
-    <article className="experience-entry">
+    <button
+      className="detail-trigger"
+      type="button"
+      aria-controls={controlsId}
+      aria-expanded={expanded}
+      aria-label={`${expanded ? 'Hide' : 'Show'} details for ${item}`}
+      onClick={onToggle}
+    >
+      <span>More</span>
+      <span className="detail-trigger-mark" aria-hidden="true">+</span>
+    </button>
+  );
+}
+
+function ExperienceEntry({ experience }: { experience: Experience }) {
+  const detail = useDetailPanel();
+
+  return (
+    <article className="experience-entry" {...detail.containerProps}>
       <p className="experience-period">{experience.period}</p>
       <div className="experience-title">
         <h3>{experience.role}</h3>
@@ -144,32 +200,127 @@ function ExperienceEntry({ experience }: { experience: Experience }) {
         <p>{experience.summary}</p>
         <small>{experience.tools.join(' · ')}</small>
       </div>
+      <div className="experience-details">
+        <DetailTrigger
+          item={experience.role}
+          expanded={detail.open}
+          controlsId={detail.panelId}
+          onToggle={detail.toggle}
+        />
+        <div className="detail-panel" id={detail.panelId} aria-hidden={!detail.open}>
+          <div className="detail-panel-inner experience-detail-inner">
+            <ul>
+              {experience.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
+            </ul>
+            <p>{experience.translation}</p>
+          </div>
+        </div>
+      </div>
     </article>
   );
 }
 
 function ProjectCard({ project }: { project: (typeof labProjects)[number] }) {
+  const detail = useDetailPanel();
+
   return (
-    <a className="project-card" href={project.href}>
-      <img src={project.image} alt={`${project.title} interface`} />
-      <div>
-        <span>{project.category}</span>
-        <h3>{project.title}</h3>
-        <p>{project.summary}</p>
+    <article className="project-card" {...detail.containerProps}>
+      <a className="project-card-link" href={project.href}>
+        <img src={project.image} alt={`${project.title} interface`} />
+        <div className="project-card-copy">
+          <span>{project.category}</span>
+          <h3>{project.title}</h3>
+          <p>{project.summary}</p>
+        </div>
+      </a>
+      <div className="project-card-details">
+        <DetailTrigger
+          item={project.title}
+          expanded={detail.open}
+          controlsId={detail.panelId}
+          onToggle={detail.toggle}
+        />
+        <div className="detail-panel" id={detail.panelId} aria-hidden={!detail.open}>
+          <div className="detail-panel-inner project-detail-inner">
+            <p className="detail-status">{project.status}</p>
+            <p>{project.question}</p>
+            <small>{project.tools.join(' · ')}</small>
+          </div>
+        </div>
       </div>
-    </a>
+    </article>
   );
 }
 
 function OtherProject({ project }: { project: Project }) {
+  const detail = useDetailPanel();
+
   return (
-    <article className="other-project">
+    <article className="other-project" {...detail.containerProps}>
       <span>{project.index}</span>
       <div>
         <h3>{project.title}</h3>
         <p>{project.kicker}</p>
       </div>
       <small>{project.tools.join(' · ')}</small>
+      <div className="other-project-details">
+        <DetailTrigger
+          item={project.title}
+          expanded={detail.open}
+          controlsId={detail.panelId}
+          onToggle={detail.toggle}
+        />
+        <div className="detail-panel" id={detail.panelId} aria-hidden={!detail.open}>
+          <div className="detail-panel-inner other-project-detail-inner">
+            <p>{project.summary}</p>
+            <p className="detail-proof">{project.proof}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function ResearchDetails() {
+  const detail = useDetailPanel();
+
+  return (
+    <article className="research-details" {...detail.containerProps}>
+      <div className="research-details-topline">
+        <p>~4,000 genes · 900+ clinical isolates</p>
+        <DetailTrigger
+          item="the genomics research"
+          expanded={detail.open}
+          controlsId={detail.panelId}
+          onToggle={detail.toggle}
+        />
+      </div>
+      <div className="detail-panel" id={detail.panelId} aria-hidden={!detail.open}>
+        <div className="detail-panel-inner research-detail-inner">
+          <div>
+            <p className="detail-status">Workflow</p>
+            <ol>
+              {researchStages.map((stage) => (
+                <li key={stage.index}>
+                  <strong>{stage.title}</strong>
+                  <span>{stage.copy}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div>
+            <p className="detail-status">Cross-checks</p>
+            <ul>
+              {researchChecks.map((check) => (
+                <li key={check.label}>
+                  <strong>{check.title}</strong>
+                  <span>{check.copy}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </article>
   );
 }
@@ -209,6 +360,7 @@ function PortfolioPage() {
             <div><dt>Focus</dt><dd>Reproducible genome-wide analysis and validation</dd></div>
           </dl>
         </div>
+        <ResearchDetails />
       </section>
 
       <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
