@@ -1,11 +1,3 @@
-export type RouteId = 'start' | 'experience' | 'research' | 'projects' | 'about';
-
-export interface NavigationItem {
-  id: RouteId;
-  index: string;
-  label: string;
-}
-
 export interface Experience {
   period: string;
   role: string;
@@ -25,20 +17,6 @@ export interface Project {
   proof: string;
   tools: string[];
   link?: string;
-}
-
-export interface PersonalCoordinate {
-  index: string;
-  horizon: string;
-  title: string;
-  copy: string;
-}
-
-export interface CuriosityThread {
-  index: string;
-  title: string;
-  copy: string;
-  signals: string[];
 }
 
 export type LabCategory = 'Signals' | 'Research' | 'Life systems';
@@ -67,85 +45,6 @@ export interface ResearchCheck {
   title: string;
   copy: string;
 }
-
-export interface PersonalLens {
-  index: string;
-  label: string;
-  title: string;
-  copy: string;
-}
-
-export const navigation: NavigationItem[] = [
-  { id: 'start', index: '00', label: 'Start' },
-  { id: 'experience', index: '01', label: 'Experience' },
-  { id: 'research', index: '02', label: 'Research' },
-  { id: 'projects', index: '03', label: 'Projects' },
-  { id: 'about', index: '04', label: 'About' },
-];
-
-export const routeTitles: Record<RouteId, string> = {
-  start: 'Portfolio - Harsh Dave',
-  experience: 'Experience · Portfolio - Harsh Dave',
-  research: 'Research · Portfolio - Harsh Dave',
-  projects: 'Projects · Portfolio - Harsh Dave',
-  about: 'About · Portfolio - Harsh Dave',
-};
-
-export const proofPoints = [
-  { value: 'M.S.', label: 'Computer Science, in progress' },
-  { value: 'B.S.', label: 'Computer Science + Statistics' },
-  { value: '2026', label: 'Graduated summa cum laude' },
-  { value: 'Lab', label: 'Computational genomics' },
-];
-
-export const personalCoordinates: PersonalCoordinate[] = [
-  {
-    index: '01',
-    horizon: 'Now',
-    title: 'Make the research easier to trust.',
-    copy: 'I am working on positive selection in Mycobacterium tuberculosis, with a lot of attention on the unglamorous things that keep a result honest: inputs, provenance, failed jobs, and reproducible checks.',
-  },
-  {
-    index: '02',
-    horizon: 'Next',
-    title: 'Keep getting better at both sides of the work.',
-    copy: 'The M.S. is where I am sharpening the statistical judgment to ask a better question and the engineering habits to build the thing that answers it.',
-  },
-  {
-    index: '03',
-    horizon: 'Long horizon',
-    title: 'Build for biology, eventually.',
-    copy: 'Long term, I want to work on discovery, diagnostics, or research infrastructure that turns difficult biological evidence into something a person can actually use.',
-  },
-];
-
-export const operatingQuestions = [
-  'Where did that number come from?',
-  'What would make this result less convincing?',
-  'Can I explain it without skipping the hard part?',
-  'Would I still use this on a tired Tuesday?',
-];
-
-export const curiosityThreads: CuriosityThread[] = [
-  {
-    index: 'A',
-    title: 'Biological inference',
-    copy: 'I care about separating a real evolutionary signal from noise, modeling choices, and cohort differences.',
-    signals: ['Genomes', 'Uncertainty', 'Disease'],
-  },
-  {
-    index: 'B',
-    title: 'Compute underneath AI',
-    copy: 'I keep pulling apart what happens between pressing Enter and receiving an answer: routing, accelerators, scheduling, context, and failure modes.',
-    signals: ['Agents', 'HPC', 'Infrastructure'],
-  },
-  {
-    index: 'C',
-    title: 'Measurable everyday systems',
-    copy: 'I make software for planning, training, nutrition, and sports analysis because I want the data without turning life into a spreadsheet.',
-    signals: ['Routines', 'Training', 'Sports'],
-  },
-];
 
 export const experiences: Experience[] = [
   {
@@ -472,71 +371,6 @@ export const labProjects: LabProject[] = [
     summary: 'A discovery system that reads eight public APIs and answers two questions a feed reader cannot: which of these is worth your attention, and what changed since last time.',
     question: 'Literature and campus listings run through the same normalize, deduplicate, rank, and diff pipeline, so the difference between them is data rather than code. Ranking is additive over named rules and every card shows the arithmetic behind its score instead of a bare number. Keeping the previous snapshot is what makes change detection possible: a preprint reaching a journal, a room moving, an event being cancelled. Claims are tiered by the evidence behind them, so food is only called free when the source says it is free, and a raffle is never rendered as an amount of money.',
     tools: ['Multi-source ingestion', 'Explainable ranking', 'Change detection'],
-  },
-];
-
-export const skillGroups = [
-  {
-    label: 'Build',
-    items: ['Python', 'Java', 'C++', 'TypeScript', 'JavaScript', 'SQL', 'R', 'React', 'FastAPI'],
-  },
-  {
-    label: 'Model',
-    items: ['PyTorch', 'Hugging Face', 'LangChain', 'NumPy', 'SciPy', 'pandas', 'Statistical modeling'],
-  },
-  {
-    label: 'Ship',
-    items: ['AWS', 'PostgreSQL', 'MongoDB', 'Elasticsearch', 'Docker', 'Git', 'Linux'],
-  },
-  {
-    label: 'Research',
-    items: ['Slurm', 'HPRC', 'GenomegaMap', 'PAML', 'dN/dS', 'MCMC', 'FASTA pipelines'],
-  },
-];
-
-export const personalLenses: PersonalLens[] = [
-  {
-    index: '01',
-    label: 'How I think',
-    title: 'I like useful questions more than clean answers.',
-    copy: 'I get excited about ambitious ideas, then immediately want to know what is measured, which assumption matters, what could fail, and whether there is a simpler way through it.',
-  },
-  {
-    index: '02',
-    label: 'How I teach',
-    title: 'Teaching made me slow down.',
-    copy: 'People rarely need another rule. They need a connection to something they already understand, then enough room to reason through the next bug themselves.',
-  },
-  {
-    index: '03',
-    label: 'What fascinates me',
-    title: 'I am drawn to the parts you do not see first.',
-    copy: 'I test AI tools all the time, but the more interesting question is what happens after someone presses Enter: routing, context, accelerators, scheduling, data centers, and the path back to the screen.',
-  },
-  {
-    index: '04',
-    label: 'Where I am going',
-    title: 'I want to build in biotechnology.',
-    copy: 'Research infrastructure, discovery tools, diagnostics, or something I have not thought of yet. I want enough scientific understanding to ask a useful question and enough engineering range to investigate it.',
-  },
-];
-
-export const principles = [
-  {
-    title: 'Legibility',
-    copy: 'Complex systems should explain their state, assumptions, and next action.',
-  },
-  {
-    title: 'Reproducibility',
-    copy: 'A result becomes stronger when someone else can rebuild and challenge it.',
-  },
-  {
-    title: 'Useful curiosity',
-    copy: 'Explore widely, then convert the interesting part into something practical.',
-  },
-  {
-    title: 'Evidence before confidence',
-    copy: 'A clean story is not a substitute for a trustworthy measurement.',
   },
 ];
 
