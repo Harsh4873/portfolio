@@ -462,6 +462,17 @@ export const labProjects: LabProject[] = [
     question: 'Courses move between terms on a board while credit minimums, graded-coursework floors, breadth coverage, and research-hour caps are re-evaluated on every change, each with the rule text behind it. Plans stay on the device, and an optional Google sign-in mirrors the board to every device you plan on.',
     tools: ['Rule evaluation', 'Drag and drop', 'Optional sync'],
   },
+  {
+    code: 'SYS-12',
+    title: 'Radar',
+    category: 'Signals',
+    href: '/radar/',
+    image: '/portfolio/project-captures/radar.png',
+    status: 'Two engines, one pipeline',
+    summary: 'A discovery system that reads eight public APIs and answers two questions a feed reader cannot: which of these is worth your attention, and what changed since last time.',
+    question: 'Literature and campus listings run through the same normalize, deduplicate, rank, and diff pipeline, so the difference between them is data rather than code. Ranking is additive over named rules and every card shows the arithmetic behind its score instead of a bare number. Keeping the previous snapshot is what makes change detection possible: a preprint reaching a journal, a room moving, an event being cancelled. Claims are tiered by the evidence behind them, so food is only called free when the source says it is free, and a raffle is never rendered as an amount of money.',
+    tools: ['Multi-source ingestion', 'Explainable ranking', 'Change detection'],
+  },
 ];
 
 export const skillGroups = [
