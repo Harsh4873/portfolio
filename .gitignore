@@ -4,3 +4,7 @@ dist
 *.local
 coverage
 AGENTS.md
+
+# macOS / iCloud Drive sync duplicates, e.g. "App 2.tsx" — tsconfig includes
+# all of src, so a stray copy would be typechecked and built alongside the real file.
+* [0-9].*
