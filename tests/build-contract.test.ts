@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import {
   experiences,
   labProjects,
+  profile,
   projects,
   researchChecks,
   researchStages,
@@ -80,7 +81,16 @@ describe('Portfolio content contract', () => {
     expect(new Set(experiences.map(({ role, organization }) => `${role}\0${organization}`)).size)
       .toBe(experiences.length);
     expect(new Set(projects.map(({ title }) => title)).size).toBe(projects.length);
+    expect(new Set(projects.map(({ capture }) => capture)).size).toBe(projects.length);
+
+    for (const project of projects) {
+      expect(project.capture).toMatch(/^\/portfolio\/other-captures\/[a-z0-9-]+\.png$/);
+      expect([project.index, project.title, project.kicker, project.summary, project.proof, ...project.tools].every(nonEmpty)).toBe(true);
+    }
     expect(new Set(researchStages.map(({ index }) => index)).size).toBe(researchStages.length);
     expect(new Set(researchChecks.map(({ title }) => title)).size).toBe(researchChecks.length);
+    expect(profile.now.length).toBeGreaterThan(0);
+    expect(profile.education.length).toBeGreaterThan(0);
+    expect(profile.links.some((link) => link.href.startsWith('mailto:'))).toBe(true);
   });
 });

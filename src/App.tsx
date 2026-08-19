@@ -1,7 +1,19 @@
 import { useEffect, useRef, useState, type FocusEvent, type RefObject } from 'react';
-import { experiences, labProjects, projects, researchChecks, researchStages, sports, type Experience, type Project } from './content';
+import {
+  experiences,
+  labCategories,
+  labProjects,
+  profile,
+  projects,
+  researchChecks,
+  researchStages,
+  sports,
+  type Experience,
+  type LabCategory,
+  type LabProject,
+  type Project,
+} from './content';
 
-const EMAIL = 'hdav4873@gmail.com';
 const THEME_KEY = 'harsh-theme';
 
 const sections = [
@@ -13,6 +25,21 @@ const sections = [
 ] as const;
 
 type Theme = 'light' | 'dark';
+
+function captureLabel(path: string) {
+  return path.replace(/^\/portfolio\//, '');
+}
+
+function WithOrganism({ text }: { text: string }) {
+  const parts = text.split(/(Mycobacterium tuberculosis)/);
+  return (
+    <>
+      {parts.map((part, index) => (
+        part === 'Mycobacterium tuberculosis' ? <i key={index}>{part}</i> : <span key={index}>{part}</span>
+      ))}
+    </>
+  );
+}
 
 function initialTheme(): Theme {
   const initial = document.documentElement.dataset.theme;
@@ -79,8 +106,8 @@ function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate
   return (
     <aside className="site-rail" data-mobile-open={mobileOpen ? 'true' : 'false'} aria-label="Portfolio navigation">
       <div className="rail-topline">
-        <a className="rail-mark" href="#start" onClick={onNavigate} aria-label="Harsh Dave">
-          <span aria-hidden="true">HD</span>
+        <a className="rail-mark" href="#start" onClick={onNavigate} aria-label={profile.name}>
+          <span aria-hidden="true">{profile.mark}</span>
         </a>
         <button
           ref={menuButtonRef}
@@ -96,8 +123,12 @@ function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate
 
       <div className="rail-content" id="portfolio-rail-content">
         <div className="rail-identity rail-detail">
-          <p>Harsh Dave</p>
-          <span>M.S. Computer Science<br />Texas A&amp;M University</span>
+          <p>{profile.name}</p>
+          <span>
+            {profile.kicker}
+            <br />
+            {profile.degree}
+          </span>
         </div>
 
         <nav className="rail-nav" aria-label="Portfolio sections">
@@ -117,6 +148,7 @@ function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate
           </div>
           <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
           <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
     </aside>
@@ -167,12 +199,69 @@ function useDetailPanel() {
   };
 }
 
+function ReplaceableImage({
+  src,
+  fallbackSrc,
+  fallbackLabel,
+  alt,
+}: {
+  src: string;
+  fallbackSrc?: string;
+  fallbackLabel: string;
+  alt: string;
+}) {
+  const [current, setCurrent] = useState(src);
+
+  useEffect(() => {
+    setCurrent(src);
+  }, [src]);
+
+  if (!current) {
+    return (
+      <div className="image-slot" aria-hidden="true">
+        <span>{fallbackLabel}</span>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={current}
+      alt={alt}
+      onError={() => {
+        if (fallbackSrc && current !== fallbackSrc) {
+          setCurrent(fallbackSrc);
+          return;
+        }
+        setCurrent('');
+      }}
+    />
+  );
+}
+
+function Portrait() {
+  return (
+    <figure className="portrait-slot">
+      <ReplaceableImage
+        src={profile.portrait}
+        fallbackSrc={profile.portraitFallback}
+        fallbackLabel="Drop public/portrait.jpg"
+        alt={profile.name}
+      />
+      <figcaption>{captureLabel(profile.portrait)}</figcaption>
+    </figure>
+  );
+}
+
 function ExperienceEntry({ experience }: { experience: Experience }) {
   const detail = useDetailPanel();
 
   return (
     <article className="experience-entry" tabIndex={0} {...detail.containerProps}>
-      <p className="experience-period">{experience.period}</p>
+      <div className="experience-meta">
+        <p className="experience-period">{experience.period}</p>
+        <p className="experience-kind">{experience.kind}</p>
+      </div>
       <div className="experience-title">
         <h3>{experience.role}</h3>
         <p>{experience.organization}</p>
@@ -195,15 +284,21 @@ function ExperienceEntry({ experience }: { experience: Experience }) {
   );
 }
 
-function ProjectCard({ project }: { project: (typeof labProjects)[number] }) {
+function ProjectCard({ project }: { project: LabProject }) {
   const detail = useDetailPanel();
 
   return (
     <article className="project-card" {...detail.containerProps}>
       <a className="project-card-link" href={project.href}>
-        <img src={project.image} alt={`${project.title} interface`} />
+        <figure className="project-card-frame">
+          <img src={project.image} alt={`${project.title} interface`} />
+          <figcaption>{captureLabel(project.image)}</figcaption>
+        </figure>
         <div className="project-card-copy">
-          <span>{project.category}</span>
+          <div className="project-card-meta">
+            <span>{project.code}</span>
+            <span>{project.category}</span>
+          </div>
           <h3>{project.title}</h3>
           <p>{project.summary}</p>
         </div>
@@ -226,7 +321,14 @@ function OtherProject({ project }: { project: Project }) {
 
   return (
     <article className="other-project" tabIndex={0} {...detail.containerProps}>
-      <span>{project.index}</span>
+      <figure className="other-project-frame">
+        <ReplaceableImage
+          src={project.capture}
+          fallbackLabel={`Drop ${captureLabel(project.capture)}`}
+          alt={`${project.title} capture`}
+        />
+        <figcaption>{project.index} · {captureLabel(project.capture)}</figcaption>
+      </figure>
       <div>
         <h3>{project.title}</h3>
         <p>{project.kicker}</p>
@@ -237,6 +339,7 @@ function OtherProject({ project }: { project: Project }) {
           <div className="detail-panel-inner other-project-detail-inner">
             <p>{project.summary}</p>
             <p className="detail-proof">{project.proof}</p>
+            <p className="capture-hint">{captureLabel(project.capture)}</p>
           </div>
         </div>
       </div>
@@ -249,8 +352,16 @@ function ResearchDetails() {
 
   return (
     <article className="research-details" tabIndex={0} {...detail.containerProps}>
+      <ol className="research-stage-index">
+        {researchStages.map((stage) => (
+          <li key={stage.index}>
+            <span>{stage.index}</span>
+            {stage.label}
+          </li>
+        ))}
+      </ol>
       <div className="research-details-topline">
-        <p>~4,000 genes · 900+ clinical isolates</p>
+        <p>Workflow and cross-checks</p>
       </div>
       <div className="detail-panel" aria-hidden={!detail.open}>
         <div className="detail-panel-inner research-detail-inner">
@@ -283,20 +394,41 @@ function ResearchDetails() {
 }
 
 function PortfolioPage() {
+  const [category, setCategory] = useState<'All' | LabCategory>('All');
+  const visibleProjects = category === 'All'
+    ? labProjects
+    : labProjects.filter((project) => project.category === category);
+
   return (
     <>
       <section className="profile-intro" id="start" aria-labelledby="profile-heading">
         <div>
           <p className="section-code">Portfolio</p>
-          <h1 id="profile-heading">Harsh Dave</h1>
-          <p className="profile-degree">M.S. Computer Science, Texas A&amp;M</p>
-          <p className="profile-summary">Graduate research assistant working in computational genomics. I also build software for research, sports, training, and everyday life.</p>
+          <h1 id="profile-heading">{profile.name}</h1>
+          <p className="profile-kicker">{profile.kicker}</p>
+          <p className="profile-degree">{profile.degree}</p>
+          <p className="profile-summary"><WithOrganism text={profile.summary} /></p>
+          <dl className="profile-now">
+            {profile.now.map((fact) => (
+              <div key={fact.label}>
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
+        <Portrait />
         <nav className="profile-links" aria-label="Profile links">
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-          <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
-          <a href={'mailto:' + EMAIL}>Email</a>
+          {profile.links.map((link) => (
+            <a
+              href={link.href}
+              key={link.label}
+              target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+              rel={link.href.startsWith('mailto:') ? undefined : link.href.startsWith('/') ? 'noopener noreferrer' : 'noreferrer'}
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
       </section>
 
@@ -312,9 +444,12 @@ function PortfolioPage() {
         <div className="research-summary">
           <p>I study positive selection in <i>Mycobacterium tuberculosis</i> isolates from patient cohorts with and without diabetes.</p>
           <dl>
-            <div><dt>Lab</dt><dd>Ioerger Lab, Texas A&amp;M</dd></div>
-            <div><dt>Tools</dt><dd>Python, GenomegaMap, Slurm, HPRC, PAML</dd></div>
-            <div><dt>Focus</dt><dd>Reproducible genome-wide analysis and validation</dd></div>
+            {profile.researchFacts.map((fact) => (
+              <div key={fact.label}>
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
           </dl>
         </div>
         <ResearchDetails />
@@ -322,8 +457,16 @@ function PortfolioPage() {
 
       <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
         <SectionHeading label="03 / Projects" title="Projects" />
+        <div className="project-filters" role="group" aria-label="Project category">
+          <button type="button" aria-pressed={category === 'All'} onClick={() => setCategory('All')}>All</button>
+          {labCategories.map((item) => (
+            <button type="button" aria-pressed={category === item} onClick={() => setCategory(item)} key={item}>
+              {item}
+            </button>
+          ))}
+        </div>
         <div className="project-grid">
-          {labProjects.map((project) => <ProjectCard project={project} key={project.code} />)}
+          {visibleProjects.map((project) => <ProjectCard project={project} key={project.code} />)}
         </div>
         <div className="other-projects">
           <p className="section-code">Other work</p>
@@ -335,10 +478,20 @@ function PortfolioPage() {
         <SectionHeading label="04 / About" title="About & contact" />
         <div className="about-grid">
           <article>
+            <p className="section-code">Now</p>
+            <h3>Ioerger Lab</h3>
+            <p>Graduate assistant in computational genomics. Building Radar, MtbScope, Recall, and a private systems lab around the same work.</p>
+          </article>
+          <article>
             <p className="section-code">Education</p>
             <h3>Texas A&amp;M University</h3>
-            <p>B.S. in Computer Science and Statistics, 2026<br />Summa Cum Laude</p>
-            <p>M.S. in Computer Science, expected 2028</p>
+            {profile.education.map((item) => (
+              <p key={item.program}>
+                {item.program}
+                <br />
+                {item.detail}
+              </p>
+            ))}
           </article>
           <article>
             <p className="section-code">Outside work</p>
@@ -349,11 +502,16 @@ function PortfolioPage() {
           <article>
             <p className="section-code">Contact</p>
             <div className="contact-links">
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-              <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
-              <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
-              <a href="https://devpost.com/hdav3228" target="_blank" rel="noreferrer">Devpost</a>
-              <a href={'mailto:' + EMAIL}>Email</a>
+              {profile.links.map((link) => (
+                <a
+                  href={link.href}
+                  key={link.label}
+                  target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel={link.href.startsWith('mailto:') ? undefined : link.href.startsWith('/') ? 'noopener noreferrer' : 'noreferrer'}
+                >
+                  {link.label}
+                </a>
+              ))}
             </div>
           </article>
         </div>
@@ -383,7 +541,7 @@ export default function App() {
     if (sections.some((section) => section.id === oldRoute)) {
       window.history.replaceState(null, '', `#${oldRoute}`);
     }
-    document.title = 'Harsh Dave';
+    document.title = profile.name;
   }, []);
 
   useEffect(() => {
@@ -479,7 +637,7 @@ export default function App() {
         tabIndex={-1}
       />
       <div className="content-frame" ref={contentFrameRef}>
-        <main id="main-content" className="page-content" tabIndex={-1} aria-label="Harsh Dave portfolio">
+        <main id="main-content" className="page-content" tabIndex={-1} aria-label={`${profile.name} portfolio`}>
           <PortfolioPage />
         </main>
         <SiteFooter />

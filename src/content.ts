@@ -16,7 +16,23 @@ export interface Project {
   summary: string;
   proof: string;
   tools: string[];
+  capture: string;
   link?: string;
+}
+
+export interface ProfileFact {
+  label: string;
+  value: string;
+}
+
+export interface Education {
+  program: string;
+  detail: string;
+}
+
+export interface ProfileLink {
+  label: string;
+  href: string;
 }
 
 export type LabCategory = 'Signals' | 'Research' | 'Life systems';
@@ -45,6 +61,47 @@ export interface ResearchCheck {
   title: string;
   copy: string;
 }
+
+export const labCategories: LabCategory[] = ['Signals', 'Research', 'Life systems'];
+
+export const profile = {
+  name: 'Harsh Dave',
+  mark: 'HD',
+  kicker: 'Computational genomics · systems software',
+  degree: 'M.S. Computer Science, Texas A&M',
+  summary:
+    'Graduate research assistant at the Ioerger Lab. I compare evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes. I also build software for research, sports, training, and everyday life.',
+  now: [
+    { label: 'Now', value: 'Graduate Assistant Research, Ioerger Lab' },
+    { label: 'Focus', value: 'Positive selection in M. tuberculosis' },
+    { label: 'Building', value: 'Radar, MtbScope, Recall, and a private systems lab' },
+  ] satisfies ProfileFact[],
+  education: [
+    {
+      program: 'B.S. in Computer Science and Statistics, 2026',
+      detail: 'Summa Cum Laude',
+    },
+    {
+      program: 'M.S. in Computer Science',
+      detail: 'Expected 2028',
+    },
+  ] satisfies Education[],
+  links: [
+    { label: 'Resume', href: '/resume.pdf' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hdav' },
+    { label: 'GitHub', href: 'https://github.com/Harsh4873' },
+    { label: 'Devpost', href: 'https://devpost.com/hdav3228' },
+    { label: 'Email', href: 'mailto:hdav4873@gmail.com' },
+  ] satisfies ProfileLink[],
+  portrait: '/portfolio/portrait.jpg',
+  portraitFallback: '/portfolio/portrait.svg',
+  researchFacts: [
+    { label: 'Lab', value: 'Ioerger Lab, Texas A&M' },
+    { label: 'Tools', value: 'Python, GenomegaMap, Slurm, HPRC, PAML' },
+    { label: 'Focus', value: 'Reproducible genome-wide analysis and validation' },
+    { label: 'Scale', value: '~4,000 genes · 900+ clinical isolates' },
+  ] satisfies ProfileFact[],
+};
 
 export const experiences: Experience[] = [
   {
@@ -200,6 +257,7 @@ export const projects: Project[] = [
       'An interactive math-learning environment that orchestrates multiple AI and visualization tools so students can move from a question to an explorable explanation.',
     proof: 'Input normalization and validation reduced tool-call failure from 25% to 6%. The build also included Math Studio, notes, and source/PDF uploads around the multi-tool workflow.',
     tools: ['React', 'TypeScript', 'Multi-model AI', 'Visualization'],
+    capture: '/portfolio/other-captures/alpha.png',
   },
   {
     index: '02',
@@ -209,6 +267,7 @@ export const projects: Project[] = [
       'A full-stack point-of-sale platform covering ordering, inventory, analytics, authentication, APIs, and accessible customer flows.',
     proof: 'Led the team delivery process while building across React, PostgreSQL, AWS, OAuth2, and WCAG 2.1 requirements.',
     tools: ['React', 'PostgreSQL', 'AWS', 'OAuth2', 'Accessibility'],
+    capture: '/portfolio/other-captures/pos.png',
   },
   {
     index: '03',
@@ -218,6 +277,7 @@ export const projects: Project[] = [
       'A fast-moving investigation workflow using prompt engineering, web scraping, and reverse prompt engineering to connect incomplete evidence.',
     proof: 'Placed second among 50 teams at TAMU Datathon 2024.',
     tools: ['Prompt engineering', 'Web scraping', 'Evidence synthesis'],
+    capture: '/portfolio/other-captures/datathon.png',
   },
   {
     index: '04',
@@ -227,6 +287,7 @@ export const projects: Project[] = [
       'A gamified sign-language learning experience with real-time hand-sign feedback, lessons, progress, and a DIY practice flow.',
     proof: 'The team labeled and split training data for a YOLOv5 model on SageMaker, then served recognition through FastAPI to a Svelte interface.',
     tools: ['YOLOv5', 'SageMaker', 'Svelte', 'FastAPI'],
+    capture: '/portfolio/other-captures/sign-sense.png',
   },
   {
     index: '05',
@@ -236,6 +297,7 @@ export const projects: Project[] = [
       'A professor-discovery tool that helped students explore faculty research interests using a custom database assembled from Texas A&M data.',
     proof: 'Built under a 24-hour HowdyHack deadline: a manually assembled course database powered class and section search, schedule cards, GPA distributions, and professor reviews.',
     tools: ['SQL', 'JavaScript', 'Data pipelines', 'Product design'],
+    capture: '/portfolio/other-captures/proffinder.png',
   },
 ];
 

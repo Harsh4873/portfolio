@@ -7,6 +7,7 @@ The source for Harsh Dave's personal site, published at `harsh.bet`. A single-pa
 - `src/content.ts` — all page content (experience, research, projects) in typed data
 - `src/App.tsx` — the view and layout
 - `src/styles.css` — styling and light/dark themes
+- `public/DROP-IMAGES.txt` — filenames for a portrait and project captures
 
 Content is data-driven: edit `src/content.ts` to update what the site shows.
 
