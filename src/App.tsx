@@ -610,6 +610,7 @@ function SiteFooter() {
   return (
     <footer className="site-footer">
       <a href="/">harsh.bet</a>
+      <a href="/apps/">Apps</a>
       <a href="#start">Back to top</a>
     </footer>
   );
