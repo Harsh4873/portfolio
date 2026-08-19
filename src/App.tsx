@@ -3,9 +3,12 @@ import {
   experiences,
   labCategories,
   labProjects,
+  methodAreas,
+  news,
   profile,
   projects,
   researchChecks,
+  researchOutputs,
   researchStages,
   sports,
   type Experience,
@@ -18,11 +21,13 @@ const THEME_KEY = 'harsh-theme';
 
 const sections = [
   { id: 'start', index: '00', label: 'Profile' },
-  { id: 'experience', index: '01', label: 'Work' },
-  { id: 'research', index: '02', label: 'Research' },
-  { id: 'projects', index: '03', label: 'Projects' },
+  { id: 'research', index: '01', label: 'Research' },
+  { id: 'experience', index: '02', label: 'Work' },
+  { id: 'projects', index: '03', label: 'Software' },
   { id: 'about', index: '04', label: 'Contact' },
 ] as const;
+
+const featuredCodes = ['SYS-02', 'SYS-11', 'SYS-03'] as const;
 
 type Theme = 'light' | 'dark';
 
@@ -127,7 +132,7 @@ function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate
           <span>
             {profile.kicker}
             <br />
-            {profile.degree}
+            {profile.lab}
           </span>
         </div>
 
@@ -146,6 +151,7 @@ function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate
             <span aria-hidden="true">·</span>
             <button type="button" aria-pressed={theme === 'dark'} onClick={() => onThemeChange('dark')}>Dark</button>
           </div>
+          <a href={profile.labHref} target="_blank" rel="noreferrer">Lab</a>
           <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
           <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
@@ -348,10 +354,8 @@ function OtherProject({ project }: { project: Project }) {
 }
 
 function ResearchDetails() {
-  const detail = useDetailPanel();
-
   return (
-    <article className="research-details" tabIndex={0} {...detail.containerProps}>
+    <article className="research-details" data-open="true">
       <ol className="research-stage-index">
         {researchStages.map((stage) => (
           <li key={stage.index}>
@@ -360,54 +364,113 @@ function ResearchDetails() {
           </li>
         ))}
       </ol>
-      <div className="research-details-topline">
-        <p>Workflow and cross-checks</p>
-      </div>
-      <div className="detail-panel" aria-hidden={!detail.open}>
-        <div className="detail-panel-inner research-detail-inner">
-          <div>
-            <p className="detail-status">Workflow</p>
-            <ol>
-              {researchStages.map((stage) => (
-                <li key={stage.index}>
-                  <strong>{stage.title}</strong>
-                  <span>{stage.copy}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div>
-            <p className="detail-status">Cross-checks</p>
-            <ul>
-              {researchChecks.map((check) => (
-                <li key={check.label}>
-                  <strong>{check.title}</strong>
-                  <span>{check.copy}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="research-detail-inner">
+        <div>
+          <p className="detail-status">Workflow</p>
+          <ol>
+            {researchStages.map((stage) => (
+              <li key={stage.index}>
+                <strong>{stage.title}</strong>
+                <span>{stage.copy}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div>
+          <p className="detail-status">Cross-checks</p>
+          <ul>
+            {researchChecks.map((check) => (
+              <li key={check.label}>
+                <strong>{check.title}</strong>
+                <span>{check.copy}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </article>
   );
 }
 
+function NewsList() {
+  return (
+    <section className="news-section" aria-labelledby="news-heading">
+      <div className="news-heading">
+        <p className="section-code">News</p>
+        <h2 id="news-heading">Recent</h2>
+      </div>
+      <ol className="news-list">
+        {news.map((item) => (
+          <li key={item.title}>
+            <span className="news-date">{item.date}</span>
+            <span className="news-kind">{item.kind}</span>
+            <div>
+              <strong>{item.title}</strong>
+              <p>{item.copy}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+function MethodAreas() {
+  return (
+    <div className="method-grid">
+      {methodAreas.map((area) => (
+        <article key={area.index}>
+          <p className="section-code">{area.index} / {area.label}</p>
+          <h3>{area.title}</h3>
+          <p>{area.copy}</p>
+          <small>{area.tags.join(' · ')}</small>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function ResearchOutputs() {
+  return (
+    <div className="research-outputs">
+      <p className="section-code">Selected software</p>
+      <ul>
+        {researchOutputs.map((output) => (
+          <li key={output.title}>
+            <a href={output.href}>
+              <span>{output.kind}</span>
+              <strong>{output.title}</strong>
+              <p>{output.note}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function PortfolioPage() {
   const [category, setCategory] = useState<'All' | LabCategory>('All');
+  const featuredProjects = featuredCodes
+    .map((code) => labProjects.find((project) => project.code === code))
+    .filter((project): project is LabProject => Boolean(project));
   const visibleProjects = category === 'All'
-    ? labProjects
-    : labProjects.filter((project) => project.category === category);
+    ? labProjects.filter((project) => !project.featured)
+    : labProjects.filter((project) => project.category === category && !project.featured);
 
   return (
     <>
       <section className="profile-intro" id="start" aria-labelledby="profile-heading">
         <div>
-          <p className="section-code">Portfolio</p>
+          <p className="section-code">Computational genomics</p>
           <h1 id="profile-heading">{profile.name}</h1>
           <p className="profile-kicker">{profile.kicker}</p>
-          <p className="profile-degree">{profile.degree}</p>
-          <p className="profile-summary"><WithOrganism text={profile.summary} /></p>
+          <p className="profile-degree">{profile.lab}</p>
+          <p className="profile-advisor">
+            Advised by <a href={profile.labHref} target="_blank" rel="noreferrer">{profile.advisor}</a>
+          </p>
+          <p className="profile-summary"><WithOrganism text={profile.thesis} /></p>
+          <p className="profile-aside">{profile.summary}</p>
           <dl className="profile-now">
             {profile.now.map((fact) => (
               <div key={fact.label}>
@@ -419,6 +482,7 @@ function PortfolioPage() {
         </div>
         <Portrait />
         <nav className="profile-links" aria-label="Profile links">
+          <a href={profile.labHref} target="_blank" rel="noreferrer">Lab</a>
           {profile.links.map((link) => (
             <a
               href={link.href}
@@ -432,42 +496,56 @@ function PortfolioPage() {
         </nav>
       </section>
 
-      <section className="content-section" id="experience" aria-labelledby="work-heading">
-        <SectionHeading label="01 / Work" title="Work" />
-        <div className="experience-list">
-          {experiences.map((experience) => <ExperienceEntry experience={experience} key={experience.role + experience.organization} />)}
-        </div>
-      </section>
+      <NewsList />
 
       <section className="content-section research-section" id="research" aria-labelledby="research-heading">
-        <SectionHeading label="02 / Research" title="Research" />
+        <SectionHeading label="01 / Research" title="Research" />
         <div className="research-summary">
           <p>I study positive selection in <i>Mycobacterium tuberculosis</i> isolates from patient cohorts with and without diabetes.</p>
           <dl>
             {profile.researchFacts.map((fact) => (
               <div key={fact.label}>
                 <dt>{fact.label}</dt>
-                <dd>{fact.value}</dd>
+                <dd>{fact.label === 'Lab' ? (
+                  <a href={profile.labHref} target="_blank" rel="noreferrer">{fact.value}</a>
+                ) : fact.label === 'Organism' ? (
+                  <WithOrganism text={fact.value} />
+                ) : fact.value}</dd>
               </div>
             ))}
           </dl>
         </div>
+        <MethodAreas />
         <ResearchDetails />
+        <ResearchOutputs />
+      </section>
+
+      <section className="content-section" id="experience" aria-labelledby="work-heading">
+        <SectionHeading label="02 / Work" title="Work" />
+        <div className="experience-list">
+          {experiences.map((experience) => <ExperienceEntry experience={experience} key={experience.role + experience.organization} />)}
+        </div>
       </section>
 
       <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
-        <SectionHeading label="03 / Projects" title="Projects" />
+        <SectionHeading label="03 / Software" title="Software" />
+        <p className="section-lede">Selected research tools, then the rest of the systems lab.</p>
+        <div className="project-grid featured-grid">
+          {featuredProjects.map((project) => <ProjectCard project={project} key={project.code} />)}
+        </div>
         <div className="project-filters" role="group" aria-label="Project category">
-          <button type="button" aria-pressed={category === 'All'} onClick={() => setCategory('All')}>All</button>
+          <button type="button" aria-pressed={category === 'All'} onClick={() => setCategory('All')}>All other systems</button>
           {labCategories.map((item) => (
             <button type="button" aria-pressed={category === item} onClick={() => setCategory(item)} key={item}>
               {item}
             </button>
           ))}
         </div>
-        <div className="project-grid">
-          {visibleProjects.map((project) => <ProjectCard project={project} key={project.code} />)}
-        </div>
+        {visibleProjects.length > 0 ? (
+          <div className="project-grid">
+            {visibleProjects.map((project) => <ProjectCard project={project} key={project.code} />)}
+          </div>
+        ) : null}
         <div className="other-projects">
           <p className="section-code">Other work</p>
           {projects.map((project) => <OtherProject project={project} key={project.title} />)}
@@ -480,7 +558,8 @@ function PortfolioPage() {
           <article>
             <p className="section-code">Now</p>
             <h3>Ioerger Lab</h3>
-            <p>Graduate assistant in computational genomics. Building Radar, MtbScope, Recall, and a private systems lab around the same work.</p>
+            <p>Graduate assistant in computational genomics, advised by {profile.advisor}. Building MtbScope, Radar, Recall, and a private systems lab around the same work.</p>
+            <a href={profile.labHref} target="_blank" rel="noreferrer">Faculty page</a>
           </article>
           <article>
             <p className="section-code">Education</p>

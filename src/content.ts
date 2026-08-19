@@ -47,6 +47,29 @@ export interface LabProject {
   summary: string;
   question: string;
   tools: string[];
+  featured?: boolean;
+}
+
+export interface NewsItem {
+  date: string;
+  kind: string;
+  title: string;
+  copy: string;
+}
+
+export interface MethodArea {
+  index: string;
+  label: string;
+  title: string;
+  copy: string;
+  tags: string[];
+}
+
+export interface ResearchOutput {
+  title: string;
+  href: string;
+  kind: string;
+  note: string;
 }
 
 export interface ResearchStage {
@@ -69,12 +92,17 @@ export const profile = {
   mark: 'HD',
   kicker: 'Computational genomics · systems software',
   degree: 'M.S. Computer Science, Texas A&M',
+  thesis:
+    'I test whether Mycobacterium tuberculosis shows different evidence of positive selection in isolates from patients with and without diabetes, then I build the software that keeps that comparison inspectable.',
   summary:
-    'Graduate research assistant at the Ioerger Lab. I compare evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes. I also build software for research, sports, training, and everyday life.',
+    'Graduate research assistant at the Ioerger Lab. I also build software for research, sports, training, and everyday life.',
+  advisor: 'Thomas R. Ioerger',
+  lab: 'Ioerger Lab, Texas A&M University',
+  labHref: 'https://people.engr.tamu.edu/ioerger/index.html',
   now: [
     { label: 'Now', value: 'Graduate Assistant Research, Ioerger Lab' },
-    { label: 'Focus', value: 'Positive selection in M. tuberculosis' },
-    { label: 'Building', value: 'Radar, MtbScope, Recall, and a private systems lab' },
+    { label: 'Question', value: 'Does selection differ in diabetic vs non-diabetic TB cohorts?' },
+    { label: 'Software', value: 'MtbScope, Radar, Recall, and a private systems lab' },
   ] satisfies ProfileFact[],
   education: [
     {
@@ -97,11 +125,104 @@ export const profile = {
   portraitFallback: '/portfolio/portrait.svg',
   researchFacts: [
     { label: 'Lab', value: 'Ioerger Lab, Texas A&M' },
-    { label: 'Tools', value: 'Python, GenomegaMap, Slurm, HPRC, PAML' },
-    { label: 'Focus', value: 'Reproducible genome-wide analysis and validation' },
+    { label: 'Advisor', value: 'Thomas R. Ioerger' },
+    { label: 'Organism', value: 'Mycobacterium tuberculosis, H37Rv annotation' },
+    { label: 'Cohorts', value: 'Clinical isolates from patients with and without diabetes' },
     { label: 'Scale', value: '~4,000 genes · 900+ clinical isolates' },
+    { label: 'Compute', value: 'Python, Slurm arrays, Texas A&M HPRC' },
   ] satisfies ProfileFact[],
 };
+
+export const news: NewsItem[] = [
+  {
+    date: 'Jun 2026',
+    kind: 'Lab',
+    title: 'Graduate assistant, Ioerger Lab',
+    copy: 'Started genome-wide selection analysis on M. tuberculosis isolates from diabetic and non-diabetic patient cohorts.',
+  },
+  {
+    date: '2026',
+    kind: 'Degree',
+    title: 'B.S. Computer Science and Statistics',
+    copy: 'Completed the undergraduate degrees Summa Cum Laude and began the M.S. in Computer Science.',
+  },
+  {
+    date: 'Spring 2026',
+    kind: 'Teaching',
+    title: 'Teaching assistant, CS 111',
+    copy: 'Supported students learning Java and object-oriented programming.',
+  },
+  {
+    date: 'Aug – Dec 2025',
+    kind: 'Engineering',
+    title: 'Amazon-sponsored capstone',
+    copy: 'Built a breach-intelligence platform spanning ingestion, search, graph relationships, and analyst views.',
+  },
+  {
+    date: '2024',
+    kind: 'Hackathon',
+    title: 'Alpha · Tidal Hackathon, 1st place',
+    copy: 'An interactive math-learning environment with multi-tool AI orchestration.',
+  },
+  {
+    date: '2024',
+    kind: 'Hackathon',
+    title: 'TAMU Datathon, 2nd of 50 teams',
+    copy: 'An investigation workflow connecting incomplete evidence under a contest deadline.',
+  },
+];
+
+export const methodAreas: MethodArea[] = [
+  {
+    index: '01',
+    label: 'Selection',
+    title: 'Genome-wide positive selection',
+    copy: 'Bayesian GenomegaMap analyses with 10,000-sample MCMC chains, keeping posterior intervals visible instead of collapsing each gene into one number.',
+    tags: ['GenomegaMap', 'MCMC', 'DPD'],
+  },
+  {
+    index: '02',
+    label: 'Validation',
+    title: 'Independent evolutionary checks',
+    copy: 'Candidate genes are cross-checked with pN/pS, chi-square tests under FDR control, and an independent PAML workflow before a pattern is treated as biological.',
+    tags: ['pN/pS', 'FDR', 'PAML'],
+  },
+  {
+    index: '03',
+    label: 'Scale',
+    title: 'HPC as part of the method',
+    copy: 'Gene-level work is parallelized as Slurm array tasks on Texas A&M HPRC so a ~4,000-gene comparison stays traceable when the cluster gets messy.',
+    tags: ['Python', 'Slurm', 'HPRC'],
+  },
+  {
+    index: '04',
+    label: 'Software',
+    title: 'Inspectable research tools',
+    copy: 'The same genome is browsable in MtbScope. Radar keeps papers, campus events, and paid studies in one ranked pipeline. Recall turns notes and papers into study sets.',
+    tags: ['MtbScope', 'Radar', 'Recall'],
+  },
+];
+
+export const researchOutputs: ResearchOutput[] = [
+  {
+    title: 'MtbScope',
+    href: '/genes/',
+    kind: 'Software',
+    note: 'H37Rv gene browser for search, multi-gene comparison, and source annotations.',
+  },
+  {
+    title: 'Radar',
+    href: '/radar/',
+    kind: 'Software',
+    note: 'Literature, campus listings, and paid studies ranked with the arithmetic shown.',
+  },
+  {
+    title: 'Recall',
+    href: '/research/',
+    kind: 'Software',
+    note: 'Local-first study sets generated from notes and papers, with the source kept close.',
+  },
+];
 
 export const experiences: Experience[] = [
   {
@@ -113,10 +234,10 @@ export const experiences: Experience[] = [
       'Building reproducible computational workflows to compare evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes.',
     highlights: [
       'Run a Python and Slurm workflow across roughly 4,000 M. tuberculosis genes from 900+ clinical isolates.',
-      'Keep GenomegaMap posterior comparisons alongside pN/pS, chi-square with FDR control, and independent PAML checks.',
+      'Compare cohorts with DPD (difference of posterior distributions) alongside pN/pS, chi-square with FDR control, and independent PAML checks.',
       'Trace each comparison back to its cohort, inputs, and parameters before interpreting a biological signal.',
     ],
-    tools: ['Python', 'Slurm', 'GenomegaMap', 'Bayesian MCMC', 'PAML', 'HPC'],
+    tools: ['Python', 'R', 'Slurm', 'GenomegaMap', 'Bayesian MCMC', 'PAML', 'HPC'],
     translation: 'The useful part of a pipeline is not that it runs. It is that I can point to what changed, why it changed, and whether the result still holds.',
   },
   {
@@ -214,7 +335,7 @@ export const researchStages: ResearchStage[] = [
     index: '03',
     label: 'Model',
     title: 'Estimate selection under uncertainty.',
-    copy: 'Run Bayesian GenomegaMap analyses and keep the posterior distributions and intervals instead of forcing a complex signal into one convenient number.',
+    copy: 'Run Bayesian GenomegaMap analyses with 10,000-sample MCMC chains and keep the posterior distributions and intervals instead of forcing a complex signal into one convenient number.',
   },
   {
     index: '04',
@@ -233,8 +354,8 @@ export const researchStages: ResearchStage[] = [
 export const researchChecks: ResearchCheck[] = [
   {
     label: 'Posterior view',
-    title: 'Bayesian comparison',
-    copy: 'Compare posterior parameters and credible intervals across cohorts while keeping model uncertainty visible.',
+    title: 'Bayesian comparison · DPD',
+    copy: 'Compare posterior parameters and credible intervals across cohorts. DPD ranks genes by the difference of the two full posterior distributions rather than by point estimates.',
   },
   {
     label: 'Count-based view',
@@ -320,6 +441,7 @@ export const labProjects: LabProject[] = [
     href: '/genes/',
     image: '/portfolio/project-captures/mtbscope.png',
     status: 'H37Rv gene browser',
+    featured: true,
     summary: 'A comparison-first browser for tuberculosis genes, with fast search, multi-gene comparison, and source annotations.',
     question: 'Search by Rv ID, symbol, or product, then pin up to eight genes while carrying annotations, locus and operon context, and selection evidence into comparison.',
     tools: ['Genomics', 'Search', 'Data visualization'],
@@ -331,6 +453,7 @@ export const labProjects: LabProject[] = [
     href: '/research/',
     image: '/portfolio/project-captures/sift.png',
     status: 'Study sets from real notes',
+    featured: true,
     summary: 'A local-first study workspace that turns notes and papers into recall sets, then keeps the source material close.',
     question: 'Turn markdown into flashcards, quizzes, cloze prompts, matching, and a reading mode while keeping source material, progress, and regeneration paths connected.',
     tools: ['Local analysis', 'PDF workflows', 'Claim tracking'],
@@ -419,6 +542,7 @@ export const labProjects: LabProject[] = [
     href: '/radar/',
     image: '/portfolio/project-captures/radar.png',
     status: 'Three engines, one pipeline',
+    featured: true,
     summary: 'A discovery system for papers worth reading, Texas A&M events worth attending, and paid research studies ranked by guaranteed pay per hour.',
     question: 'Literature and campus listings share normalize, deduplicate, rank, and diff, and every card shows the arithmetic behind its score. Paid studies are a parallel snapshot ranked by guaranteed dollars per hour — raffles never count as wages, and unknown rates sit in their own section. Keeping the previous snapshot is what makes change detection possible: a preprint reaching a journal, a room moving, an event being cancelled. Food is only called free when the source says it is free.',
     tools: ['Multi-source ingestion', 'Explainable ranking', 'Change detection'],

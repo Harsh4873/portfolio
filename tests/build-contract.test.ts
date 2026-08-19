@@ -6,9 +6,12 @@ import { describe, expect, it } from 'vitest';
 import {
   experiences,
   labProjects,
+  methodAreas,
+  news,
   profile,
   projects,
   researchChecks,
+  researchOutputs,
   researchStages,
 } from '../src/content';
 
@@ -89,6 +92,11 @@ describe('Portfolio content contract', () => {
     }
     expect(new Set(researchStages.map(({ index }) => index)).size).toBe(researchStages.length);
     expect(new Set(researchChecks.map(({ title }) => title)).size).toBe(researchChecks.length);
+    expect(new Set(news.map(({ title }) => title)).size).toBe(news.length);
+    expect(new Set(methodAreas.map(({ index }) => index)).size).toBe(methodAreas.length);
+    expect(researchOutputs.length).toBeGreaterThan(0);
+    expect(labProjects.some((project) => project.featured)).toBe(true);
+    expect(profile.labHref.startsWith('https://')).toBe(true);
     expect(profile.now.length).toBeGreaterThan(0);
     expect(profile.education.length).toBeGreaterThan(0);
     expect(profile.links.some((link) => link.href.startsWith('mailto:'))).toBe(true);
