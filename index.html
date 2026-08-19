@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#11110f" />
+    <meta name="theme-color" content="#500000" />
     <meta name="color-scheme" content="light dark" />
     <meta name="apple-mobile-web-app-title" content="Portfolio" />
     <meta name="description" content="Harsh Dave is a graduate research assistant in computational genomics at the Ioerger Lab, Texas A&M, studying positive selection in Mycobacterium tuberculosis and building inspectable research software." />
@@ -26,9 +26,6 @@
             ? savedTheme
             : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
           document.documentElement.dataset.theme = theme;
-          const version = location.pathname.match(/\/v([1-5])(?:\/index\.html)?\/?$/);
-          const atmospheres = { 1: 'ink', 2: 'paper', 3: 'fields', 4: 'darkroom', 5: 'hero' };
-          if (version) document.documentElement.dataset.atmosphere = atmospheres[version[1]];
         } catch {
           document.documentElement.dataset.theme = 'dark';
         }

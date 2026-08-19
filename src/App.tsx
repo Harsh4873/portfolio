@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type FocusEvent, type RefObject } from 'react';
-import { atmospheres, atmosphereFromPath, type AtmosphereId } from './atmospheres';
 import {
   experiences,
   labCategories,
@@ -74,7 +73,7 @@ function useTheme() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#11110f' : '#f3f1ec');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#14110f' : '#500000');
   }, [theme]);
 
   useEffect(() => {
@@ -159,39 +158,6 @@ function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate
         </div>
       </div>
     </aside>
-  );
-}
-
-function useAtmosphere() {
-  const [atmosphere, setAtmosphere] = useState<AtmosphereId | null>(() => atmosphereFromPath(window.location.pathname));
-
-  useEffect(() => {
-    const apply = () => {
-      const next = atmosphereFromPath(window.location.pathname);
-      setAtmosphere(next);
-      if (next) document.documentElement.dataset.atmosphere = next;
-      else delete document.documentElement.dataset.atmosphere;
-    };
-
-    apply();
-    window.addEventListener('popstate', apply);
-    return () => window.removeEventListener('popstate', apply);
-  }, []);
-
-  return atmosphere;
-}
-
-function AtmosphereSwitch({ atmosphere }: { atmosphere: AtmosphereId | null }) {
-  return (
-    <nav className="atmosphere-switch" aria-label="Atmosphere studies">
-      <span>Studies</span>
-      <a href="/portfolio/" aria-current={atmosphere ? undefined : 'page'}>Now</a>
-      {atmospheres.map((item) => (
-        <a href={item.href} aria-current={atmosphere === item.id ? 'page' : undefined} key={item.id}>
-          v{item.version} {item.label}
-        </a>
-      ))}
-    </nav>
   );
 }
 
@@ -491,7 +457,7 @@ function ResearchOutputs() {
   );
 }
 
-function PortfolioPage({ atmosphere }: { atmosphere: AtmosphereId | null }) {
+function PortfolioPage() {
   const [category, setCategory] = useState<'All' | LabCategory>('All');
   const featuredProjects = featuredCodes
     .map((code) => labProjects.find((project) => project.code === code))
@@ -502,7 +468,6 @@ function PortfolioPage({ atmosphere }: { atmosphere: AtmosphereId | null }) {
 
   return (
     <>
-      <AtmosphereSwitch atmosphere={atmosphere} />
       <section className="profile-intro" id="start" aria-labelledby="profile-heading">
         <Portrait />
         <div>
@@ -641,11 +606,10 @@ function PortfolioPage({ atmosphere }: { atmosphere: AtmosphereId | null }) {
   );
 }
 
-function SiteFooter({ atmosphere }: { atmosphere: AtmosphereId | null }) {
+function SiteFooter() {
   return (
     <footer className="site-footer">
       <a href="/">harsh.bet</a>
-      <AtmosphereSwitch atmosphere={atmosphere} />
       <a href="#start">Back to top</a>
     </footer>
   );
@@ -653,23 +617,10 @@ function SiteFooter({ atmosphere }: { atmosphere: AtmosphereId | null }) {
 
 export default function App() {
   const [theme, setTheme] = useTheme();
-  const atmosphere = useAtmosphere();
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const contentFrameRef = useRef<HTMLDivElement>(null);
   const restoreMenuFocus = useRef(false);
-
-  useEffect(() => {
-    const color = atmosphere === 'ink'
-      ? '#500000'
-      : atmosphere === 'darkroom'
-        ? '#100e0c'
-        : atmosphere === 'paper'
-          ? '#e8dcc8'
-          : theme === 'dark' ? '#11110f' : '#f3f1ec';
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', color);
-    if (atmosphere === 'darkroom') document.documentElement.style.colorScheme = 'dark';
-  }, [atmosphere, theme]);
 
   useEffect(() => {
     const oldRoute = window.location.hash.replace(/^#\/?/, '');
@@ -773,9 +724,9 @@ export default function App() {
       />
       <div className="content-frame" ref={contentFrameRef}>
         <main id="main-content" className="page-content" tabIndex={-1} aria-label={`${profile.name} portfolio`}>
-          <PortfolioPage atmosphere={atmosphere} />
+          <PortfolioPage />
         </main>
-        <SiteFooter atmosphere={atmosphere} />
+        <SiteFooter />
       </div>
     </div>
   );
