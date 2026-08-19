@@ -297,7 +297,6 @@ function ProjectCard({ project }: { project: LabProject }) {
       <a className="project-card-link" href={project.href}>
         <figure className="project-card-frame">
           <img src={project.image} alt={`${project.title} interface`} />
-          <figcaption>{project.code}</figcaption>
         </figure>
         <div className="project-card-copy">
           <div className="project-card-meta">
@@ -323,38 +322,38 @@ function ProjectCard({ project }: { project: LabProject }) {
 
 function OtherProject({ project }: { project: Project }) {
   const detail = useDetailPanel();
-  const frame = (
-    <figure className="other-project-frame">
-      <ReplaceableImage
-        src={project.capture}
-        fallbackLabel={`Drop ${captureLabel(project.capture)}`}
-        alt={`${project.title} capture`}
-      />
-      <figcaption>{project.index}</figcaption>
-    </figure>
+  const body = (
+    <>
+      <figure className="project-card-frame">
+        <ReplaceableImage
+          src={project.capture}
+          fallbackLabel={`Drop ${captureLabel(project.capture)}`}
+          alt={`${project.title} capture`}
+        />
+      </figure>
+      <div className="project-card-copy">
+        <div className="project-card-meta">
+          <span>{project.index}</span>
+          <span>{project.kicker}</span>
+        </div>
+        <h3>{project.title}</h3>
+        <p>{project.summary}</p>
+      </div>
+    </>
   );
 
   return (
-    <article className="other-project" tabIndex={0} {...detail.containerProps}>
+    <article className="project-card" {...detail.containerProps}>
       {project.link ? (
-        <a className="other-project-capture-link" href={project.link} target="_blank" rel="noreferrer">
-          {frame}
-        </a>
-      ) : frame}
-      <div>
-        {project.link ? (
-          <h3><a href={project.link} target="_blank" rel="noreferrer">{project.title}</a></h3>
-        ) : (
-          <h3>{project.title}</h3>
-        )}
-        <p>{project.kicker}</p>
-      </div>
-      <small>{project.tools.join(' · ')}</small>
-      <div className="other-project-details">
+        <a className="project-card-link" href={project.link} target="_blank" rel="noreferrer">{body}</a>
+      ) : (
+        <div className="project-card-link">{body}</div>
+      )}
+      <div className="project-card-details">
         <div className="detail-panel" aria-hidden={!detail.open}>
-          <div className="detail-panel-inner other-project-detail-inner">
-            <p>{project.summary}</p>
+          <div className="detail-panel-inner project-detail-inner">
             <p className="detail-proof">{project.proof}</p>
+            <small>{project.tools.join(' · ')}</small>
           </div>
         </div>
       </div>
@@ -470,6 +469,7 @@ function PortfolioPage() {
   return (
     <>
       <section className="profile-intro" id="start" aria-labelledby="profile-heading">
+        <Portrait />
         <div>
           <p className="section-code">Computational genomics</p>
           <h1 id="profile-heading">{profile.name}</h1>
@@ -488,21 +488,20 @@ function PortfolioPage() {
               </div>
             ))}
           </dl>
+          <nav className="profile-links" aria-label="Profile links">
+            <a href={profile.labHref} target="_blank" rel="noreferrer">Lab</a>
+            {profile.links.map((link) => (
+              <a
+                href={link.href}
+                key={link.label}
+                target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                rel={link.href.startsWith('mailto:') ? undefined : link.href.startsWith('/') ? 'noopener noreferrer' : 'noreferrer'}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
         </div>
-        <Portrait />
-        <nav className="profile-links" aria-label="Profile links">
-          <a href={profile.labHref} target="_blank" rel="noreferrer">Lab</a>
-          {profile.links.map((link) => (
-            <a
-              href={link.href}
-              key={link.label}
-              target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-              rel={link.href.startsWith('mailto:') ? undefined : link.href.startsWith('/') ? 'noopener noreferrer' : 'noreferrer'}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
       </section>
 
       <NewsList />
@@ -557,7 +556,9 @@ function PortfolioPage() {
         ) : null}
         <div className="other-projects">
           <p className="section-code">Other work</p>
-          {projects.map((project) => <OtherProject project={project} key={project.title} />)}
+          <div className="project-grid">
+            {projects.map((project) => <OtherProject project={project} key={project.title} />)}
+          </div>
         </div>
       </section>
 

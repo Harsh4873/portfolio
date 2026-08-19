@@ -410,6 +410,7 @@ export const projects: Project[] = [
     proof: 'The team labeled and split training data for a YOLOv5 model on SageMaker, then served recognition through FastAPI to a Svelte interface.',
     tools: ['YOLOv5', 'SageMaker', 'Svelte', 'FastAPI'],
     capture: '/portfolio/other-captures/sign-sense.png',
+    link: 'https://devpost.com/software/sign-sensor',
   },
   {
     index: '05',
