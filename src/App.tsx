@@ -23,7 +23,7 @@ const sections = [
   { id: 'start', index: '00', label: 'Profile' },
   { id: 'research', index: '01', label: 'Research' },
   { id: 'experience', index: '02', label: 'Work' },
-  { id: 'projects', index: '03', label: 'Software' },
+  { id: 'projects', index: '03', label: 'Products' },
   { id: 'about', index: '04', label: 'Contact' },
 ] as const;
 
@@ -441,7 +441,7 @@ function MethodAreas() {
 function ResearchOutputs() {
   return (
     <div className="research-outputs">
-      <p className="section-code">Selected software</p>
+      <p className="section-code">Selected products</p>
       <ul>
         {researchOutputs.map((output) => (
           <li key={output.title}>
@@ -509,7 +509,7 @@ function PortfolioPage() {
       <section className="content-section research-section" id="research" aria-labelledby="research-heading">
         <SectionHeading label="01 / Research" title="Research" />
         <div className="research-summary">
-          <p>I study positive selection in <i>Mycobacterium tuberculosis</i> isolates from patient cohorts with and without diabetes.</p>
+          <p><WithOrganism text={profile.researchLead} /></p>
           <dl>
             {profile.researchFacts.map((fact) => (
               <div key={fact.label}>
@@ -536,10 +536,10 @@ function PortfolioPage() {
       </section>
 
       <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
-        <SectionHeading label="03 / Software" title="Software" />
-        <p className="section-lede">Selected research tools, then the rest of the systems lab.</p>
+        <SectionHeading label="03 / Products" title="Products" />
+        <p className="section-lede">Apps I have built for research, campus life, sports, training, and everyday use.</p>
         <div className="project-filters" role="group" aria-label="Project category">
-          <button type="button" aria-pressed={category === 'All'} onClick={() => setCategory('All')}>All systems</button>
+          <button type="button" aria-pressed={category === 'All'} onClick={() => setCategory('All')}>All products</button>
           {labCategories.map((item) => (
             <button type="button" aria-pressed={category === item} onClick={() => setCategory(item)} key={item}>
               {item}
@@ -565,7 +565,7 @@ function PortfolioPage() {
           <article>
             <p className="section-code">Now</p>
             <h3>Ioerger Lab</h3>
-            <p>Graduate assistant in computational genomics, advised by {profile.advisor}. Building MtbScope, Radar, Recall, and a private systems lab around the same work.</p>
+            <p>Graduate assistant in computational genomics, advised by {profile.advisor}. Building products including MtbScope, Radar, Recall, and a private systems lab.</p>
             <a href={profile.labHref} target="_blank" rel="noreferrer">Faculty page</a>
           </article>
           <article>

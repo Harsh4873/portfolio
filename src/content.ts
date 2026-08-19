@@ -90,19 +90,19 @@ export const labCategories: LabCategory[] = ['Signals', 'Research', 'Life system
 export const profile = {
   name: 'Harsh Dave',
   mark: 'HD',
-  kicker: 'Computational genomics · systems software',
+  kicker: 'Computational genomics · products',
   degree: 'M.S. Computer Science, Texas A&M',
   thesis:
-    'I test whether Mycobacterium tuberculosis shows different evidence of positive selection in isolates from patients with and without diabetes, then I build the software that keeps that comparison inspectable.',
+    'I work on Mycobacterium tuberculosis gene function with bioinformatics — TnSeq, genome-scale analysis, and products that make those results inspectable.',
   summary:
-    'Graduate research assistant at the Ioerger Lab. I also build software for research, sports, training, and everyday life.',
+    'Graduate research assistant at the Ioerger Lab. I also build products for research, sports, training, and everyday life.',
   advisor: 'Thomas R. Ioerger',
   lab: 'Ioerger Lab, Texas A&M University',
   labHref: 'https://people.engr.tamu.edu/ioerger/index.html',
   now: [
     { label: 'Now', value: 'Graduate Assistant Research, Ioerger Lab' },
-    { label: 'Question', value: 'Does selection differ in diabetic vs non-diabetic TB cohorts?' },
-    { label: 'Software', value: 'MtbScope, Radar, Recall, and a private systems lab' },
+    { label: 'Focus', value: 'TB genes, TnSeq, and bioinformatics' },
+    { label: 'Products', value: 'MtbScope, Radar, Recall, and a private systems lab' },
   ] satisfies ProfileFact[],
   education: [
     {
@@ -126,11 +126,13 @@ export const profile = {
   researchFacts: [
     { label: 'Lab', value: 'Ioerger Lab, Texas A&M' },
     { label: 'Advisor', value: 'Thomas R. Ioerger' },
-    { label: 'Organism', value: 'Mycobacterium tuberculosis, H37Rv annotation' },
-    { label: 'Cohorts', value: 'Clinical isolates from patients with and without diabetes' },
-    { label: 'Scale', value: '~4,000 genes · 900+ clinical isolates' },
-    { label: 'Compute', value: 'Python, Slurm arrays, Texas A&M HPRC' },
+    { label: 'Organism', value: 'Mycobacterium tuberculosis' },
+    { label: 'Focus', value: 'Gene function, TnSeq, and genome-scale bioinformatics' },
+    { label: 'Scale', value: 'Genome-wide TB datasets on Texas A&M HPRC' },
+    { label: 'Compute', value: 'Python, Slurm, high-performance computing' },
   ] satisfies ProfileFact[],
+  researchLead:
+    'I study Mycobacterium tuberculosis gene function with bioinformatics, including TnSeq and genome-scale analysis.',
 };
 
 export const news: NewsItem[] = [
@@ -138,7 +140,7 @@ export const news: NewsItem[] = [
     date: 'Jun 2026',
     kind: 'Lab',
     title: 'Graduate assistant, Ioerger Lab',
-    copy: 'Started genome-wide selection analysis on M. tuberculosis isolates from diabetic and non-diabetic patient cohorts.',
+    copy: 'Started computational work on M. tuberculosis gene function, TnSeq, and related bioinformatics in the Ioerger Lab.',
   },
   {
     date: '2026',
@@ -175,30 +177,30 @@ export const news: NewsItem[] = [
 export const methodAreas: MethodArea[] = [
   {
     index: '01',
-    label: 'Selection',
-    title: 'Genome-wide positive selection',
-    copy: 'Bayesian GenomegaMap analyses with 10,000-sample MCMC chains, keeping posterior intervals visible instead of collapsing each gene into one number.',
-    tags: ['GenomegaMap', 'MCMC', 'DPD'],
+    label: 'TnSeq',
+    title: 'Gene function at genome scale',
+    copy: 'Use transposon sequencing and related assays to ask what TB genes do, rather than treating each locus as a one-off story.',
+    tags: ['TnSeq', 'Essentiality', 'Gene function'],
   },
   {
     index: '02',
-    label: 'Validation',
-    title: 'Independent evolutionary checks',
-    copy: 'Candidate genes are cross-checked with pN/pS, chi-square tests under FDR control, and an independent PAML workflow before a pattern is treated as biological.',
-    tags: ['pN/pS', 'FDR', 'PAML'],
+    label: 'Genes',
+    title: 'TB genomes, made comparable',
+    copy: 'Work from H37Rv annotation, gene identifiers, and genome-wide tables so a result can be traced back to a locus.',
+    tags: ['H37Rv', 'Annotation', 'Comparative genomics'],
   },
   {
     index: '03',
-    label: 'Scale',
-    title: 'HPC as part of the method',
-    copy: 'Gene-level work is parallelized as Slurm array tasks on Texas A&M HPRC so a ~4,000-gene comparison stays traceable when the cluster gets messy.',
+    label: 'Compute',
+    title: 'Bioinformatics that can be rerun',
+    copy: 'Python workflows and Slurm jobs on Texas A&M HPRC keep genome-scale analyses from becoming a one-time notebook.',
     tags: ['Python', 'Slurm', 'HPRC'],
   },
   {
     index: '04',
-    label: 'Software',
-    title: 'Inspectable research tools',
-    copy: 'The same genome is browsable in MtbScope. Radar keeps papers, campus events, and paid studies in one ranked pipeline. Recall turns notes and papers into study sets.',
+    label: 'Products',
+    title: 'Tools people can actually open',
+    copy: 'The same genome is browsable in MtbScope. Radar ranks papers, campus events, and paid studies. Recall turns notes and papers into study sets.',
     tags: ['MtbScope', 'Radar', 'Recall'],
   },
 ];
@@ -207,19 +209,19 @@ export const researchOutputs: ResearchOutput[] = [
   {
     title: 'MtbScope',
     href: '/genes/',
-    kind: 'Software',
+    kind: 'Product',
     note: 'H37Rv gene browser for search, multi-gene comparison, and source annotations.',
   },
   {
     title: 'Radar',
     href: '/radar/',
-    kind: 'Software',
+    kind: 'Product',
     note: 'Literature, campus listings, and paid studies ranked with the arithmetic shown.',
   },
   {
     title: 'Recall',
     href: '/research/',
-    kind: 'Software',
+    kind: 'Product',
     note: 'Local-first study sets generated from notes and papers, with the source kept close.',
   },
 ];
@@ -231,13 +233,13 @@ export const experiences: Experience[] = [
     organization: 'Ioerger Lab · Texas A&M University',
     kind: 'Research',
     summary:
-      'Building reproducible computational workflows to compare evidence of positive selection in Mycobacterium tuberculosis isolates from patient cohorts with and without diabetes.',
+      'Building computational workflows for Mycobacterium tuberculosis gene function, including TnSeq, genome-scale bioinformatics, and inspectable analysis.',
     highlights: [
-      'Run a Python and Slurm workflow across roughly 4,000 M. tuberculosis genes from 900+ clinical isolates.',
-      'Compare cohorts with DPD (difference of posterior distributions) alongside pN/pS, chi-square with FDR control, and independent PAML checks.',
-      'Trace each comparison back to its cohort, inputs, and parameters before interpreting a biological signal.',
+      'Analyze TB gene function with bioinformatics methods, including TnSeq and genome-wide datasets.',
+      'Run Python and Slurm workflows on Texas A&M HPRC so genome-scale jobs stay reproducible.',
+      'Keep gene identifiers, annotations, and parameters close enough that a result can be inspected later.',
     ],
-    tools: ['Python', 'R', 'Slurm', 'GenomegaMap', 'Bayesian MCMC', 'PAML', 'HPC'],
+    tools: ['Python', 'R', 'Slurm', 'TnSeq', 'Bioinformatics', 'HPC'],
     translation: 'The useful part of a pipeline is not that it runs. It is that I can point to what changed, why it changed, and whether the result still holds.',
   },
   {
@@ -321,51 +323,45 @@ export const experiences: Experience[] = [
 export const researchStages: ResearchStage[] = [
   {
     index: '01',
-    label: 'Contrast',
-    title: 'Define the cohort question.',
-    copy: 'Compare isolates from patients with and without diabetes without treating every observed difference as automatically biological.',
+    label: 'Question',
+    title: 'Start from gene function.',
+    copy: 'Ask what a Mycobacterium tuberculosis gene is doing, not only whether a pipeline finished.',
   },
   {
     index: '02',
-    label: 'Prepare',
-    title: 'Make thousands of genes comparable.',
-    copy: 'Validate inputs, align the workflow, and keep enough metadata to trace a gene-level result back to its cohort and parameters.',
+    label: 'Measure',
+    title: 'Use genome-scale data.',
+    copy: 'TnSeq and related assays put thousands of genes on the same table so function can be compared, not just narrated.',
   },
   {
     index: '03',
-    label: 'Model',
-    title: 'Estimate selection under uncertainty.',
-    copy: 'Run Bayesian GenomegaMap analyses with 10,000-sample MCMC chains and keep the posterior distributions and intervals instead of forcing a complex signal into one convenient number.',
+    label: 'Analyze',
+    title: 'Keep the bioinformatics rerunnable.',
+    copy: 'Python workflows, Slurm jobs, and enough metadata to trace a call back to its inputs.',
   },
   {
     index: '04',
-    label: 'Scale',
-    title: 'Treat compute as a system.',
-    copy: 'Use Python orchestration, Slurm arrays, and high-performance computing to keep genome-wide work traceable when the cluster gets messy.',
-  },
-  {
-    index: '05',
-    label: 'Compare',
-    title: 'Ask what the evidence can support.',
-    copy: 'Compare cohort posteriors and use complementary checks before deciding whether a pattern deserves interpretation.',
+    label: 'Show',
+    title: 'Put the result in a product.',
+    copy: 'A gene-level finding is more useful when it can be opened, searched, and compared in a tool instead of a private notebook.',
   },
 ];
 
 export const researchChecks: ResearchCheck[] = [
   {
-    label: 'Posterior view',
-    title: 'Bayesian comparison · DPD',
-    copy: 'Compare posterior parameters and credible intervals across cohorts. DPD ranks genes by the difference of the two full posterior distributions rather than by point estimates.',
+    label: 'Function',
+    title: 'TnSeq and essentiality',
+    copy: 'Genome-wide disruption data for asking which genes matter under a condition, without pretending one screen answers every question.',
   },
   {
-    label: 'Count-based view',
-    title: 'pN/pS + chi-square',
-    copy: 'Use polymorphism ratios and contingency tests as a complementary lens, then control the multiple-testing burden with FDR.',
+    label: 'Context',
+    title: 'Annotation and comparison',
+    copy: 'Map results onto H37Rv identifiers, products, and neighboring genes so a hit stays attached to a locus.',
   },
   {
-    label: 'Evolutionary view',
-    title: 'PAML validation',
-    copy: 'Use an independent evolutionary-modeling workflow to check whether the broader interpretation is method-dependent.',
+    label: 'Compute',
+    title: 'Traceable HPC',
+    copy: 'Treat cluster jobs as part of the method: what ran, on which inputs, and whether it can be run again.',
   },
 ];
 
@@ -446,7 +442,7 @@ export const labProjects: LabProject[] = [
     status: 'H37Rv gene browser',
     featured: true,
     summary: 'A comparison-first browser for tuberculosis genes, with fast search, multi-gene comparison, and source annotations.',
-    question: 'Search by Rv ID, symbol, or product, then pin up to eight genes while carrying annotations, locus and operon context, and selection evidence into comparison.',
+    question: 'Search by Rv ID, symbol, or product, then pin up to eight genes while carrying annotations, locus, and operon context into comparison.',
     tools: ['Genomics', 'Search', 'Data visualization'],
   },
   {
