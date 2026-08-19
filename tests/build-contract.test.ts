@@ -4,6 +4,10 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
 import {
+  atmospheres,
+  atmosphereFromPath,
+} from '../src/atmospheres';
+import {
   experiences,
   labProjects,
   methodAreas,
@@ -47,7 +51,7 @@ describe('Portfolio build contract', () => {
       .filter((fileName) => fileName.startsWith(`${sourceDirectory}/`));
 
     expect(compiledSourceFiles.map((fileName) => basename(fileName))).toEqual(
-      expect.arrayContaining(['main.tsx', 'App.tsx', 'content.ts']),
+      expect.arrayContaining(['main.tsx', 'App.tsx', 'content.ts', 'atmospheres.ts']),
     );
     expect(compiledSourceFiles.some((fileName) => / \d+\.[cm]?[jt]sx?$/.test(basename(fileName)))).toBe(false);
   });
@@ -102,5 +106,17 @@ describe('Portfolio content contract', () => {
     expect(profile.now.length).toBeGreaterThan(0);
     expect(profile.education.length).toBeGreaterThan(0);
     expect(profile.links.some((link) => link.href.startsWith('mailto:'))).toBe(true);
+  });
+
+  it('keeps atmosphere study routes distinct and addressable', () => {
+    expect(atmospheres.map((item) => item.version)).toEqual(['1', '2', '3', '4', '5']);
+    expect(new Set(atmospheres.map((item) => item.id)).size).toBe(5);
+    expect(atmosphereFromPath('/portfolio/')).toBeNull();
+    expect(atmosphereFromPath('/portfolio/v1/')).toBe('ink');
+    expect(atmosphereFromPath('/portfolio/v2/')).toBe('paper');
+    expect(atmosphereFromPath('/portfolio/v3/')).toBe('fields');
+    expect(atmosphereFromPath('/portfolio/v4/')).toBe('darkroom');
+    expect(atmosphereFromPath('/portfolio/v5/')).toBe('hero');
+    expect(atmosphereFromPath('/portfolio/v5/index.html')).toBe('hero');
   });
 });

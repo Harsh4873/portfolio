@@ -26,6 +26,9 @@
             ? savedTheme
             : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
           document.documentElement.dataset.theme = theme;
+          const version = location.pathname.match(/\/v([1-5])(?:\/index\.html)?\/?$/);
+          const atmospheres = { 1: 'ink', 2: 'paper', 3: 'fields', 4: 'darkroom', 5: 'hero' };
+          if (version) document.documentElement.dataset.atmosphere = atmospheres[version[1]];
         } catch {
           document.documentElement.dataset.theme = 'dark';
         }
