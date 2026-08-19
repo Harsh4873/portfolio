@@ -1,12 +1,8 @@
-Replace these files in place. Keep the filenames.
-
-Portrait
+Portrait is in place:
   public/portrait.jpg
-  3:4 portrait, at least 900px tall. The page already looks for this file
-  and falls back to portrait.svg until it exists.
 
-Lab systems — captures already ship; send a replacement PNG of the same name
-if you have a cleaner screenshot.
+Lab systems — captures ship with the site. Send a replacement PNG of the same
+name if you have a cleaner screenshot.
   public/project-captures/pickledger.png
   public/project-captures/mtbscope.png
   public/project-captures/sift.png          (Recall)
@@ -19,10 +15,9 @@ if you have a cleaner screenshot.
   public/project-captures/degree.png
   public/project-captures/radar.png
 
-Other work — empty slots until these files exist. Drop a PNG and it shows up
-without a code change.
-  public/other-captures/alpha.png
-  public/other-captures/pos.png
-  public/other-captures/datathon.png
-  public/other-captures/sign-sense.png
-  public/other-captures/proffinder.png
+Other work
+  public/other-captures/alpha.png           (from Devpost)
+  public/other-captures/pos.png             (Panda POS)
+  public/other-captures/proffinder.png      (from Devpost)
+  public/other-captures/datathon.png        (empty until dropped)
+  public/other-captures/sign-sense.png      (empty until dropped)

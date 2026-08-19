@@ -90,6 +90,11 @@ describe('Portfolio content contract', () => {
       expect(project.capture).toMatch(/^\/portfolio\/other-captures\/[a-z0-9-]+\.png$/);
       expect([project.index, project.title, project.kicker, project.summary, project.proof, ...project.tools].every(nonEmpty)).toBe(true);
     }
+
+    for (const filename of ['alpha.png', 'pos.png', 'proffinder.png']) {
+      expect(existsSync(resolve(repository, 'public', 'other-captures', filename))).toBe(true);
+    }
+    expect(existsSync(resolve(repository, 'public', 'portrait.jpg'))).toBe(true);
     expect(new Set(researchStages.map(({ index }) => index)).size).toBe(researchStages.length);
     expect(new Set(researchChecks.map(({ title }) => title)).size).toBe(researchChecks.length);
     expect(new Set(news.map(({ title }) => title)).size).toBe(news.length);

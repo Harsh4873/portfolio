@@ -254,7 +254,6 @@ function Portrait() {
         fallbackLabel="Drop public/portrait.jpg"
         alt={profile.name}
       />
-      <figcaption>{captureLabel(profile.portrait)}</figcaption>
     </figure>
   );
 }
@@ -298,7 +297,7 @@ function ProjectCard({ project }: { project: LabProject }) {
       <a className="project-card-link" href={project.href}>
         <figure className="project-card-frame">
           <img src={project.image} alt={`${project.title} interface`} />
-          <figcaption>{captureLabel(project.image)}</figcaption>
+          <figcaption>{project.code}</figcaption>
         </figure>
         <div className="project-card-copy">
           <div className="project-card-meta">
@@ -324,19 +323,30 @@ function ProjectCard({ project }: { project: LabProject }) {
 
 function OtherProject({ project }: { project: Project }) {
   const detail = useDetailPanel();
+  const frame = (
+    <figure className="other-project-frame">
+      <ReplaceableImage
+        src={project.capture}
+        fallbackLabel={`Drop ${captureLabel(project.capture)}`}
+        alt={`${project.title} capture`}
+      />
+      <figcaption>{project.index}</figcaption>
+    </figure>
+  );
 
   return (
     <article className="other-project" tabIndex={0} {...detail.containerProps}>
-      <figure className="other-project-frame">
-        <ReplaceableImage
-          src={project.capture}
-          fallbackLabel={`Drop ${captureLabel(project.capture)}`}
-          alt={`${project.title} capture`}
-        />
-        <figcaption>{project.index} · {captureLabel(project.capture)}</figcaption>
-      </figure>
+      {project.link ? (
+        <a className="other-project-capture-link" href={project.link} target="_blank" rel="noreferrer">
+          {frame}
+        </a>
+      ) : frame}
       <div>
-        <h3>{project.title}</h3>
+        {project.link ? (
+          <h3><a href={project.link} target="_blank" rel="noreferrer">{project.title}</a></h3>
+        ) : (
+          <h3>{project.title}</h3>
+        )}
         <p>{project.kicker}</p>
       </div>
       <small>{project.tools.join(' · ')}</small>
@@ -345,7 +355,6 @@ function OtherProject({ project }: { project: Project }) {
           <div className="detail-panel-inner other-project-detail-inner">
             <p>{project.summary}</p>
             <p className="detail-proof">{project.proof}</p>
-            <p className="capture-hint">{captureLabel(project.capture)}</p>
           </div>
         </div>
       </div>

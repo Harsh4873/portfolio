@@ -379,6 +379,7 @@ export const projects: Project[] = [
     proof: 'Input normalization and validation reduced tool-call failure from 25% to 6%. The build also included Math Studio, notes, and source/PDF uploads around the multi-tool workflow.',
     tools: ['React', 'TypeScript', 'Multi-model AI', 'Visualization'],
     capture: '/portfolio/other-captures/alpha.png',
+    link: 'https://devpost.com/software/alpha-ek9j1u',
   },
   {
     index: '02',
@@ -419,6 +420,7 @@ export const projects: Project[] = [
     proof: 'Built under a 24-hour HowdyHack deadline: a manually assembled course database powered class and section search, schedule cards, GPA distributions, and professor reviews.',
     tools: ['SQL', 'JavaScript', 'Data pipelines', 'Product design'],
     capture: '/portfolio/other-captures/proffinder.png',
+    link: 'https://devpost.com/software/prof-finder',
   },
 ];
 
