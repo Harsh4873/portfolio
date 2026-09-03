@@ -116,6 +116,7 @@ export const profile = {
   ] satisfies Education[],
   links: [
     { label: 'Resume', href: '/resume.pdf' },
+    { label: 'CV', href: '/portfolio/cv.pdf' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hdav' },
     { label: 'GitHub', href: 'https://github.com/Harsh4873' },
     { label: 'Devpost', href: 'https://devpost.com/hdav3228' },

@@ -51,6 +51,7 @@ jobs:
           test -f dist/favicon.svg
           test -f dist/apple-touch-icon.png
           test -f dist/social-card.svg
+          test -f dist/cv.pdf
           test ! -e dist/CNAME
           find dist/assets -type f | grep -q .
           grep -q '/portfolio/assets/' dist/index.html
