@@ -10,7 +10,6 @@ import {
   news,
   profile,
   projects,
-  researchOutputs,
 } from '../src/content';
 
 const repository = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -87,8 +86,6 @@ describe('Portfolio content contract', () => {
     expect(existsSync(resolve(repository, 'public', 'portrait.jpg'))).toBe(true);
     expect(new Set(news.map(({ title }) => title)).size).toBe(news.length);
     expect(new Set(methodAreas.map(({ title }) => title)).size).toBe(methodAreas.length);
-    expect(researchOutputs.length).toBeGreaterThan(0);
-    expect(labProjects.some((project) => project.featured)).toBe(true);
     expect(profile.labHref.startsWith('https://')).toBe(true);
     expect(profile.now.length).toBeGreaterThan(0);
     expect(profile.education.length).toBeGreaterThan(0);

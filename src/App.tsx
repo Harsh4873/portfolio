@@ -6,7 +6,6 @@ import {
   news,
   profile,
   projects,
-  researchOutputs,
   sports,
   type Experience,
   type LabProject,
@@ -22,8 +21,6 @@ const sections = [
   { id: 'projects', label: 'Projects' },
   { id: 'about', label: 'Contact' },
 ] as const;
-
-const featuredPaths = ['/genes/', '/radar/', '/research/'] as const;
 
 type Theme = 'light' | 'dark';
 
@@ -356,31 +353,7 @@ function MethodAreas() {
   );
 }
 
-function ResearchOutputs() {
-  return (
-    <div className="research-outputs">
-      <p className="section-code">Selected projects</p>
-      <ul>
-        {researchOutputs.map((output) => (
-          <li key={output.title}>
-            <a href={output.href}>
-              <span>{output.kind}</span>
-              <strong>{output.title}</strong>
-              <p>{output.note}</p>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 function PortfolioPage() {
-  const featuredProjects = featuredPaths
-    .map((path) => labProjects.find((project) => project.href === path))
-    .filter((project): project is LabProject => Boolean(project));
-  const visibleProjects = [...featuredProjects, ...labProjects.filter((project) => !project.featured)];
-
   return (
     <>
       <div className="page-topline"><span>Research & software</span><a href="#projects">Explore the work <span aria-hidden="true">↘</span></a></div>
@@ -397,7 +370,6 @@ function PortfolioPage() {
           <p className="profile-aside">{profile.summary}</p>
           <nav className="hero-actions" aria-label="Explore portfolio">
             <a className="primary-action" href="#research">Explore research <span aria-hidden="true">↗</span></a>
-            <a href="#projects">Selected projects <span aria-hidden="true">↓</span></a>
           </nav>
           <dl className="profile-now">
             {profile.now.map((fact) => (
@@ -424,18 +396,6 @@ function PortfolioPage() {
         <div className="profile-visual"><Portrait /></div>
       </section>
 
-      <section className="selected-work" aria-labelledby="selected-heading">
-        <div className="selected-heading"><h2 id="selected-heading">A few things I’ve built</h2><a href="#projects">All projects <span aria-hidden="true">↗</span></a></div>
-        <div className="selected-grid">
-          {featuredProjects.map((project) => (
-            <a className="selected-project" href={project.href} key={project.href}>
-              <img src={project.image} alt={`${project.title} interface`} loading="lazy" decoding="async" width={1600} height={900} />
-              <div><h3>{project.title} <span aria-hidden="true">↗</span></h3><p>{project.summary}</p></div>
-            </a>
-          ))}
-        </div>
-      </section>
-
       <NewsList />
 
       <section className="content-section research-section" id="research" aria-labelledby="research-heading">
@@ -456,7 +416,6 @@ function PortfolioPage() {
           </dl>
         </div>
         <MethodAreas />
-        <ResearchOutputs />
       </section>
 
       <section className="content-section" id="experience" aria-labelledby="work-heading">
@@ -469,9 +428,9 @@ function PortfolioPage() {
       <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
         <SectionHeading title="Projects" id="projects-heading" />
         <p className="section-lede">Apps I have built for research, campus life, sports, training, and everyday use.</p>
-        {visibleProjects.length > 0 ? (
+        {labProjects.length > 0 ? (
           <div className="project-grid">
-            {visibleProjects.map((project) => <ProjectCard project={project} key={project.href} />)}
+            {labProjects.map((project) => <ProjectCard project={project} key={project.href} />)}
           </div>
         ) : null}
         <div className="other-projects">

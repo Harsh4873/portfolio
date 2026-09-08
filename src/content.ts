@@ -40,7 +40,6 @@ export interface LabProject {
   summary: string;
   question: string;
   tools: string[];
-  featured?: boolean;
 }
 
 export interface NewsItem {
@@ -55,13 +54,6 @@ export interface MethodArea {
   title: string;
   copy: string;
   tags: string[];
-}
-
-export interface ResearchOutput {
-  title: string;
-  href: string;
-  kind: string;
-  note: string;
 }
 
 export const profile = {
@@ -176,27 +168,6 @@ export const methodAreas: MethodArea[] = [
     title: 'Research and study apps',
     copy: 'MtbScope is a TB gene browser. Radar collects papers, events, and paid studies. Recall turns notes into study sets.',
     tags: ['MtbScope', 'Radar', 'Recall'],
-  },
-];
-
-export const researchOutputs: ResearchOutput[] = [
-  {
-    title: 'MtbScope',
-    href: '/genes/',
-    kind: 'Project',
-    note: 'H37Rv gene browser for search, multi-gene comparison, and source annotations.',
-  },
-  {
-    title: 'Radar',
-    href: '/radar/',
-    kind: 'Project',
-    note: 'Research papers, campus events, and paid studies in one place.',
-  },
-  {
-    title: 'Recall',
-    href: '/research/',
-    kind: 'Project',
-    note: 'Flashcards and quizzes made from notes and papers.',
   },
 ];
 
@@ -352,7 +323,6 @@ export const labProjects: LabProject[] = [
     title: 'MtbScope',
     href: '/genes/',
     image: '/portfolio/project-captures/mtbscope.png',
-    featured: true,
     summary: 'Search and compare tuberculosis genes, with annotations and links to sources.',
     question: 'Search by gene ID, symbol, or product. Compare up to eight genes with their annotations, locations, and operons.',
     tools: ['Genomics', 'Search', 'Data visualization'],
@@ -361,7 +331,6 @@ export const labProjects: LabProject[] = [
     title: 'Recall',
     href: '/research/',
     image: '/portfolio/project-captures/sift.png',
-    featured: true,
     summary: 'Turns notes and papers into flashcards, quizzes, and other study exercises.',
     question: 'Create flashcards, quizzes, fill-in-the-blank questions, and matching exercises from markdown. Review the original material alongside each study set.',
     tools: ['Flashcards', 'Quizzes', 'PDFs'],
@@ -426,7 +395,6 @@ export const labProjects: LabProject[] = [
     title: 'Radar',
     href: '/radar/',
     image: '/portfolio/project-captures/radar.png',
-    featured: true,
     summary: 'Browse research papers, Texas A&M events, and paid studies.',
     question: 'Combines listings from multiple sources, removes duplicates, and tracks changes. Paid studies are ranked by guaranteed hourly pay, with unknown rates listed separately.',
     tools: ['Papers', 'Campus events', 'Paid studies'],
