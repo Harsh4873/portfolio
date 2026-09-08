@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FocusEvent, type RefObject } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import {
   experiences,
   labCategories,
@@ -101,13 +101,14 @@ function useTheme() {
 interface SiteRailProps {
   theme: Theme;
   mobileOpen: boolean;
+  activeSection: string;
   onThemeChange: (theme: Theme) => void;
   onToggleMobile: () => void;
   onNavigate: () => void;
   menuButtonRef: RefObject<HTMLButtonElement>;
 }
 
-function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate, menuButtonRef }: SiteRailProps) {
+function SiteRail({ theme, mobileOpen, activeSection, onThemeChange, onToggleMobile, onNavigate, menuButtonRef }: SiteRailProps) {
   return (
     <aside className="site-rail" data-mobile-open={mobileOpen ? 'true' : 'false'} aria-label="Portfolio navigation">
       <div className="rail-topline">
@@ -138,7 +139,7 @@ function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate
 
         <nav className="rail-nav" aria-label="Portfolio sections">
           {sections.map((item) => (
-            <a className="rail-nav-link" href={`#${item.id}`} onClick={onNavigate} key={item.id}>
+            <a className="rail-nav-link" aria-current={activeSection === item.id ? 'location' : undefined} aria-label={item.label} href={`#${item.id}`} onClick={onNavigate} key={item.id}>
               <span className="rail-index">{item.index}</span>
               <span className="rail-detail">{item.label}</span>
             </a>
@@ -162,48 +163,13 @@ function SiteRail({ theme, mobileOpen, onThemeChange, onToggleMobile, onNavigate
   );
 }
 
-function SectionHeading({ label, title }: { label: string; title: string }) {
+function SectionHeading({ label, title, id }: { label: string; title: string; id: string }) {
   return (
     <header className="section-heading">
       <p className="section-code">{label}</p>
-      <h2>{title}</h2>
+      <h2 id={id}>{title}</h2>
     </header>
   );
-}
-
-function useDetailPanel() {
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
-  const [alwaysOpen, setAlwaysOpen] = useState(false);
-
-  useEffect(() => {
-    const touchOnly = window.matchMedia('(hover: none)');
-    const updateInteraction = () => setAlwaysOpen(touchOnly.matches);
-
-    updateInteraction();
-    touchOnly.addEventListener('change', updateInteraction);
-    return () => touchOnly.removeEventListener('change', updateInteraction);
-  }, []);
-
-  const open = alwaysOpen || hovered || focused;
-
-  const onBlurCapture = (event: FocusEvent<HTMLElement>) => {
-    const nextFocused = event.relatedTarget;
-    if (!(nextFocused instanceof Node) || !event.currentTarget.contains(nextFocused)) {
-      setFocused(false);
-    }
-  };
-
-  return {
-    open,
-    containerProps: {
-      'data-open': open ? 'true' : 'false',
-      onMouseEnter: () => setHovered(true),
-      onMouseLeave: () => setHovered(false),
-      onFocusCapture: () => setFocused(true),
-      onBlurCapture,
-    },
-  };
 }
 
 function ReplaceableImage({
@@ -211,11 +177,13 @@ function ReplaceableImage({
   fallbackSrc,
   fallbackLabel,
   alt,
+  priority = false,
 }: {
   src: string;
   fallbackSrc?: string;
   fallbackLabel: string;
   alt: string;
+  priority?: boolean;
 }) {
   const [current, setCurrent] = useState(src);
 
@@ -235,6 +203,8 @@ function ReplaceableImage({
     <img
       src={current}
       alt={alt}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding="async"
       onError={() => {
         if (fallbackSrc && current !== fallbackSrc) {
           setCurrent(fallbackSrc);
@@ -250,6 +220,7 @@ function Portrait() {
   return (
     <figure className="portrait-slot">
       <ReplaceableImage
+        priority
         src={profile.portrait}
         fallbackSrc={profile.portraitFallback}
         fallbackLabel="Drop public/portrait.jpg"
@@ -260,10 +231,8 @@ function Portrait() {
 }
 
 function ExperienceEntry({ experience }: { experience: Experience }) {
-  const detail = useDetailPanel();
-
   return (
-    <article className="experience-entry" tabIndex={0} {...detail.containerProps}>
+    <article className="experience-entry">
       <div className="experience-meta">
         <p className="experience-period">{experience.period}</p>
         <p className="experience-kind">{experience.kind}</p>
@@ -277,27 +246,26 @@ function ExperienceEntry({ experience }: { experience: Experience }) {
         <small>{experience.tools.join(' · ')}</small>
       </div>
       <div className="experience-details">
-        <div className="detail-panel" aria-hidden={!detail.open}>
+        <details className="detail-panel">
+          <summary>Read more <span aria-hidden="true">+</span></summary>
           <div className="detail-panel-inner experience-detail-inner">
             <ul>
               {experience.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
             </ul>
             <p>{experience.translation}</p>
           </div>
-        </div>
+        </details>
       </div>
     </article>
   );
 }
 
 function ProjectCard({ project }: { project: LabProject }) {
-  const detail = useDetailPanel();
-
   return (
-    <article className="project-card" {...detail.containerProps}>
+    <article className="project-card">
       <a className="project-card-link" href={project.href}>
         <figure className="project-card-frame">
-          <img src={project.image} alt={`${project.title} interface`} />
+          <img src={project.image} alt={`${project.title} interface`} loading="lazy" decoding="async" width={1600} height={900} />
         </figure>
         <div className="project-card-copy">
           <div className="project-card-meta">
@@ -309,20 +277,20 @@ function ProjectCard({ project }: { project: LabProject }) {
         </div>
       </a>
       <div className="project-card-details">
-        <div className="detail-panel" aria-hidden={!detail.open}>
+        <details className="detail-panel">
+          <summary>Read more <span aria-hidden="true">+</span></summary>
           <div className="detail-panel-inner project-detail-inner">
             <p className="detail-status">{project.status}</p>
             <p>{project.question}</p>
             <small>{project.tools.join(' · ')}</small>
           </div>
-        </div>
+        </details>
       </div>
     </article>
   );
 }
 
 function OtherProject({ project }: { project: Project }) {
-  const detail = useDetailPanel();
   const body = (
     <>
       <figure className="project-card-frame">
@@ -344,19 +312,20 @@ function OtherProject({ project }: { project: Project }) {
   );
 
   return (
-    <article className="project-card" {...detail.containerProps}>
+    <article className="project-card">
       {project.link ? (
         <a className="project-card-link" href={project.link} target="_blank" rel="noreferrer">{body}</a>
       ) : (
         <div className="project-card-link">{body}</div>
       )}
       <div className="project-card-details">
-        <div className="detail-panel" aria-hidden={!detail.open}>
+        <details className="detail-panel">
+          <summary>Read more <span aria-hidden="true">+</span></summary>
           <div className="detail-panel-inner project-detail-inner">
             <p className="detail-proof">{project.proof}</p>
             <small>{project.tools.join(' · ')}</small>
           </div>
-        </div>
+        </details>
       </div>
     </article>
   );
@@ -469,9 +438,9 @@ function PortfolioPage() {
 
   return (
     <>
+      <div className="page-topline"><span>Research & independent software</span><a href="#projects">Explore the work <span aria-hidden="true">↘</span></a></div>
       <section className="profile-intro" id="start" aria-labelledby="profile-heading">
-        <Portrait />
-        <div>
+        <div className="profile-copy">
           <p className="section-code">Computational genomics</p>
           <h1 id="profile-heading">{profile.name}</h1>
           <p className="profile-kicker">{profile.kicker}</p>
@@ -481,6 +450,10 @@ function PortfolioPage() {
           </p>
           <p className="profile-summary"><WithOrganism text={profile.thesis} /></p>
           <p className="profile-aside">{profile.summary}</p>
+          <nav className="hero-actions" aria-label="Explore portfolio">
+            <a className="primary-action" href="#research">Explore research <span aria-hidden="true">↗</span></a>
+            <a href="#projects">Selected products <span aria-hidden="true">↓</span></a>
+          </nav>
           <dl className="profile-now">
             {profile.now.map((fact) => (
               <div key={fact.label}>
@@ -503,12 +476,25 @@ function PortfolioPage() {
             ))}
           </nav>
         </div>
+        <div className="profile-visual"><Portrait /><p className="portrait-caption"><span>01 / Profile</span><span>Science meets software</span></p></div>
+      </section>
+
+      <section className="selected-work" aria-labelledby="selected-heading">
+        <div className="selected-heading"><h2 id="selected-heading">A few things I’ve built</h2><a href="#projects">All products <span aria-hidden="true">↗</span></a></div>
+        <div className="selected-grid">
+          {featuredProjects.map((project) => (
+            <a className="selected-project" href={project.href} key={project.code}>
+              <img src={project.image} alt={`${project.title} interface`} loading="lazy" decoding="async" width={1600} height={900} />
+              <div><span>{project.category}</span><h3>{project.title} <span aria-hidden="true">↗</span></h3><p>{project.summary}</p></div>
+            </a>
+          ))}
+        </div>
       </section>
 
       <NewsList />
 
       <section className="content-section research-section" id="research" aria-labelledby="research-heading">
-        <SectionHeading label="01 / Research" title="Research" />
+        <SectionHeading label="01 / Research" title="Research" id="research-heading" />
         <div className="research-summary">
           <p><WithOrganism text={profile.researchLead} /></p>
           <dl>
@@ -530,14 +516,14 @@ function PortfolioPage() {
       </section>
 
       <section className="content-section" id="experience" aria-labelledby="work-heading">
-        <SectionHeading label="02 / Work" title="Work" />
+        <SectionHeading label="02 / Work" title="Work" id="work-heading" />
         <div className="experience-list">
           {experiences.map((experience) => <ExperienceEntry experience={experience} key={experience.role + experience.organization} />)}
         </div>
       </section>
 
       <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
-        <SectionHeading label="03 / Products" title="Products" />
+        <SectionHeading label="03 / Products" title="Products" id="projects-heading" />
         <p className="section-lede">Apps I have built for research, campus life, sports, training, and everyday use.</p>
         <div className="project-filters" role="group" aria-label="Project category">
           <button type="button" aria-pressed={category === 'All'} onClick={() => setCategory('All')}>All products</button>
@@ -561,7 +547,7 @@ function PortfolioPage() {
       </section>
 
       <section className="content-section about-section" id="about" aria-labelledby="about-heading">
-        <SectionHeading label="04 / About" title="About & contact" />
+        <SectionHeading label="04 / About" title="About & contact" id="about-heading" />
         <div className="about-grid">
           <article>
             <p className="section-code">Now</p>
@@ -620,6 +606,7 @@ function SiteFooter() {
 export default function App() {
   const [theme, setTheme] = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('start');
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const contentFrameRef = useRef<HTMLDivElement>(null);
   const restoreMenuFocus = useRef(false);
@@ -695,6 +682,30 @@ export default function App() {
     };
   }, [mobileOpen]);
 
+  useEffect(() => {
+    let frame = 0;
+    const updateSection = () => {
+      const marker = Math.min(window.innerHeight * 0.3, 240);
+      const current = [...sections].reverse().find((section) => {
+        const element = document.getElementById(section.id);
+        return element && element.getBoundingClientRect().top <= marker;
+      });
+      setActiveSection(current?.id ?? 'start');
+      frame = 0;
+    };
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateSection);
+    };
+    updateSection();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+    return () => {
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
   const closeAfterNavigation = () => {
     restoreMenuFocus.current = false;
     setMobileOpen(false);
@@ -706,6 +717,7 @@ export default function App() {
       <SiteRail
         theme={theme}
         mobileOpen={mobileOpen}
+        activeSection={activeSection}
         onThemeChange={setTheme}
         onToggleMobile={() => {
           if (mobileOpen) restoreMenuFocus.current = true;
