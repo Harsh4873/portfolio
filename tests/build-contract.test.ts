@@ -10,9 +10,7 @@ import {
   news,
   profile,
   projects,
-  researchChecks,
   researchOutputs,
-  researchStages,
 } from '../src/content';
 
 const repository = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -56,7 +54,6 @@ describe('Portfolio build contract', () => {
 describe('Portfolio content contract', () => {
   it('keeps every lab project address and capture unique and deployable', () => {
     expect(labProjects.length).toBeGreaterThan(0);
-    expect(new Set(labProjects.map(({ code }) => code)).size).toBe(labProjects.length);
     expect(new Set(labProjects.map(({ href }) => href)).size).toBe(labProjects.length);
     expect(new Set(labProjects.map(({ image }) => image)).size).toBe(labProjects.length);
 
@@ -65,9 +62,7 @@ describe('Portfolio content contract', () => {
       expect(project.image).toMatch(/^\/portfolio\/project-captures\/[a-z0-9-]+\.png$/);
       expect(existsSync(resolve(repository, 'public', project.image.replace('/portfolio/', '')))).toBe(true);
       expect([
-        project.code,
         project.title,
-        project.status,
         project.summary,
         project.question,
         ...project.tools,
@@ -78,8 +73,6 @@ describe('Portfolio content contract', () => {
   it('keeps every rendered narrative collection populated and uniquely keyed', () => {
     expect(experiences.length).toBeGreaterThan(0);
     expect(projects.length).toBeGreaterThan(0);
-    expect(researchStages.length).toBeGreaterThan(0);
-    expect(researchChecks.length).toBeGreaterThan(0);
 
     expect(new Set(experiences.map(({ role, organization }) => `${role}\0${organization}`)).size)
       .toBe(experiences.length);
@@ -89,13 +82,11 @@ describe('Portfolio content contract', () => {
     for (const project of projects) {
       expect(project.capture).toMatch(/^\/portfolio\/other-captures\/[a-z0-9-]+\.png$/);
       expect(existsSync(resolve(repository, 'public', project.capture.replace('/portfolio/', '')))).toBe(true);
-      expect([project.index, project.title, project.kicker, project.summary, project.proof, ...project.tools].every(nonEmpty)).toBe(true);
+      expect([project.title, project.kicker, project.summary, project.proof, ...project.tools].every(nonEmpty)).toBe(true);
     }
     expect(existsSync(resolve(repository, 'public', 'portrait.jpg'))).toBe(true);
-    expect(new Set(researchStages.map(({ index }) => index)).size).toBe(researchStages.length);
-    expect(new Set(researchChecks.map(({ title }) => title)).size).toBe(researchChecks.length);
     expect(new Set(news.map(({ title }) => title)).size).toBe(news.length);
-    expect(new Set(methodAreas.map(({ index }) => index)).size).toBe(methodAreas.length);
+    expect(new Set(methodAreas.map(({ title }) => title)).size).toBe(methodAreas.length);
     expect(researchOutputs.length).toBeGreaterThan(0);
     expect(labProjects.some((project) => project.featured)).toBe(true);
     expect(profile.labHref.startsWith('https://')).toBe(true);

@@ -228,7 +228,8 @@ img {
 
 .rail-nav-link {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0 24px;
   min-height: 58px;
   align-items: center;
   border-bottom: 1px solid var(--rail-rule);
@@ -513,10 +514,7 @@ img {
 }
 
 .section-heading {
-  display: grid;
-  grid-template-columns: 170px minmax(0, 1fr);
-  gap: 42px;
-  align-items: baseline;
+  display: block;
   margin-bottom: 42px;
 }
 
@@ -1295,7 +1293,7 @@ img {
   }
 
   .rail-nav-link {
-    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .rail-footer {

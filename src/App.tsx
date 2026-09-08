@@ -1,18 +1,14 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import {
   experiences,
-  labCategories,
   labProjects,
   methodAreas,
   news,
   profile,
   projects,
-  researchChecks,
   researchOutputs,
-  researchStages,
   sports,
   type Experience,
-  type LabCategory,
   type LabProject,
   type Project,
 } from './content';
@@ -20,14 +16,14 @@ import {
 const THEME_KEY = 'harsh-theme';
 
 const sections = [
-  { id: 'start', index: '00', label: 'Profile' },
-  { id: 'research', index: '01', label: 'Research' },
-  { id: 'experience', index: '02', label: 'Work' },
-  { id: 'projects', index: '03', label: 'Products' },
-  { id: 'about', index: '04', label: 'Contact' },
+  { id: 'start', label: 'Profile' },
+  { id: 'research', label: 'Research' },
+  { id: 'experience', label: 'Work' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'about', label: 'Contact' },
 ] as const;
 
-const featuredCodes = ['SYS-02', 'SYS-11', 'SYS-03'] as const;
+const featuredPaths = ['/genes/', '/radar/', '/research/'] as const;
 
 type Theme = 'light' | 'dark';
 
@@ -140,7 +136,6 @@ function SiteRail({ theme, mobileOpen, activeSection, onThemeChange, onToggleMob
         <nav className="rail-nav" aria-label="Portfolio sections">
           {sections.map((item) => (
             <a className="rail-nav-link" aria-current={activeSection === item.id ? 'location' : undefined} aria-label={item.label} href={`#${item.id}`} onClick={onNavigate} key={item.id}>
-              <span className="rail-index">{item.index}</span>
               <span className="rail-detail">{item.label}</span>
             </a>
           ))}
@@ -163,10 +158,9 @@ function SiteRail({ theme, mobileOpen, activeSection, onThemeChange, onToggleMob
   );
 }
 
-function SectionHeading({ label, title, id }: { label: string; title: string; id: string }) {
+function SectionHeading({ title, id }: { title: string; id: string }) {
   return (
     <header className="section-heading">
-      <p className="section-code">{label}</p>
       <h2 id={id}>{title}</h2>
     </header>
   );
@@ -252,7 +246,6 @@ function ExperienceEntry({ experience }: { experience: Experience }) {
             <ul>
               {experience.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
             </ul>
-            <p>{experience.translation}</p>
           </div>
         </details>
       </div>
@@ -268,10 +261,6 @@ function ProjectCard({ project }: { project: LabProject }) {
           <img src={project.image} alt={`${project.title} interface`} loading="lazy" decoding="async" width={1600} height={900} />
         </figure>
         <div className="project-card-copy">
-          <div className="project-card-meta">
-            <span>{project.code}</span>
-            <span>{project.category}</span>
-          </div>
           <h3>{project.title}</h3>
           <p>{project.summary}</p>
         </div>
@@ -280,7 +269,6 @@ function ProjectCard({ project }: { project: LabProject }) {
         <details className="detail-panel">
           <summary>Read more <span aria-hidden="true">+</span></summary>
           <div className="detail-panel-inner project-detail-inner">
-            <p className="detail-status">{project.status}</p>
             <p>{project.question}</p>
             <small>{project.tools.join(' · ')}</small>
           </div>
@@ -302,7 +290,6 @@ function OtherProject({ project }: { project: Project }) {
       </figure>
       <div className="project-card-copy">
         <div className="project-card-meta">
-          <span>{project.index}</span>
           <span>{project.kicker}</span>
         </div>
         <h3>{project.title}</h3>
@@ -326,45 +313,6 @@ function OtherProject({ project }: { project: Project }) {
             <small>{project.tools.join(' · ')}</small>
           </div>
         </details>
-      </div>
-    </article>
-  );
-}
-
-function ResearchDetails() {
-  return (
-    <article className="research-details" data-open="true">
-      <ol className="research-stage-index">
-        {researchStages.map((stage) => (
-          <li key={stage.index}>
-            <span>{stage.index}</span>
-            {stage.label}
-          </li>
-        ))}
-      </ol>
-      <div className="research-detail-inner">
-        <div>
-          <p className="detail-status">Workflow</p>
-          <ol>
-            {researchStages.map((stage) => (
-              <li key={stage.index}>
-                <strong>{stage.title}</strong>
-                <span>{stage.copy}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-        <div>
-          <p className="detail-status">Cross-checks</p>
-          <ul>
-            {researchChecks.map((check) => (
-              <li key={check.label}>
-                <strong>{check.title}</strong>
-                <span>{check.copy}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </article>
   );
@@ -397,8 +345,8 @@ function MethodAreas() {
   return (
     <div className="method-grid">
       {methodAreas.map((area) => (
-        <article key={area.index}>
-          <p className="section-code">{area.index} / {area.label}</p>
+        <article key={area.title}>
+          <p className="section-code">{area.label}</p>
           <h3>{area.title}</h3>
           <p>{area.copy}</p>
           <small>{area.tags.join(' · ')}</small>
@@ -411,7 +359,7 @@ function MethodAreas() {
 function ResearchOutputs() {
   return (
     <div className="research-outputs">
-      <p className="section-code">Selected products</p>
+      <p className="section-code">Selected projects</p>
       <ul>
         {researchOutputs.map((output) => (
           <li key={output.title}>
@@ -428,17 +376,14 @@ function ResearchOutputs() {
 }
 
 function PortfolioPage() {
-  const [category, setCategory] = useState<'All' | LabCategory>('All');
-  const featuredProjects = featuredCodes
-    .map((code) => labProjects.find((project) => project.code === code))
+  const featuredProjects = featuredPaths
+    .map((path) => labProjects.find((project) => project.href === path))
     .filter((project): project is LabProject => Boolean(project));
-  const visibleProjects = category === 'All'
-    ? [...featuredProjects, ...labProjects.filter((project) => !project.featured)]
-    : labProjects.filter((project) => project.category === category);
+  const visibleProjects = [...featuredProjects, ...labProjects.filter((project) => !project.featured)];
 
   return (
     <>
-      <div className="page-topline"><span>Research & independent software</span><a href="#projects">Explore the work <span aria-hidden="true">↘</span></a></div>
+      <div className="page-topline"><span>Research & software</span><a href="#projects">Explore the work <span aria-hidden="true">↘</span></a></div>
       <section className="profile-intro" id="start" aria-labelledby="profile-heading">
         <div className="profile-copy">
           <p className="section-code">Computational genomics</p>
@@ -452,7 +397,7 @@ function PortfolioPage() {
           <p className="profile-aside">{profile.summary}</p>
           <nav className="hero-actions" aria-label="Explore portfolio">
             <a className="primary-action" href="#research">Explore research <span aria-hidden="true">↗</span></a>
-            <a href="#projects">Selected products <span aria-hidden="true">↓</span></a>
+            <a href="#projects">Selected projects <span aria-hidden="true">↓</span></a>
           </nav>
           <dl className="profile-now">
             {profile.now.map((fact) => (
@@ -476,16 +421,16 @@ function PortfolioPage() {
             ))}
           </nav>
         </div>
-        <div className="profile-visual"><Portrait /><p className="portrait-caption"><span>01 / Profile</span><span>Science meets software</span></p></div>
+        <div className="profile-visual"><Portrait /></div>
       </section>
 
       <section className="selected-work" aria-labelledby="selected-heading">
-        <div className="selected-heading"><h2 id="selected-heading">A few things I’ve built</h2><a href="#projects">All products <span aria-hidden="true">↗</span></a></div>
+        <div className="selected-heading"><h2 id="selected-heading">A few things I’ve built</h2><a href="#projects">All projects <span aria-hidden="true">↗</span></a></div>
         <div className="selected-grid">
           {featuredProjects.map((project) => (
-            <a className="selected-project" href={project.href} key={project.code}>
+            <a className="selected-project" href={project.href} key={project.href}>
               <img src={project.image} alt={`${project.title} interface`} loading="lazy" decoding="async" width={1600} height={900} />
-              <div><span>{project.category}</span><h3>{project.title} <span aria-hidden="true">↗</span></h3><p>{project.summary}</p></div>
+              <div><h3>{project.title} <span aria-hidden="true">↗</span></h3><p>{project.summary}</p></div>
             </a>
           ))}
         </div>
@@ -494,7 +439,7 @@ function PortfolioPage() {
       <NewsList />
 
       <section className="content-section research-section" id="research" aria-labelledby="research-heading">
-        <SectionHeading label="01 / Research" title="Research" id="research-heading" />
+        <SectionHeading title="Research" id="research-heading" />
         <div className="research-summary">
           <p><WithOrganism text={profile.researchLead} /></p>
           <dl>
@@ -511,31 +456,22 @@ function PortfolioPage() {
           </dl>
         </div>
         <MethodAreas />
-        <ResearchDetails />
         <ResearchOutputs />
       </section>
 
       <section className="content-section" id="experience" aria-labelledby="work-heading">
-        <SectionHeading label="02 / Work" title="Work" id="work-heading" />
+        <SectionHeading title="Work" id="work-heading" />
         <div className="experience-list">
           {experiences.map((experience) => <ExperienceEntry experience={experience} key={experience.role + experience.organization} />)}
         </div>
       </section>
 
       <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
-        <SectionHeading label="03 / Products" title="Products" id="projects-heading" />
+        <SectionHeading title="Projects" id="projects-heading" />
         <p className="section-lede">Apps I have built for research, campus life, sports, training, and everyday use.</p>
-        <div className="project-filters" role="group" aria-label="Project category">
-          <button type="button" aria-pressed={category === 'All'} onClick={() => setCategory('All')}>All products</button>
-          {labCategories.map((item) => (
-            <button type="button" aria-pressed={category === item} onClick={() => setCategory(item)} key={item}>
-              {item}
-            </button>
-          ))}
-        </div>
         {visibleProjects.length > 0 ? (
           <div className="project-grid">
-            {visibleProjects.map((project) => <ProjectCard project={project} key={project.code} />)}
+            {visibleProjects.map((project) => <ProjectCard project={project} key={project.href} />)}
           </div>
         ) : null}
         <div className="other-projects">
@@ -547,12 +483,12 @@ function PortfolioPage() {
       </section>
 
       <section className="content-section about-section" id="about" aria-labelledby="about-heading">
-        <SectionHeading label="04 / About" title="About & contact" id="about-heading" />
+        <SectionHeading title="About & contact" id="about-heading" />
         <div className="about-grid">
           <article>
             <p className="section-code">Now</p>
             <h3>Ioerger Lab</h3>
-            <p>Graduate assistant in computational genomics, advised by {profile.advisor}. Building products including MtbScope, Radar, Recall, and a private systems lab.</p>
+            <p>{profile.summary}</p>
             <a href={profile.labHref} target="_blank" rel="noreferrer">Faculty page</a>
           </article>
           <article>
