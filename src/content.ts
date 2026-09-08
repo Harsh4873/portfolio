@@ -8,19 +8,20 @@ export interface Experience {
   tools: string[];
 }
 
+export interface ProjectDetail {
+  heading: string;
+  copy: string;
+}
+
 export interface Project {
   title: string;
   kicker: string;
   summary: string;
   proof: string;
+  details?: ProjectDetail[];
   tools: string[];
   capture: string;
   link?: string;
-}
-
-export interface ProfileFact {
-  label: string;
-  value: string;
 }
 
 export interface Education {
@@ -39,6 +40,7 @@ export interface LabProject {
   image: string;
   summary: string;
   question: string;
+  details?: ProjectDetail[];
   tools: string[];
 }
 
@@ -49,30 +51,35 @@ export interface NewsItem {
   copy: string;
 }
 
-export interface MethodArea {
-  label: string;
+export interface ResearchTopic {
+  id: string;
   title: string;
-  copy: string;
-  tags: string[];
+  question: string;
+  summary: string;
+  contributions: string[];
+  methods: string[];
+}
+
+export interface Course {
+  code: string;
+  title: string;
+  description: string;
+  topics: string[];
 }
 
 export const profile = {
   name: 'Harsh Dave',
   mark: 'HD',
   kicker: 'Computational genomics · software',
+  role: 'Graduate research assistant',
   degree: 'M.S. Computer Science, Texas A&M',
   thesis:
-    'I study Mycobacterium tuberculosis gene function using TnSeq and genome-scale analysis.',
+    'I study how tuberculosis bacteria respond to drugs and evolve, using statistics and genomic data.',
   summary:
-    'Graduate research assistant at the Ioerger Lab. I also build apps for research, studying, and everyday use.',
+    'I also build software for reading papers, exploring genes, and keeping up with everyday tasks.',
   advisor: 'Thomas R. Ioerger',
   lab: 'Ioerger Lab, Texas A&M University',
   labHref: 'https://people.engr.tamu.edu/ioerger/index.html',
-  now: [
-    { label: 'Now', value: 'Graduate Assistant Research, Ioerger Lab' },
-    { label: 'Focus', value: 'TB genes, TnSeq, and bioinformatics' },
-    { label: 'Projects', value: 'MtbScope, Radar, and Recall' },
-  ] satisfies ProfileFact[],
   education: [
     {
       program: 'B.S. in Computer Science and Statistics, 2026',
@@ -93,16 +100,9 @@ export const profile = {
   ] satisfies ProfileLink[],
   portrait: '/portfolio/portrait.jpg',
   portraitFallback: '/portfolio/portrait.svg',
-  researchFacts: [
-    { label: 'Lab', value: 'Ioerger Lab, Texas A&M' },
-    { label: 'Advisor', value: 'Thomas R. Ioerger' },
-    { label: 'Organism', value: 'Mycobacterium tuberculosis' },
-    { label: 'Focus', value: 'Gene function, TnSeq, and genome-scale bioinformatics' },
-    { label: 'Scale', value: 'Genome-wide TB datasets on Texas A&M HPRC' },
-    { label: 'Compute', value: 'Python, Slurm, high-performance computing' },
-  ] satisfies ProfileFact[],
   researchLead:
-    'I study Mycobacterium tuberculosis gene function with bioinformatics, including TnSeq and genome-scale analysis.',
+    'My research in the Ioerger Lab focuses on Mycobacterium tuberculosis. I write analysis code, compare statistical models, and build tools for working with genomic data.',
+  contact: 'Interested in the research or something I’ve built? I’m happy to talk.',
 };
 
 export const news: NewsItem[] = [
@@ -144,30 +144,59 @@ export const news: NewsItem[] = [
   },
 ];
 
-export const methodAreas: MethodArea[] = [
+export const researchTopics: ResearchTopic[] = [
   {
-    label: 'TnSeq',
-    title: 'Gene function at genome scale',
-    copy: 'Use transposon sequencing to study TB gene function and essentiality.',
-    tags: ['TnSeq', 'Essentiality', 'Gene function'],
+    id: 'drug-response',
+    title: 'Drug response',
+    question: 'Which genes matter when TB bacteria encounter rifampicin?',
+    summary: 'I analyze transposon-sequencing data to study how gene disruption affects bacterial fitness across drug and growth conditions. The work includes differences between strains, media, and carbon sources.',
+    contributions: [
+      'Build gene-level linear models and compare nested models with likelihood-ratio tests.',
+      'Test interactions to examine how a drug response changes with the experimental conditions.',
+      'Apply false-discovery-rate correction across genes and prepare figures and tables for the research team.',
+    ],
+    methods: ['Python', 'pandas', 'SciPy', 'statsmodels', 'TnSeq', 'Linear models'],
   },
   {
-    label: 'Genes',
-    title: 'Gene annotation and comparison',
-    copy: 'Compare genome-wide results using H37Rv gene identifiers and annotations.',
-    tags: ['H37Rv', 'Annotation', 'Comparative genomics'],
+    id: 'genome-evolution',
+    title: 'Genome evolution',
+    question: 'How does selection differ across tuberculosis genomes?',
+    summary: 'I compare evidence of evolutionary selection in TB genomes from cohorts with and without diabetes. The analysis brings together Bayesian estimates and independent statistical checks.',
+    contributions: [
+      'Prepare sequence alignments and run genomic analyses with Python and Slurm on high-performance computing clusters.',
+      'Compare GenomegaMap posterior estimates of dN/dS, the rate of protein-changing substitutions relative to synonymous substitutions.',
+      'Cross-check results using pN/pS mutation counts, multiple-testing correction, and PAML/codeml models.',
+    ],
+    methods: ['GenomegaMap', 'PAML / codeml', 'Bayesian inference', 'Python', 'Slurm'],
   },
   {
-    label: 'Compute',
-    title: 'High-performance computing',
-    copy: 'Run genome-scale analyses with Python and Slurm on Texas A&M HPRC.',
-    tags: ['Python', 'Slurm', 'HPRC'],
+    id: 'research-software',
+    title: 'Research software',
+    question: 'How can I make the tools I need easier to use?',
+    summary: 'Looking up genes and reading papers are part of my daily work. I built MtbScope and the Research app to make those tasks easier, then added comparison, search, and study features as I needed them.',
+    contributions: [
+      'Build gene search and comparison views with annotations and links to the original sources.',
+      'Import open-access papers by DOI, PMID, or PMCID and organize their text, figures, tables, and references.',
+      'Turn notes into flashcards and quizzes, with progress saved between study sessions.',
+    ],
+    methods: ['React', 'TypeScript', 'Europe PMC', 'NCBI', 'PDF.js'],
+  },
+];
+
+export const courseworkTerm = 'Fall 2026 coursework';
+
+export const coursework: Course[] = [
+  {
+    code: 'CSCE 671',
+    title: 'Computer-Human Interaction',
+    description: 'Graduate study of how people use software, how interfaces are designed, and how to evaluate whether a design works.',
+    topics: ['Accessibility and inclusive design', 'Research methods and usability evaluation', 'Reading and discussing HCI research'],
   },
   {
-    label: 'Software',
-    title: 'Research and study apps',
-    copy: 'MtbScope is a TB gene browser. Radar collects papers, events, and paid studies. Recall turns notes into study sets.',
-    tags: ['MtbScope', 'Radar', 'Recall'],
+    code: 'CSCE 627',
+    title: 'Theory of Computability',
+    description: 'Formal models of computation and the limits of what algorithms can solve.',
+    topics: ['Finite automata and formal languages', 'Turing machines and decidability', 'Reductions and computational complexity'],
   },
 ];
 
@@ -178,13 +207,13 @@ export const experiences: Experience[] = [
     organization: 'Ioerger Lab · Texas A&M University',
     kind: 'Research',
     summary:
-      'Study Mycobacterium tuberculosis gene function using TnSeq and genome-scale bioinformatics.',
+      'Analyze TB drug-response experiments and genomic selection in the Ioerger Lab, using statistical models and high-performance computing.',
     highlights: [
-      'Analyze TB gene function with bioinformatics methods, including TnSeq and genome-wide datasets.',
-      'Run Python and Slurm workflows on Texas A&M HPRC so genome-scale jobs stay reproducible.',
-      'Record gene identifiers, annotations, and analysis parameters with each result.',
+      'Fit gene-level linear models to TnSeq data and test drug effects and interactions with growth conditions.',
+      'Prepare genomic data and run GenomegaMap and PAML/codeml analyses using Python and Slurm.',
+      'Compare model results, apply multiple-testing corrections, and prepare research figures and tables.',
     ],
-    tools: ['Python', 'R', 'Slurm', 'TnSeq', 'Bioinformatics', 'HPC'],
+    tools: ['Python', 'Slurm', 'TnSeq', 'GenomegaMap', 'PAML / codeml'],
   },
   {
     period: 'Aug - Dec 2025',
@@ -325,15 +354,25 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/mtbscope.png',
     summary: 'Search and compare tuberculosis genes, with annotations and links to sources.',
     question: 'Search by gene ID, symbol, or product. Compare up to eight genes with their annotations, locations, and operons.',
-    tools: ['Genomics', 'Search', 'Data visualization'],
+    details: [
+      { heading: "Why I built it", copy: "I wanted an easier way to look up TB genes while working on genomic analyses. MtbScope brings gene records and source annotations into a searchable interface." },
+      { heading: "What I built", copy: "Search across 4,018 H37Rv protein-coding genes, filter the catalog, and compare up to eight genes side by side. Comparison links can be saved and shared." },
+      { heading: "A useful detail", copy: "Gene pages combine annotations, sequences, published plots, and literature links. Ranking features account for missing measurements rather than treating missing values as zero." },
+    ],
+    tools: ['React', 'TypeScript', 'Genomics', 'Europe PMC'],
   },
   {
-    title: 'Recall',
+    title: 'Research',
     href: '/research/',
     image: '/portfolio/project-captures/sift.png',
-    summary: 'Turns notes and papers into flashcards, quizzes, and other study exercises.',
-    question: 'Create flashcards, quizzes, fill-in-the-blank questions, and matching exercises from markdown. Review the original material alongside each study set.',
-    tools: ['Flashcards', 'Quizzes', 'PDFs'],
+    summary: 'Read research papers and turn notes into flashcards, quizzes, and study exercises.',
+    question: 'Import papers by DOI, PMID, PMCID, or PDF. Read the full text, search claims and data, or make study exercises from your own notes.',
+    details: [
+      { heading: "Why I built it", copy: "I needed a convenient way to read papers closely and study from my own notes." },
+      { heading: "Reading papers", copy: "Review imports open-access full text through Europe PMC and NCBI. It keeps tables, figures, equations, and references with the paper, and supports searching within a saved library." },
+      { heading: "Studying notes", copy: "Recall generates flashcards, quizzes, fill-in-the-blank questions, and matching exercises from notes. PDF files are parsed on the device, and study progress can be saved and synced." },
+    ],
+    tools: ['React', 'TypeScript', 'PDF.js', 'Europe PMC', 'NCBI'],
   },
   {
     title: 'Daymark',
@@ -357,6 +396,10 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/fare.png',
     summary: 'Track calories and macros with saved foods, barcode search, and meal history.',
     question: 'Find frequently logged foods quickly. Past entries keep their original nutrition values when a saved food changes.',
+    details: [
+      { heading: "Why I built it", copy: "I wanted a straightforward way to track meals and nutrition without another subscription." },
+      { heading: "What it supports", copy: "Saved foods and meals, barcode search, calorie and macro totals, and suggestions based on previous entries. Past meals retain the nutrition values recorded at the time." },
+    ],
     tools: ['Nutrition', 'Barcode search', 'Private data'],
   },
   {
@@ -365,6 +408,10 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/gym.png',
     summary: 'Log workouts, follow training programs, and track progress.',
     question: 'Reusable programs track sets, reps, rest, supersets, calendar history, volume trends, and PRs without breaking old workout records when programs change.',
+    details: [
+      { heading: "Why I built it", copy: "I wanted to log workouts without paying for a subscription." },
+      { heading: "What it supports", copy: "Reusable training programs, sets, reps, rest, supersets, workout history, volume trends, and personal records. Changes to a program preserve earlier workout records." },
+    ],
     tools: ['Training', 'Programs', 'Progress history'],
   },
   {
@@ -397,7 +444,12 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/radar.png',
     summary: 'Browse research papers, Texas A&M events, and paid studies.',
     question: 'Combines listings from multiple sources, removes duplicates, and tracks changes. Paid studies are ranked by guaranteed hourly pay, with unknown rates listed separately.',
-    tools: ['Papers', 'Campus events', 'Paid studies'],
+    details: [
+      { heading: "Why I built it", copy: "Papers, campus events, and paid studies were spread across different websites. I wanted to browse them together and notice when a listing changed." },
+      { heading: "What I built", copy: "Scheduled collection from paper sources, university calendars, and study listings, with duplicate detection and ranking. Each listing links back to its source." },
+      { heading: "A useful detail", copy: "Paid studies are ranked by guaranteed hourly pay. Raffles are excluded from that calculation, and studies with unknown pay rates are listed separately." },
+    ],
+    tools: ['Astro', 'TypeScript', 'Europe PMC', 'OpenAlex'],
   },
 ];
 

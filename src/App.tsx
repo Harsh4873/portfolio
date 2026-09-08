@@ -1,16 +1,13 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import {
   experiences,
-  labProjects,
-  methodAreas,
   news,
   profile,
-  projects,
-  sports,
   type Experience,
-  type LabProject,
-  type Project,
 } from './content';
+import ProjectGallery from './components/ProjectGallery';
+import ResearchExplorer from './components/ResearchExplorer';
+import Contact from './components/Contact';
 
 const THEME_KEY = 'harsh-theme';
 
@@ -23,10 +20,6 @@ const sections = [
 ] as const;
 
 type Theme = 'light' | 'dark';
-
-function captureLabel(path: string) {
-  return path.replace(/^\/portfolio\//, '');
-}
 
 function WithOrganism({ text }: { text: string }) {
   const parts = text.split(/(Mycobacterium tuberculosis)/);
@@ -66,7 +59,7 @@ function useTheme() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#14110f' : '#500000');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#290d15' : '#450c18');
   }, [theme]);
 
   useEffect(() => {
@@ -214,7 +207,7 @@ function Portrait() {
         priority
         src={profile.portrait}
         fallbackSrc={profile.portraitFallback}
-        fallbackLabel="Drop public/portrait.jpg"
+        fallbackLabel="Portrait unavailable"
         alt={profile.name}
       />
     </figure>
@@ -250,71 +243,6 @@ function ExperienceEntry({ experience }: { experience: Experience }) {
   );
 }
 
-function ProjectCard({ project }: { project: LabProject }) {
-  return (
-    <article className="project-card">
-      <a className="project-card-link" href={project.href}>
-        <figure className="project-card-frame">
-          <img src={project.image} alt={`${project.title} interface`} loading="lazy" decoding="async" width={1600} height={900} />
-        </figure>
-        <div className="project-card-copy">
-          <h3>{project.title}</h3>
-          <p>{project.summary}</p>
-        </div>
-      </a>
-      <div className="project-card-details">
-        <details className="detail-panel">
-          <summary>Read more <span aria-hidden="true">+</span></summary>
-          <div className="detail-panel-inner project-detail-inner">
-            <p>{project.question}</p>
-            <small>{project.tools.join(' · ')}</small>
-          </div>
-        </details>
-      </div>
-    </article>
-  );
-}
-
-function OtherProject({ project }: { project: Project }) {
-  const body = (
-    <>
-      <figure className="project-card-frame">
-        <ReplaceableImage
-          src={project.capture}
-          fallbackLabel={`Drop ${captureLabel(project.capture)}`}
-          alt={`${project.title} capture`}
-        />
-      </figure>
-      <div className="project-card-copy">
-        <div className="project-card-meta">
-          <span>{project.kicker}</span>
-        </div>
-        <h3>{project.title}</h3>
-        <p>{project.summary}</p>
-      </div>
-    </>
-  );
-
-  return (
-    <article className="project-card">
-      {project.link ? (
-        <a className="project-card-link" href={project.link} target="_blank" rel="noreferrer">{body}</a>
-      ) : (
-        <div className="project-card-link">{body}</div>
-      )}
-      <div className="project-card-details">
-        <details className="detail-panel">
-          <summary>Read more <span aria-hidden="true">+</span></summary>
-          <div className="detail-panel-inner project-detail-inner">
-            <p className="detail-proof">{project.proof}</p>
-            <small>{project.tools.join(' · ')}</small>
-          </div>
-        </details>
-      </div>
-    </article>
-  );
-}
-
 function NewsList() {
   return (
     <section className="news-section" aria-labelledby="news-heading">
@@ -338,50 +266,22 @@ function NewsList() {
   );
 }
 
-function MethodAreas() {
-  return (
-    <div className="method-grid">
-      {methodAreas.map((area) => (
-        <article key={area.title}>
-          <p className="section-code">{area.label}</p>
-          <h3>{area.title}</h3>
-          <p>{area.copy}</p>
-          <small>{area.tags.join(' · ')}</small>
-        </article>
-      ))}
-    </div>
-  );
-}
-
 function PortfolioPage() {
   return (
     <>
       <div className="page-topline"><span>Research & software</span><a href="#projects">Explore the work <span aria-hidden="true">↘</span></a></div>
       <section className="profile-intro" id="start" aria-labelledby="profile-heading">
         <div className="profile-copy">
-          <p className="section-code">Computational genomics</p>
+          <p className="section-code">{profile.role}</p>
           <h1 id="profile-heading">{profile.name}</h1>
-          <p className="profile-kicker">{profile.kicker}</p>
-          <p className="profile-degree">{profile.lab}</p>
-          <p className="profile-advisor">
-            Advised by <a href={profile.labHref} target="_blank" rel="noreferrer">{profile.advisor}</a>
-          </p>
+          <p className="profile-degree">{profile.degree}</p>
           <p className="profile-summary"><WithOrganism text={profile.thesis} /></p>
           <p className="profile-aside">{profile.summary}</p>
           <nav className="hero-actions" aria-label="Explore portfolio">
             <a className="primary-action" href="#research">Explore research <span aria-hidden="true">↗</span></a>
           </nav>
-          <dl className="profile-now">
-            {profile.now.map((fact) => (
-              <div key={fact.label}>
-                <dt>{fact.label}</dt>
-                <dd>{fact.value}</dd>
-              </div>
-            ))}
-          </dl>
           <nav className="profile-links" aria-label="Profile links">
-            <a href={profile.labHref} target="_blank" rel="noreferrer">Lab</a>
-            {profile.links.map((link) => (
+            {profile.links.filter(link => ['Resume', 'CV', 'GitHub', 'Email'].includes(link.label)).map((link) => (
               <a
                 href={link.href}
                 key={link.label}
@@ -396,26 +296,9 @@ function PortfolioPage() {
         <div className="profile-visual"><Portrait /></div>
       </section>
 
-      <NewsList />
-
       <section className="content-section research-section" id="research" aria-labelledby="research-heading">
         <SectionHeading title="Research" id="research-heading" />
-        <div className="research-summary">
-          <p><WithOrganism text={profile.researchLead} /></p>
-          <dl>
-            {profile.researchFacts.map((fact) => (
-              <div key={fact.label}>
-                <dt>{fact.label}</dt>
-                <dd>{fact.label === 'Lab' ? (
-                  <a href={profile.labHref} target="_blank" rel="noreferrer">{fact.value}</a>
-                ) : fact.label === 'Organism' ? (
-                  <WithOrganism text={fact.value} />
-                ) : fact.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-        <MethodAreas />
+        <ResearchExplorer />
       </section>
 
       <section className="content-section" id="experience" aria-labelledby="work-heading">
@@ -423,66 +306,18 @@ function PortfolioPage() {
         <div className="experience-list">
           {experiences.map((experience) => <ExperienceEntry experience={experience} key={experience.role + experience.organization} />)}
         </div>
+        <details className="past-updates"><summary>Past updates <span aria-hidden="true">+</span></summary><NewsList /></details>
       </section>
 
       <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
         <SectionHeading title="Projects" id="projects-heading" />
         <p className="section-lede">Apps I have built for research, campus life, sports, training, and everyday use.</p>
-        {labProjects.length > 0 ? (
-          <div className="project-grid">
-            {labProjects.map((project) => <ProjectCard project={project} key={project.href} />)}
-          </div>
-        ) : null}
-        <div className="other-projects">
-          <p className="section-code">Other work</p>
-          <div className="project-grid">
-            {projects.map((project) => <OtherProject project={project} key={project.title} />)}
-          </div>
-        </div>
+        <ProjectGallery />
       </section>
 
       <section className="content-section about-section" id="about" aria-labelledby="about-heading">
-        <SectionHeading title="About & contact" id="about-heading" />
-        <div className="about-grid">
-          <article>
-            <p className="section-code">Now</p>
-            <h3>Ioerger Lab</h3>
-            <p>{profile.summary}</p>
-            <a href={profile.labHref} target="_blank" rel="noreferrer">Faculty page</a>
-          </article>
-          <article>
-            <p className="section-code">Education</p>
-            <h3>Texas A&amp;M University</h3>
-            {profile.education.map((item) => (
-              <p key={item.program}>
-                {item.program}
-                <br />
-                {item.detail}
-              </p>
-            ))}
-          </article>
-          <article>
-            <p className="section-code">Outside work</p>
-            <h3>Sports and training</h3>
-            <p>{sports.join(' · ')}</p>
-            <a href="/gym/">Training log</a>
-          </article>
-          <article>
-            <p className="section-code">Contact</p>
-            <div className="contact-links">
-              {profile.links.map((link) => (
-                <a
-                  href={link.href}
-                  key={link.label}
-                  target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-                  rel={link.href.startsWith('mailto:') ? undefined : link.href.startsWith('/') ? 'noopener noreferrer' : 'noreferrer'}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </article>
-        </div>
+        <SectionHeading title="Contact" id="about-heading" />
+        <Contact />
       </section>
     </>
   );
