@@ -133,7 +133,6 @@ export default function ProjectGallery() {
           <article className="gallery-card" key={project.title}>
             <button type="button" className="gallery-image" aria-label={`View ${project.title} details`} onClick={event => openDetails(project, event.currentTarget)}>
               <img src={project.image} alt={`${project.title} interface`} loading="lazy" decoding="async" width={1600} height={900} />
-              {shotsOf(project).length > 1 && <span className="shot-count">{shotsOf(project).length} views</span>}
               <span className="image-action"><Maximize2 size={15} aria-hidden="true" /> View details</span>
             </button>
             <div className="gallery-copy">

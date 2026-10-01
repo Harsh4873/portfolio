@@ -164,7 +164,6 @@ summary::-webkit-details-marker { display: none; }
 .gallery-card:hover, .gallery-card:focus-within { border-color: var(--accent); box-shadow: 0 12px 30px -24px #35121566; }
 .gallery-image { position: relative; display: block; overflow: hidden; padding: 0; width: 100%; border-radius: 5px; background: var(--surface-soft); text-align: left; }
 .gallery-image img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; transition: transform 350ms ease; }
-.shot-count { position: absolute; left: 10px; bottom: 10px; padding: 4px 8px; border-radius: 999px; color: var(--text); background: var(--surface); border: 1px solid var(--rule); font: 11px var(--font-mono); }
 .shot-strip { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; }
 .shot-strip button { flex: none; width: 108px; padding: 0; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: var(--surface-soft); }
 .shot-strip button[aria-pressed='true'] { border-color: var(--accent); }
