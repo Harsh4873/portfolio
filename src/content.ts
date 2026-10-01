@@ -111,7 +111,7 @@ export const news: NewsItem[] = [
     date: '2026',
     kind: 'Software',
     title: 'More tools on harsh.bet',
-    copy: 'Added study, recipe, timer, car-search, and daily-overview apps next to the research and personal tools.',
+    copy: 'Added study, recipe, and timer apps next to the research and personal tools.',
   },
   {
     date: 'Jun 2026',
@@ -419,15 +419,6 @@ export const labProjects: LabProject[] = [
     tools: ['Tasks', 'Due dates', 'Optional sync'],
   },
   {
-    title: 'Today',
-    href: '/today/',
-    image: '/portfolio/project-captures/today.png',
-    images: ['/portfolio/project-captures/today.png', '/portfolio/project-captures/today-2.png'],
-    summary: 'One daily view across tasks, habits, nutrition, and training.',
-    question: 'Pulls the day together from Slate, Daymark, Fare, and Gym so the next useful thing is easier to see.',
-    tools: ['Tasks', 'Habits', 'Training'],
-  },
-  {
     title: 'Fare',
     href: '/fare/',
     image: '/portfolio/project-captures/fare.png',
@@ -496,15 +487,6 @@ export const labProjects: LabProject[] = [
     summary: 'Plan a graduate degree by moving courses between terms and checking catalog requirements.',
     question: 'Checks credit totals, breadth requirements, and research-hour limits as courses move between terms. Plans are saved on the device, with optional Google account sync.',
     tools: ['Rule evaluation', 'Drag and drop', 'Optional sync'],
-  },
-  {
-    title: 'Cars',
-    href: '/cars/',
-    image: '/portfolio/project-captures/cars.png',
-    images: ['/portfolio/project-captures/cars.png', '/portfolio/project-captures/cars-board.png'],
-    summary: 'A swipe deck of dealer-listed used cars, with photos, flags, and a searchable board.',
-    question: 'Each card shows price, miles, a photo gallery, a green flag, and a red flag. The board adds search, make, place, and sort. Likes can sync with the other signed-in tools.',
-    tools: ['Search', 'Photos', 'Filters'],
   },
   {
     title: 'Radar',
