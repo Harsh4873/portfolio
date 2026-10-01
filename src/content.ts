@@ -52,15 +52,6 @@ export interface NewsItem {
   copy: string;
 }
 
-export interface ResearchTopic {
-  id: string;
-  title: string;
-  question: string;
-  summary: string;
-  contributions: string[];
-  methods: string[];
-}
-
 export interface Course {
   code: string;
   title: string;
@@ -151,42 +142,43 @@ export const news: NewsItem[] = [
   },
 ];
 
-export const researchTopics: ResearchTopic[] = [
+export const manuscript = {
+  status: 'In preparation',
+  authors: 'Dave, H., Shatby, A., and Ioerger, T.',
+  title: 'Differential Bayesian analysis of genomic sequences identifies M. tuberculosis genes under positive selection in TB patients with diabetes.',
+};
+
+export interface ResearchCode {
+  name: string;
+  href: string;
+  copy: string;
+}
+
+export const researchCode: ResearchCode[] = [
   {
-    id: 'drug-response',
-    title: 'Drug response',
-    question: 'Which genes matter when TB bacteria encounter rifampicin?',
-    summary: 'I analyze transposon-sequencing data to study how gene disruption affects bacterial fitness across drug and growth conditions. The work includes differences between strains, media, and carbon sources.',
-    contributions: [
-      'Build gene-level linear models and compare nested models with likelihood-ratio tests.',
-      'Test interactions to examine how a drug response changes with the experimental conditions.',
-      'Apply false-discovery-rate correction across genes and prepare figures and tables for the research team.',
-    ],
-    methods: ['Python', 'pandas', 'SciPy', 'statsmodels', 'TnSeq', 'Linear models'],
+    name: 'GenomegaMap',
+    href: 'https://github.com/danny-wilson/genomegaMap',
+    copy: 'Bayesian estimates of dN/dS along the genome. I compare the posteriors across conditions on the cluster.',
   },
   {
-    id: 'genome-evolution',
-    title: 'Genome evolution',
-    question: 'How does selection differ across tuberculosis genomes?',
-    summary: 'I compare evidence of evolutionary selection across tuberculosis genomes. The analysis brings together Bayesian estimates and independent statistical checks.',
-    contributions: [
-      'Prepare sequence alignments and run genomic analyses with Python and Slurm on high-performance computing clusters.',
-      'Compare GenomegaMap posterior estimates of dN/dS, the rate of protein-changing substitutions relative to synonymous substitutions.',
-      'Cross-check results using pN/pS mutation counts, multiple-testing correction, and PAML/codeml models.',
-    ],
-    methods: ['GenomegaMap', 'PAML / codeml', 'Bayesian inference', 'Python', 'Slurm'],
+    name: 'PAML / codeml',
+    href: 'https://github.com/abacus-gene/paml',
+    copy: 'Site and branch models for the same alignments. Nested models are compared with a likelihood-ratio test.',
   },
   {
-    id: 'research-software',
-    title: 'Research software',
-    question: 'How can I make the tools I need easier to use?',
-    summary: 'Looking up genes and reading papers are part of my daily work. I built MtbScope, the Research app, and a few study tools to make those tasks easier.',
-    contributions: [
-      'Build gene search and comparison views with annotations and links to the original sources.',
-      'Import open-access papers by DOI, PMID, or PMCID and organize their text, figures, tables, and references.',
-      'Parse PDFs on the device and keep exam decks in a separate app, with notes, cards, quiz, blanks, and matching.',
-    ],
-    methods: ['React', 'TypeScript', 'Europe PMC', 'NCBI', 'PDF.js'],
+    name: 'pN/pS and codeml inputs',
+    href: 'https://github.com/ioerger/TB_diabetes_positive_selection',
+    copy: 'Counts nonsynonymous and synonymous changes against a reference, then collapses identical isolates into the alignment and tree codeml expects.',
+  },
+  {
+    name: 'TTN-Fitness',
+    href: 'https://github.com/ioerger/TTN-Fitness',
+    copy: 'Statistical analysis of Himar1 TnSeq. Drug-response work fits gene-level linear models to these fitness counts and tests them with likelihood-ratio tests.',
+  },
+  {
+    name: 'TRANSIT',
+    href: 'https://github.com/ioerger/transit',
+    copy: 'The Ioerger Lab toolkit for TnSeq and related sequencing experiments.',
   },
 ];
 

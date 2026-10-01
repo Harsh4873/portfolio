@@ -6,7 +6,8 @@ import { describe, expect, it } from 'vitest';
 import {
   experiences,
   labProjects,
-  researchTopics,
+  researchCode,
+  manuscript,
   coursework,
   news,
   profile,
@@ -86,7 +87,9 @@ describe('Portfolio content contract', () => {
     }
     expect(existsSync(resolve(repository, 'public', 'portrait.jpg'))).toBe(true);
     expect(new Set(news.map(({ title }) => title)).size).toBe(news.length);
-    expect(new Set(researchTopics.map(({ title }) => title)).size).toBe(researchTopics.length);
+    expect(manuscript.title.length).toBeGreaterThan(0);
+    expect(new Set(researchCode.map(({ href }) => href)).size).toBe(researchCode.length);
+    expect(researchCode.every((item) => item.href.startsWith('https://github.com/'))).toBe(true);
     expect(profile.labHref.startsWith('https://')).toBe(true);
     expect(coursework.length).toBeGreaterThan(0);
     expect(profile.education.length).toBeGreaterThan(0);

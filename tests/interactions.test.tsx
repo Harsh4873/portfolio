@@ -91,21 +91,16 @@ describe('Project browsing', () => {
   });
 });
 
-describe('Research navigation', () => {
-  it('supports arrow, Home, and End keys with a single selected tab and panel', () => {
+describe('Research', () => {
+  it('shows the manuscript and the analysis repositories, without topic tabs', () => {
     act(() => root.render(<ResearchExplorer />));
-    const tabs = [...container.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
-    tabs[0].focus();
-    act(() => tabs[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })));
-    expect(document.activeElement).toBe(tabs[1]);
-    expect(tabs[1].getAttribute('aria-selected')).toBe('true');
-    expect(container.querySelectorAll('[role="tabpanel"]:not([hidden])')).toHaveLength(1);
-    expect(container.querySelector('[role="tabpanel"]:not([hidden])')?.id).toBe(tabs[1].getAttribute('aria-controls'));
-    act(() => tabs[1].dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true })));
-    expect(document.activeElement).toBe(tabs[2]);
-    act(() => tabs[2].dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true })));
-    expect(document.activeElement).toBe(tabs[0]);
-    expect(tabs.filter(tab => tab.tabIndex === 0)).toHaveLength(1);
+    expect(container.querySelector('[role="tab"]')).toBeNull();
+    expect(container.textContent).toContain('In preparation');
+    expect(container.textContent).toContain('Shatby');
+    const links = [...container.querySelectorAll('a')].map((link) => link.getAttribute('href'));
+    expect(links).toContain('https://github.com/ioerger/TB_diabetes_positive_selection');
+    expect(links).toContain('https://github.com/danny-wilson/genomegaMap');
+    expect(links).toContain('https://github.com/abacus-gene/paml');
   });
 });
 
