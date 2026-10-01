@@ -45,20 +45,20 @@ function search(value: string) {
 describe('Project browsing', () => {
   it('matches all search words across names, descriptions, and tools', () => {
     expect(filterProjects('  REACT genomics ').map(project => project.title)).toEqual(['MtbScope']);
-    expect(filterProjects('')).toHaveLength(16);
+    expect(filterProjects('')).toHaveLength(22);
     expect(filterProjects('unmatched-project-name')).toEqual([]);
   });
 
   it('switches layouts, reports empty results, and restores the project list', () => {
     act(() => root.render(<ProjectGallery />));
-    expect(container.querySelectorAll('.gallery-card')).toHaveLength(16);
+    expect(container.querySelectorAll('.gallery-card')).toHaveLength(22);
     click(container.querySelectorAll('.view-switch button')[1]);
     expect(container.querySelector('.project-gallery')?.getAttribute('data-layout')).toBe('list');
     search('unmatched-project-name');
     expect(container.querySelectorAll('.gallery-card')).toHaveLength(0);
-    expect(container.querySelector('[role="status"]')?.textContent).toBe('0 of 16 projects');
+    expect(container.querySelector('[role="status"]')?.textContent).toBe('0 of 22 projects');
     click(container.querySelector('.gallery-empty button'));
-    expect(container.querySelectorAll('.gallery-card')).toHaveLength(16);
+    expect(container.querySelectorAll('.gallery-card')).toHaveLength(22);
   });
 
   it('opens project details and restores focus and scrolling when closed', () => {

@@ -90,7 +90,8 @@ describe('Portfolio content contract', () => {
     expect(profile.labHref.startsWith('https://')).toBe(true);
     expect(coursework.length).toBeGreaterThan(0);
     expect(profile.education.length).toBeGreaterThan(0);
-    expect(profile.links.some((link) => link.label === 'Resume' && link.href === '/resume.pdf')).toBe(true);
+    expect(profile.links.some((link) => link.label === 'Resume' && link.href === '/portfolio/resume.pdf')).toBe(true);
+    expect(existsSync(resolve(repository, 'public', 'resume.pdf'))).toBe(true);
     expect(profile.links.some((link) => link.label === 'CV' && link.href === '/portfolio/cv.pdf')).toBe(true);
     expect(existsSync(resolve(repository, 'public', 'cv.pdf'))).toBe(true);
     expect(profile.links.some((link) => link.href.startsWith('mailto:'))).toBe(true);

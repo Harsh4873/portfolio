@@ -38,6 +38,7 @@ export interface LabProject {
   title: string;
   href: string;
   image: string;
+  images?: string[];
   summary: string;
   question: string;
   details?: ProjectDetail[];
@@ -76,7 +77,7 @@ export const profile = {
   thesis:
     'I study how tuberculosis bacteria respond to drugs and evolve, using statistics and genomic data.',
   summary:
-    'I also build software for reading papers, exploring genes, and keeping up with everyday tasks.',
+    'I also build software for reading papers, exploring genes, studying, and keeping up with everyday tasks.',
   advisor: 'Thomas R. Ioerger',
   lab: 'Ioerger Lab, Texas A&M University',
   labHref: 'https://people.engr.tamu.edu/ioerger/index.html',
@@ -91,7 +92,7 @@ export const profile = {
     },
   ] satisfies Education[],
   links: [
-    { label: 'Resume', href: '/resume.pdf' },
+    { label: 'Resume', href: '/portfolio/resume.pdf' },
     { label: 'CV', href: '/portfolio/cv.pdf' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hdav' },
     { label: 'GitHub', href: 'https://github.com/Harsh4873' },
@@ -106,6 +107,12 @@ export const profile = {
 };
 
 export const news: NewsItem[] = [
+  {
+    date: '2026',
+    kind: 'Software',
+    title: 'More tools on harsh.bet',
+    copy: 'Added study, recipe, timer, car-search, and daily-overview apps next to the research and personal tools.',
+  },
   {
     date: 'Jun 2026',
     kind: 'Lab',
@@ -161,7 +168,7 @@ export const researchTopics: ResearchTopic[] = [
     id: 'genome-evolution',
     title: 'Genome evolution',
     question: 'How does selection differ across tuberculosis genomes?',
-    summary: 'I compare evidence of evolutionary selection in TB genomes from cohorts with and without diabetes. The analysis brings together Bayesian estimates and independent statistical checks.',
+    summary: 'I compare evidence of evolutionary selection across tuberculosis genomes. The analysis brings together Bayesian estimates and independent statistical checks.',
     contributions: [
       'Prepare sequence alignments and run genomic analyses with Python and Slurm on high-performance computing clusters.',
       'Compare GenomegaMap posterior estimates of dN/dS, the rate of protein-changing substitutions relative to synonymous substitutions.',
@@ -173,7 +180,7 @@ export const researchTopics: ResearchTopic[] = [
     id: 'research-software',
     title: 'Research software',
     question: 'How can I make the tools I need easier to use?',
-    summary: 'Looking up genes and reading papers are part of my daily work. I built MtbScope and the Research app to make those tasks easier, then added comparison, search, and study features as I needed them.',
+    summary: 'Looking up genes and reading papers are part of my daily work. I built MtbScope, the Research app, and a few study tools to make those tasks easier.',
     contributions: [
       'Build gene search and comparison views with annotations and links to the original sources.',
       'Import open-access papers by DOI, PMID, or PMCID and organize their text, figures, tables, and references.',
@@ -344,6 +351,7 @@ export const labProjects: LabProject[] = [
     title: 'PickLedger',
     href: '/pickledger/',
     image: '/portfolio/project-captures/pickledger.png',
+    images: ['/portfolio/project-captures/pickledger.png', '/portfolio/project-captures/pickledger-2.png'],
     summary: 'Tracks sports picks, their sources, and results over time.',
     question: 'Collects picks daily, compares source records, and grades results using ESPN data.',
     tools: ['Sports data', 'Automated grading', 'Source records'],
@@ -352,6 +360,7 @@ export const labProjects: LabProject[] = [
     title: 'MtbScope',
     href: '/genes/',
     image: '/portfolio/project-captures/mtbscope.png',
+    images: ['/portfolio/project-captures/mtbscope.png', '/portfolio/project-captures/mtbscope-browse.png', '/portfolio/project-captures/mtbscope-compare.png'],
     summary: 'Search and compare tuberculosis genes, with annotations and links to sources.',
     question: 'Search by gene ID, symbol, or product. Compare up to eight genes with their annotations, locations, and operons.',
     details: [
@@ -365,19 +374,38 @@ export const labProjects: LabProject[] = [
     title: 'Research',
     href: '/research/',
     image: '/portfolio/project-captures/sift.png',
+    images: ['/portfolio/project-captures/sift.png', '/portfolio/project-captures/sift-paper.png'],
     summary: 'Read research papers and turn notes into flashcards, quizzes, and study exercises.',
     question: 'Import papers by DOI, PMID, PMCID, or PDF. Read the full text, search claims and data, or make study exercises from your own notes.',
     details: [
       { heading: "Why I built it", copy: "I needed a convenient way to read papers closely and study from my own notes." },
       { heading: "Reading papers", copy: "Review imports open-access full text through Europe PMC and NCBI. It keeps tables, figures, equations, and references with the paper, and supports searching within a saved library." },
-      { heading: "Studying notes", copy: "Recall generates flashcards, quizzes, fill-in-the-blank questions, and matching exercises from notes. PDF files are parsed on the device, and study progress can be saved and synced." },
+      { heading: "Studying notes", copy: "Notes can become flashcards, quizzes, fill-in-the-blank questions, and matching exercises. PDF files are parsed on the device, and study progress can be saved. Exam decks also live in Quizlet." },
     ],
     tools: ['React', 'TypeScript', 'PDF.js', 'Europe PMC', 'NCBI'],
+  },
+  {
+    title: 'Quizlet',
+    href: '/quizlet/',
+    image: '/portfolio/project-captures/quizlet.png',
+    summary: 'Flashcards for exam prep, with quiz, blanks, and matching.',
+    question: 'Decks stay on the device. Sync is optional, and a new account starts empty. Cards, a quiz, fill-in-the-blank, and matching sit in one place.',
+    tools: ['Flashcards', 'Quiz', 'On device'],
+  },
+  {
+    title: 'Simplfy',
+    href: '/simplfy/',
+    image: '/portfolio/project-captures/simplfy.png',
+    images: ['/portfolio/project-captures/simplfy.png', '/portfolio/project-captures/simplfy-learn.png'],
+    summary: 'A study buddy for statistics and tuberculosis biology: analogy, worked example, practice, then explain it back.',
+    question: 'Lessons live on a shelf you can filter. Each one starts with a plain-language picture of the idea, then a worked problem, then practice.',
+    tools: ['Statistics', 'Study', 'Biology'],
   },
   {
     title: 'Daymark',
     href: '/daymark/',
     image: '/portfolio/project-captures/daymark.png',
+    images: ['/portfolio/project-captures/daymark.png', '/portfolio/project-captures/daymark-week.png'],
     summary: 'A flexible habit tracker for goals, streaks, reviews, notes, and optional cross-device sync.',
     question: 'Track habits by count, time, or distance. Set daily, weekly, or monthly targets and review progress with notes and heatmaps.',
     tools: ['Habits', 'Streaks', 'Optional sync'],
@@ -391,9 +419,19 @@ export const labProjects: LabProject[] = [
     tools: ['Tasks', 'Due dates', 'Optional sync'],
   },
   {
+    title: 'Today',
+    href: '/today/',
+    image: '/portfolio/project-captures/today.png',
+    images: ['/portfolio/project-captures/today.png', '/portfolio/project-captures/today-2.png'],
+    summary: 'One daily view across tasks, habits, nutrition, and training.',
+    question: 'Pulls the day together from Slate, Daymark, Fare, and Gym so the next useful thing is easier to see.',
+    tools: ['Tasks', 'Habits', 'Training'],
+  },
+  {
     title: 'Fare',
     href: '/fare/',
     image: '/portfolio/project-captures/fare.png',
+    images: ['/portfolio/project-captures/fare.png', '/portfolio/project-captures/fare-log.png'],
     summary: 'Track calories and macros with saved foods, barcode search, and meal history.',
     question: 'Find frequently logged foods quickly. Past entries keep their original nutrition values when a saved food changes.',
     details: [
@@ -403,9 +441,19 @@ export const labProjects: LabProject[] = [
     tools: ['Nutrition', 'Barcode search', 'Private data'],
   },
   {
+    title: 'Recipes',
+    href: '/recipes/',
+    image: '/portfolio/project-captures/recipes.png',
+    images: ['/portfolio/project-captures/recipes.png', '/portfolio/project-captures/recipes-2.png'],
+    summary: 'A library of substantial vegetarian lunches and dinners, with macros and grocery notes.',
+    question: 'Search meals, read the steps, and see practical grocery guidance. The library is built to be cooked from, not just saved.',
+    tools: ['Recipes', 'Macros', 'Search'],
+  },
+  {
     title: 'Gym',
     href: '/gym/',
     image: '/portfolio/project-captures/gym.png',
+    images: ['/portfolio/project-captures/gym.png', '/portfolio/project-captures/gym-2.png'],
     summary: 'Log workouts, follow training programs, and track progress.',
     question: 'Reusable programs track sets, reps, rest, supersets, calendar history, volume trends, and PRs without breaking old workout records when programs change.',
     details: [
@@ -426,22 +474,43 @@ export const labProjects: LabProject[] = [
     title: 'ShotLab',
     href: '/shotlab/',
     image: '/portfolio/project-captures/shotlab.png',
+    images: ['/portfolio/project-captures/shotlab.png', '/portfolio/project-captures/shotlab-2.png'],
     summary: 'Analyze basketball shooting form from a video and compare shots with previous makes.',
     question: 'Estimates body position and shooting phases on the device. The release frame can be adjusted manually. It does not track the ball or detect makes automatically.',
     tools: ['Pose estimation', 'On-device inference', 'Outcome comparison'],
   },
   {
+    title: 'Timer',
+    href: '/timer/',
+    image: '/portfolio/project-captures/timer.png',
+    images: ['/portfolio/project-captures/timer.png', '/portfolio/project-captures/timer-ocean.png'],
+    summary: 'A focus timer with living scenes such as forest, rain, ocean, and snow.',
+    question: 'Pick a scene and set a session on one screen. The scenes are drawn in the browser.',
+    tools: ['Focus', 'Scenes', 'Timer'],
+  },
+  {
     title: 'Degree Canvas',
     href: '/degree/',
     image: '/portfolio/project-captures/degree.png',
+    images: ['/portfolio/project-captures/degree.png', '/portfolio/project-captures/degree-2.png'],
     summary: 'Plan a graduate degree by moving courses between terms and checking catalog requirements.',
     question: 'Checks credit totals, breadth requirements, and research-hour limits as courses move between terms. Plans are saved on the device, with optional Google account sync.',
     tools: ['Rule evaluation', 'Drag and drop', 'Optional sync'],
   },
   {
+    title: 'Cars',
+    href: '/cars/',
+    image: '/portfolio/project-captures/cars.png',
+    images: ['/portfolio/project-captures/cars.png', '/portfolio/project-captures/cars-board.png'],
+    summary: 'A swipe deck of dealer-listed used cars, with photos, flags, and a searchable board.',
+    question: 'Each card shows price, miles, a photo gallery, a green flag, and a red flag. The board adds search, make, place, and sort. Likes can sync with the other signed-in tools.',
+    tools: ['Search', 'Photos', 'Filters'],
+  },
+  {
     title: 'Radar',
     href: '/radar/',
     image: '/portfolio/project-captures/radar.png',
+    images: ['/portfolio/project-captures/radar.png', '/portfolio/project-captures/radar-studies.png'],
     summary: 'Browse research papers, Texas A&M events, and paid studies.',
     question: 'Combines listings from multiple sources, removes duplicates, and tracks changes. Paid studies are ranked by guaranteed hourly pay, with unknown rates listed separately.',
     details: [

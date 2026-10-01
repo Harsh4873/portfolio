@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Curriculum vitae</title>
+  <style>
+    @page { size: letter; margin: 0.62in 0.7in; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      color: #1c1416;
+      font: 11px/1.42 Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    }
+    h1 { margin: 0; font-size: 26px; font-weight: 500; letter-spacing: -0.03em; }
+    .kicker { margin: 2px 0 0; color: #5c3a42; font: 11px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    .contact { margin: 6px 0 0; color: #4d3d42; font: 10.5px/1.45 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    .contact a { color: inherit; text-decoration: none; }
+    h2 {
+      margin: 16px 0 6px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid #c9b8bc;
+      font: 600 11px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      break-after: avoid;
+    }
+    h3 { margin: 10px 0 0; font-size: 12px; }
+    .row { display: flex; justify-content: space-between; gap: 18px; break-inside: avoid; }
+    .org { margin: 1px 0 0; color: #4d3d42; font-style: italic; }
+    .when { flex: none; color: #4d3d42; font: 10.5px/1.35 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    ul { margin: 3px 0 0; padding-left: 16px; }
+    li { margin: 2px 0; }
+    p { margin: 4px 0; }
+    .block { break-inside: avoid; }
+    .skills strong { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    i { font-style: italic; }
+  </style>
+</head>
+<body>
+  <h1>Harsh Dave</h1>
+  <p class="kicker">Computational genomics · software</p>
+  <p class="contact">
+    <a href="https://harsh.bet/portfolio/">harsh.bet/portfolio</a>
+    · <a href="mailto:hdav4873@gmail.com">hdav4873@gmail.com</a>
+    · <a href="https://github.com/Harsh4873">github.com/Harsh4873</a>
+    · <a href="https://www.linkedin.com/in/hdav">linkedin.com/in/hdav</a>
+    · <a href="https://devpost.com/hdav3228">devpost.com/hdav3228</a>
+  </p>
+
+  <h2>Education</h2>
+  <div class="block">
+    <div class="row"><h3>Texas A&amp;M University</h3><p class="when">College Station, TX</p></div>
+    <div class="row"><p>M.S. Computer Science</p><p class="when">Expected 2028</p></div>
+    <p>Graduate coursework includes computer-human interaction and theory of computability.</p>
+  </div>
+  <div class="block">
+    <div class="row"><p>B.S. Computer Science and B.S. Statistics, Summa Cum Laude</p><p class="when">May 2026</p></div>
+    <p>GPA 3.92/4.00.</p>
+  </div>
+
+  <h2>Research interests</h2>
+  <p>Computational genomics of <i>Mycobacterium tuberculosis</i>. Drug-response experiments, molecular evolution, and software for reading genes and papers.</p>
+
+  <h2>Research experience</h2>
+  <div class="block">
+    <div class="row"><h3>Graduate Assistant Research, Computational Genomics</h3><p class="when">Jun 2026 - present</p></div>
+    <p class="org">Ioerger Lab, Texas A&amp;M University · Advisor: Thomas R. Ioerger</p>
+    <ul>
+      <li>Study how gene disruption changes bacterial fitness across drug and growth conditions, using transposon-sequencing data.</li>
+      <li>Fit gene-level linear models, compare nested models with likelihood-ratio tests, and test interactions between a drug response and the experimental conditions.</li>
+      <li>Apply false-discovery-rate correction across genes and prepare figures and tables for the research team.</li>
+      <li>Prepare sequence alignments and run genomic analyses with Python and Slurm on the Texas A&amp;M high-performance computing cluster.</li>
+      <li>Compare GenomegaMap posterior estimates of dN/dS, the rate of protein-changing substitutions relative to synonymous substitutions.</li>
+      <li>Cross-check results with pN/pS mutation counts, multiple-testing correction, and PAML/codeml models.</li>
+      <li>Build the lab-facing software described below so gene lookup, paper reading, and study sessions stay next to the analysis.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="row"><h3>Undergraduate Researcher</h3><p class="when">Jan 2025 - May 2025</p></div>
+    <p class="org">UrbanResilience.AI Lab, Texas A&amp;M University</p>
+    <ul>
+      <li>Developed Python data workflows for air-quality and wildfire-response analysis.</li>
+      <li>Joined Los Angeles air-quality APIs with scraped wildfire data before the modeling stage.</li>
+      <li>Handled differences in format, coverage, timing, and missing values in reusable preparation scripts.</li>
+    </ul>
+  </div>
+
+  <h2>Teaching</h2>
+  <div class="block">
+    <div class="row"><h3>Teaching Assistant, CS 111</h3><p class="when">Spring 2026</p></div>
+    <p class="org">Texas A&amp;M University</p>
+    <ul>
+      <li>Supported students learning Java and object-oriented programming.</li>
+      <li>Reviewed weekly submissions with consistent feedback and explained bugs through questions and small code examples.</li>
+    </ul>
+  </div>
+
+  <h2>Additional experience</h2>
+  <div class="block">
+    <div class="row"><h3>Software Engineering Capstone, Amazon-sponsored</h3><p class="when">Aug 2025 - Dec 2025</p></div>
+    <p class="org">Texas A&amp;M University · team of three</p>
+    <ul>
+      <li>Built a breach-intelligence platform connecting automated ingestion, AI-assisted processing, search, graph relationships, and analyst-facing exploration.</li>
+      <li>Worked on Scrapy and Tor ingestion through a LangChain and Gemini pipeline for entity and threat processing.</li>
+      <li>Designed a data path across AWS S3, MongoDB, Elasticsearch, Redis, and AWS Neptune.</li>
+      <li>Delivered Streamlit and Kibana views for querying breach data by sector and geography.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="row"><h3>AI Engineering Intern</h3><p class="when">May 2024 - Aug 2024</p></div>
+    <p class="org">Videomagic · remote</p>
+    <ul>
+      <li>Worked across machine-learning workflow automation, deepfake-detection data, and backend systems.</li>
+      <li>Evaluated PyTorch and Hugging Face frame-level workflows for AI-generated video detection, including failure modes.</li>
+      <li>Built authenticated APIs with Feathers.js, MySQL, Knex, Auth0, and JWT.</li>
+      <li>Shipped AI features associated with a 15% lift in engagement.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="row"><h3>Cloud Team Research Member</h3><p class="when">Early undergraduate</p></div>
+    <p class="org">SpaceCraft VR · College Station, TX</p>
+    <ul>
+      <li>Helped an eight-person research team automate cloud infrastructure for simulation work.</li>
+      <li>Contributed to a React and TypeScript sandbox and hardened access flows with Auth0.</li>
+    </ul>
+  </div>
+
+  <h2>Technical skills</h2>
+  <p class="skills"><strong>Data science and statistics.</strong> Python, R, SQL, pandas, NumPy, SciPy, scikit-learn, statsmodels, Bayesian inference, hypothesis testing, FDR correction, Matplotlib.</p>
+  <p class="skills"><strong>Bioinformatics and computing.</strong> GenomegaMap, PAML/codeml, dN/dS, pN/pS, FASTA processing, TnSeq, Slurm, Linux.</p>
+  <p class="skills"><strong>Machine learning and data systems.</strong> PyTorch, Hugging Face Transformers, LangChain, AWS, MongoDB, Elasticsearch, Redis, PostgreSQL, Git, GitHub Actions.</p>
+  <p class="skills"><strong>Programming.</strong> Java, C++, TypeScript, JavaScript, React, FastAPI, Docker.</p>
+  <p class="skills"><strong>Languages.</strong> English, Hindi, Gujarati.</p>
+
+  <h2>Software</h2>
+  <p>Independent tools at harsh.bet, built for lab work and for daily use. History for the signed-in tools can sync through a private account. The descriptions below match the public apps.</p>
+  <div class="block">
+    <h3>Research and study</h3>
+    <ul>
+      <li>MtbScope. Search and compare H37Rv genes, with annotations, locations, and links back to sources.</li>
+      <li>Research. Import open-access papers by DOI, PMID, or PMCID, and keep text, figures, tables, and references together.</li>
+      <li>Quizlet. Flashcards, quiz, fill-in-the-blank, and matching. Decks stay on the device unless sync is turned on.</li>
+      <li>Simplfy. A study buddy that starts with an analogy and a worked example, then practice, then an explanation in your own words.</li>
+      <li>Radar. Papers, Texas A&amp;M events, and paid studies in one list, with duplicates removed and source links kept.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>Daily tools</h3>
+    <ul>
+      <li>Today. One view across tasks, habits, nutrition, and training.</li>
+      <li>Slate. Lists, due dates, and priorities. Daymark. Habits by count, time, or distance, with streaks and reviews.</li>
+      <li>Notes. Folders, labels, search, and optional rich text. Fare. Calories and macros, saved foods, and barcode search.</li>
+      <li>Recipes. A searchable library of substantial vegetarian meals with macros and grocery notes.</li>
+      <li>Gym. Programs, sets, history, and personal records that stay intact when a program changes.</li>
+      <li>ShotLab. On-device basketball shooting-form estimates from video. Timer. A focus timer with drawn scenes such as forest, rain, ocean, and snow.</li>
+      <li>Degree. A graduate-plan board that checks catalog rules as courses move between terms.</li>
+      <li>Cars. A swipe deck of dealer-listed used cars, with photo galleries, a green flag, a red flag, and a searchable board.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>Earlier builds</h3>
+    <ul>
+      <li>PickLedger. Daily sports picks, source records, and graded results.</li>
+      <li>Point of sale prototype. Scrum lead for ordering, inventory, analytics, authentication, and accessible customer flows.</li>
+    </ul>
+  </div>
+
+  <h2>Competitions and course projects</h2>
+  <div class="block">
+    <div class="row"><h3>Alpha · Tidal Hackathon, 1st place</h3><p class="when">2024</p></div>
+    <ul>
+      <li>A math-learning app with interactive explanations, visualizations, notes, and PDF uploads.</li>
+      <li>Input validation reduced tool-call failures from 25% to 6%.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="row"><h3>TAMU Datathon, 2nd of 50 teams</h3><p class="when">2024</p></div>
+    <ul>
+      <li>Used web scraping and AI tools to investigate clues during the competition.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="row"><h3>Sign Sense</h3><p class="when">Hackathon</p></div>
+    <ul>
+      <li>A sign-language practice app. The team trained a YOLOv5 model on SageMaker and served recognition through FastAPI to a Svelte interface.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="row"><h3>ProfFinder · HowdyHack</h3><p class="when">24-hour build</p></div>
+    <ul>
+      <li>Faculty and course search over a database assembled from Texas A&amp;M data, with schedule cards and section search.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="row"><h3>Point of sale prototype</h3><p class="when">Course project</p></div>
+    <ul>
+      <li>Scrum lead for a full-stack point-of-sale platform covering ordering, inventory, analytics, authentication, and accessible customer flows.</li>
+      <li>Built across React, PostgreSQL, AWS, and OAuth2, with WCAG 2.1 requirements in the customer flows.</li>
+    </ul>
+  </div>
+
+  <h2>Coursework in progress</h2>
+  <p>Fall 2026. CSCE 671, Computer-Human Interaction: how people use software, how interfaces are designed, and how to evaluate whether a design works. CSCE 627, Theory of Computability: automata, Turing machines, decidability, and reductions.</p>
+</body>
+</html>

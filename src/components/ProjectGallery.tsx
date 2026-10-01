@@ -5,6 +5,7 @@ import { labProjects, projects, type ProjectDetail } from '../content';
 export interface GalleryProject {
   title: string;
   image: string;
+  images?: string[];
   summary: string;
   description: string;
   tools: string[];
@@ -12,6 +13,11 @@ export interface GalleryProject {
   href?: string;
   context?: string;
   personal: boolean;
+}
+
+function shotsOf(project: { image: string; images?: string[] }) {
+  const extra = project.images?.filter(Boolean) ?? [];
+  return extra.length ? extra : [project.image];
 }
 
 const galleryProjects: GalleryProject[] = [
@@ -25,6 +31,28 @@ export function filterProjects(query: string) {
     const text = [project.title, project.summary, project.description, project.context ?? '', ...project.tools].join(' ').toLowerCase();
     return words.every(word => text.includes(word));
   });
+}
+
+function ShotFrame({ images, title }: { images: string[]; title: string }) {
+  const [index, setIndex] = useState(0);
+  const src = images[index] ?? images[0];
+  return (
+    <>
+      <a className="dialog-image" href={src} target="_blank" rel="noreferrer" aria-label={`Open full screenshot of ${title}`}>
+        <img src={src} alt={`${title} interface`} />
+        <span><Maximize2 size={14} aria-hidden="true" /> Open screenshot</span>
+      </a>
+      {images.length > 1 && (
+        <div className="shot-strip" role="group" aria-label={`${title} screenshots`}>
+          {images.map((image, shotIndex) => (
+            <button key={image} type="button" aria-pressed={shotIndex === index} aria-label={`Show screenshot ${shotIndex + 1} of ${title}`} onClick={() => setIndex(shotIndex)}>
+              <img src={image} alt="" />
+            </button>
+          ))}
+        </div>
+      )}
+    </>
+  );
 }
 
 function ProjectDialog({ project, onDismiss }: { project: GalleryProject | null; onDismiss: () => void }) {
@@ -57,10 +85,7 @@ function ProjectDialog({ project, onDismiss }: { project: GalleryProject | null;
           <button ref={closeRef} type="button" className="icon-button dialog-close" aria-label="Close project details" onClick={() => dialogRef.current?.close()}><X size={20} aria-hidden="true" /></button>
         </header>
         <div className="dialog-body">
-          <a className="dialog-image" href={project.image} target="_blank" rel="noreferrer" aria-label={`Open full screenshot of ${project.title}`}>
-            <img src={project.image} alt={`${project.title} interface`} />
-            <span><Maximize2 size={14} aria-hidden="true" /> Open screenshot</span>
-          </a>
+          <ShotFrame images={shotsOf(project)} title={project.title} />
           <p className="dialog-lede">{project.summary}</p>
           <div className="dialog-sections">
             {(project.details ?? [{ heading: project.personal ? 'What it does' : 'About the work', copy: project.description }]).map(detail => (
@@ -108,6 +133,7 @@ export default function ProjectGallery() {
           <article className="gallery-card" key={project.title}>
             <button type="button" className="gallery-image" aria-label={`View ${project.title} details`} onClick={event => openDetails(project, event.currentTarget)}>
               <img src={project.image} alt={`${project.title} interface`} loading="lazy" decoding="async" width={1600} height={900} />
+              {shotsOf(project).length > 1 && <span className="shot-count">{shotsOf(project).length} views</span>}
               <span className="image-action"><Maximize2 size={15} aria-hidden="true" /> View details</span>
             </button>
             <div className="gallery-copy">

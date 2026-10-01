@@ -138,7 +138,7 @@ function SiteRail({ theme, mobileOpen, activeSection, onThemeChange, onToggleMob
             <button type="button" aria-pressed={theme === 'dark'} onClick={() => onThemeChange('dark')}>Dark</button>
           </div>
           <a href={profile.labHref} target="_blank" rel="noreferrer">Lab</a>
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+          <a href="/portfolio/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
           <a href="/portfolio/cv.pdf" target="_blank" rel="noopener noreferrer">CV</a>
           <a href="https://www.linkedin.com/in/hdav" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="https://github.com/Harsh4873" target="_blank" rel="noreferrer">GitHub</a>
