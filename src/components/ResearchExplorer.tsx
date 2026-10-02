@@ -13,7 +13,7 @@ export default function ResearchExplorer() {
         {researchCode.map((item) => (
           <li key={item.name}>
             <a href={item.href} target="_blank" rel="noreferrer">{item.name} <ArrowUpRight size={14} aria-hidden="true" /></a>
-            <p>{item.copy}</p>
+            <p>{item.copy}{item.source && <> Source: <a href={item.source.href} target="_blank" rel="noreferrer">{item.source.label}</a>.</>}</p>
           </li>
         ))}
       </ul>

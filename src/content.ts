@@ -152,18 +152,15 @@ export interface ResearchCode {
   name: string;
   href: string;
   copy: string;
+  source?: { label: string; href: string };
 }
 
 export const researchCode: ResearchCode[] = [
   {
-    name: 'TB Genome Portal',
-    href: 'https://orca2.tamu.edu/U19/',
-    copy: 'The lab browser for the H37Rv genome: annotations, operons, TnSeq, and GenomegaMap plots across 4,018 genes.',
-  },
-  {
     name: 'MtbScope',
     href: 'https://harsh.bet/genes/',
-    copy: 'My browser for that same catalog. Search by Rv number, symbol, or product, and compare up to eight genes, with literature from Europe PMC.',
+    copy: 'Search by Rv number, symbol, or product, and compare up to eight genes. The catalog, annotations, operons, TnSeq, and GenomegaMap plots are assembled from the TB Genome Portal.',
+    source: { label: 'TB Genome Portal', href: 'https://orca2.tamu.edu/U19/' },
   },
   {
     name: 'GenomegaMap',
@@ -367,11 +364,11 @@ export const labProjects: LabProject[] = [
     image: '/portfolio/project-captures/mtbscope.png',
     images: ['/portfolio/project-captures/mtbscope.png', '/portfolio/project-captures/mtbscope-browse.png', '/portfolio/project-captures/mtbscope-compare.png'],
     summary: 'A catalog of 4,018 H37Rv genes, with side-by-side comparison and ranking on measured signals.',
-    question: 'Search by gene ID, symbol, or product. Pin up to eight genes. Literature comes from Europe PMC. The catalog is the TB Genome Portal protein table, reimplemented independently.',
+    question: 'Search by gene ID, symbol, or product. Pin up to eight genes. The catalog, annotations, operons, TnSeq, and GenomegaMap plots come from the TB Genome Portal (https://orca2.tamu.edu/U19/). Literature comes from Europe PMC.',
     details: [
-      { heading: 'Catalog', copy: '4,018 protein-coding genes, with annotations from TBDB, RefSeq, PATRIC, TubercuList, and NCBI.' },
+      { heading: 'Catalog', copy: '4,018 protein-coding genes. Annotations from TBDB, RefSeq, PATRIC, TubercuList, and NCBI are the ones published on the TB Genome Portal.' },
       { heading: 'Comparison', copy: 'Up to eight genes, side by side. Ranking is a weighted mean over the signals measured for that gene.' },
-      { heading: 'Literature', copy: 'A gene page links to Europe PMC. The catalog is the published H37Rv protein table.' },
+      { heading: 'Source', copy: 'TB Genome Portal, https://orca2.tamu.edu/U19/.' },
     ],
     tools: ['React', 'TypeScript', 'Genomics', 'Europe PMC'],
   },
