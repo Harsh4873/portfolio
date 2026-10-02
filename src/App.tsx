@@ -248,7 +248,7 @@ function PortfolioPage() {
 
       <section className="content-section projects-section" id="projects" aria-labelledby="projects-heading">
         <SectionHeading title="Projects" id="projects-heading" />
-        <p className="section-lede">Apps I have built for research, campus life, sports, training, and everyday use.</p>
+        <p className="section-lede">Swipe through the work, or switch to cards and list. Same search either way.</p>
         <ProjectGallery />
       </section>
 

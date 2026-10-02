@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, ExternalLink, Grid2X2, List, Maximize2, Search, X } from 'lucide-react';
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { ArrowUpRight, ExternalLink, Grid2X2, Heart, List, Maximize2, RotateCcw, Search, X } from 'lucide-react';
 import { labProjects, projects, type ProjectDetail } from '../content';
 
 export interface GalleryProject {
@@ -24,6 +24,8 @@ const galleryProjects: GalleryProject[] = [
   ...labProjects.map(project => ({ ...project, description: project.question, personal: true })),
   ...projects.map(project => ({ ...project, image: project.capture, description: project.proof, href: project.link, context: project.kicker, personal: false })),
 ];
+
+const SWIPE_COMMIT_PX = 110;
 
 export function filterProjects(query: string) {
   const words = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
@@ -103,9 +105,140 @@ function ProjectDialog({ project, onDismiss }: { project: GalleryProject | null;
   );
 }
 
+function ProjectDeck({
+  projects,
+  onOpen,
+}: {
+  projects: readonly GalleryProject[];
+  onOpen: (project: GalleryProject, trigger: HTMLElement) => void;
+}) {
+  const [index, setIndex] = useState(0);
+  const [shot, setShot] = useState(0);
+  const [kept, setKept] = useState<readonly string[]>([]);
+  const [freshKeeps, setFreshKeeps] = useState<readonly string[]>([]);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const origin = useRef<{ x: number; pointerId: number } | null>(null);
+  const project = projects[index];
+  const shots = project ? shotsOf(project) : [];
+
+  useEffect(() => {
+    setShot(0);
+  }, [project?.title]);
+
+  const advance = (direction: 'left' | 'right') => {
+    if (!project) return;
+    if (direction === 'right' && !kept.includes(project.title)) {
+      setKept((current) => [...current, project.title]);
+      setFreshKeeps((current) => [...current, project.title]);
+    }
+    setDragX(0);
+    setDragging(false);
+    setIndex((current) => current + 1);
+  };
+
+  const undo = () => {
+    const previous = projects[index - 1];
+    if (previous && freshKeeps.includes(previous.title)) {
+      setKept((current) => current.filter((title) => title !== previous.title));
+      setFreshKeeps((current) => current.filter((title) => title !== previous.title));
+    }
+    setDragX(0);
+    setIndex((current) => Math.max(0, current - 1));
+  };
+
+  const onPointerDown = (event: ReactPointerEvent<HTMLElement>) => {
+    if (event.button !== 0) return;
+    if ((event.target as HTMLElement).closest('a, button')) return;
+    origin.current = { x: event.clientX, pointerId: event.pointerId };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setDragging(true);
+  };
+
+  const onPointerMove = (event: ReactPointerEvent<HTMLElement>) => {
+    const start = origin.current;
+    if (!start || start.pointerId !== event.pointerId) return;
+    setDragX(event.clientX - start.x);
+  };
+
+  const onPointerUp = (event: ReactPointerEvent<HTMLElement>) => {
+    const start = origin.current;
+    origin.current = null;
+    setDragging(false);
+    if (!start || start.pointerId !== event.pointerId) return;
+    const distance = event.clientX - start.x;
+    if (distance >= SWIPE_COMMIT_PX) advance('right');
+    else if (distance <= -SWIPE_COMMIT_PX) advance('left');
+    else setDragX(0);
+  };
+
+  if (!project) {
+    return (
+      <div className="deck-end">
+        <h3>That is the deck.</h3>
+        <p>{kept.length} kept, {Math.max(projects.length - kept.length, 0)} passed.</p>
+        <button type="button" className="text-button" onClick={() => setIndex(0)}>Start over</button>
+      </div>
+    );
+  }
+
+  const likeOpacity = Math.min(1, Math.max(0, dragX / SWIPE_COMMIT_PX));
+  const nopeOpacity = Math.min(1, Math.max(0, -dragX / SWIPE_COMMIT_PX));
+
+  return (
+    <div className="project-deck">
+      <p className="deck-count">{projects.length - index} left{kept.length ? ` · ${kept.length} kept` : ''}</p>
+      <div className="deck-stage">
+        {projects[index + 1] ? <div className="deck-back" aria-hidden="true" /> : null}
+        <article
+          className={dragging ? 'deck-card is-dragging' : 'deck-card'}
+          style={{ transform: `translateX(${dragX}px) rotate(${dragX / 18}deg)` }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={() => { origin.current = null; setDragging(false); setDragX(0); }}
+        >
+          <div className="deck-photo">
+            <img src={shots[shot] ?? shots[0]} alt={`${project.title} interface`} draggable={false} />
+            <span className="deck-stamp deck-stamp-like" style={{ opacity: likeOpacity }}>Like</span>
+            <span className="deck-stamp deck-stamp-nope" style={{ opacity: nopeOpacity }}>Nope</span>
+            {shots.length > 1 && (
+              <div className="deck-dots" role="group" aria-label={`${project.title} screenshots`}>
+                {shots.map((image, shotIndex) => (
+                  <button
+                    key={image}
+                    type="button"
+                    className={shotIndex === shot ? 'is-on' : undefined}
+                    aria-label={`Photo ${shotIndex + 1} of ${project.title}`}
+                    aria-pressed={shotIndex === shot}
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onClick={() => setShot(shotIndex)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="deck-bio">
+            {project.context && <p className="gallery-context">{project.context}</p>}
+            <h3>{project.title}</h3>
+            <p>{project.summary}</p>
+            {kept.includes(project.title) ? <p className="deck-kept">Kept</p> : null}
+            <button type="button" className="text-button" aria-label={`Read about ${project.title}`} onPointerDown={(event) => event.stopPropagation()} onClick={(event) => onOpen(project, event.currentTarget)}>Read about it <span aria-hidden="true">→</span></button>
+          </div>
+        </article>
+      </div>
+      <div className="deck-actions">
+        <button type="button" className="deck-round deck-round-undo" aria-label="Undo" onClick={undo} disabled={index === 0}><RotateCcw size={18} aria-hidden="true" /></button>
+        <button type="button" className="deck-round deck-round-nope" aria-label="Pass" onClick={() => advance('left')}><X size={26} aria-hidden="true" /></button>
+        <button type="button" className="deck-round deck-round-like" aria-label="Like" onClick={() => advance('right')}><Heart size={28} aria-hidden="true" /></button>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectGallery() {
   const [query, setQuery] = useState('');
-  const [layout, setLayout] = useState<'cards' | 'list'>('cards');
+  const [layout, setLayout] = useState<'swipe' | 'cards' | 'list'>('swipe');
   const [selected, setSelected] = useState<GalleryProject | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const visible = filterProjects(query);
@@ -123,12 +256,14 @@ export default function ProjectGallery() {
       <div className="gallery-toolbar">
         <label className="project-search"><Search size={18} aria-hidden="true" /><span className="sr-only">Search projects</span><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search projects or tools" />{query && <button type="button" className="icon-button" aria-label="Clear project search" onClick={() => setQuery('')}><X size={16} aria-hidden="true" /></button>}</label>
         <div className="view-switch" role="group" aria-label="Project layout">
+          <button type="button" aria-pressed={layout === 'swipe'} onClick={() => setLayout('swipe')}>Swipe</button>
           <button type="button" aria-pressed={layout === 'cards'} onClick={() => setLayout('cards')}><Grid2X2 size={16} aria-hidden="true" /> Cards</button>
           <button type="button" aria-pressed={layout === 'list'} onClick={() => setLayout('list')}><List size={18} aria-hidden="true" /> List</button>
         </div>
       </div>
       <p className="gallery-count" role="status">{query ? `${visible.length} of ${galleryProjects.length}` : galleryProjects.length} projects</p>
-      <div className="project-gallery" data-layout={layout}>
+      {layout === 'swipe' && visible.length > 0 && <ProjectDeck key={query} projects={visible} onOpen={openDetails} />}
+      {layout !== 'swipe' && <div className="project-gallery" data-layout={layout}>
         {visible.map(project => (
           <article className="gallery-card" key={project.title}>
             <button type="button" className="gallery-image" aria-label={`View ${project.title} details`} onClick={event => openDetails(project, event.currentTarget)}>
@@ -145,7 +280,7 @@ export default function ProjectGallery() {
             </div>
           </article>
         ))}
-      </div>
+      </div>}
       {!visible.length && <div className="gallery-empty"><h3>No projects found</h3><p>Try a project name or a tool such as Python or React.</p><button type="button" className="text-button" onClick={() => setQuery('')}>Show all projects</button></div>}
       <ProjectDialog project={selected} onDismiss={dismiss} />
     </>

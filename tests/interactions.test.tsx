@@ -49,11 +49,13 @@ describe('Project browsing', () => {
     expect(filterProjects('unmatched-project-name')).toEqual([]);
   });
 
-  it('switches layouts, reports empty results, and restores the project list', () => {
+  it('opens on the swipe deck, can switch to the list, and restores an empty search', () => {
     act(() => root.render(<ProjectGallery />));
-    expect(container.querySelectorAll('.gallery-card')).toHaveLength(20);
-    click(container.querySelectorAll('.view-switch button')[1]);
+    expect(container.querySelector('.deck-card h3')?.textContent).toBe('PickLedger');
+    expect(container.querySelectorAll('.gallery-card')).toHaveLength(0);
+    click([...container.querySelectorAll('.view-switch button')].find((button) => button.textContent?.includes('List')) ?? null);
     expect(container.querySelector('.project-gallery')?.getAttribute('data-layout')).toBe('list');
+    expect(container.querySelectorAll('.gallery-card')).toHaveLength(20);
     search('unmatched-project-name');
     expect(container.querySelectorAll('.gallery-card')).toHaveLength(0);
     expect(container.querySelector('[role="status"]')?.textContent).toBe('0 of 20 projects');
@@ -61,9 +63,22 @@ describe('Project browsing', () => {
     expect(container.querySelectorAll('.gallery-card')).toHaveLength(20);
   });
 
+  it('passes a project and keeps the next one without leaving the deck', () => {
+    act(() => root.render(<ProjectGallery />));
+    click(container.querySelector('[aria-label="Pass"]'));
+    expect(container.querySelector('.deck-card h3')?.textContent).toBe('MtbScope');
+    click(container.querySelector('[aria-label="Like"]'));
+    expect(container.querySelector('.deck-card h3')?.textContent).toBe('Research');
+    expect(container.querySelector('.deck-count')?.textContent).toContain('1 kept');
+    click(container.querySelector('[aria-label="Undo"]'));
+    expect(container.querySelector('.deck-card h3')?.textContent).toBe('MtbScope');
+    expect(container.querySelector('.deck-count')?.textContent).not.toContain('kept');
+  });
+
   it('opens project details and restores focus and scrolling when closed', () => {
     document.body.style.overflow = 'scroll';
     act(() => root.render(<ProjectGallery />));
+    click([...container.querySelectorAll('.view-switch button')].find((button) => button.textContent?.includes('Cards')) ?? null);
     const trigger = container.querySelector<HTMLButtonElement>('[aria-label="Read about MtbScope"]')!;
     trigger.focus();
     click(trigger);
@@ -82,6 +97,7 @@ describe('Project browsing', () => {
 
   it('handles the native dialog close event and can open another project', () => {
     act(() => root.render(<ProjectGallery />));
+    click([...container.querySelectorAll('.view-switch button')].find((button) => button.textContent?.includes('Cards')) ?? null);
     click(container.querySelector('[aria-label="Read about Research"]'));
     act(() => container.querySelector('dialog')!.close());
     expect(document.body.style.overflow).toBe('');
