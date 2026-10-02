@@ -89,7 +89,7 @@ describe('Portfolio content contract', () => {
     expect(new Set(news.map(({ title }) => title)).size).toBe(news.length);
     expect(manuscript.title.length).toBeGreaterThan(0);
     expect(new Set(researchCode.map(({ href }) => href)).size).toBe(researchCode.length);
-    expect(researchCode.every((item) => item.href.startsWith('https://github.com/'))).toBe(true);
+    expect(researchCode.every((item) => item.href.startsWith('https://'))).toBe(true);
     expect(profile.labHref.startsWith('https://')).toBe(true);
     expect(coursework.length).toBeGreaterThan(0);
     expect(profile.education.length).toBeGreaterThan(0);

@@ -156,6 +156,16 @@ export interface ResearchCode {
 
 export const researchCode: ResearchCode[] = [
   {
+    name: 'TB Genome Portal',
+    href: 'https://orca2.tamu.edu/U19/',
+    copy: 'The lab browser for the H37Rv genome: annotations, operons, TnSeq, and GenomegaMap plots across 4,018 genes.',
+  },
+  {
+    name: 'MtbScope',
+    href: 'https://harsh.bet/genes/',
+    copy: 'My browser for that same catalog. Search by Rv number, symbol, or product, and compare up to eight genes, with literature from Europe PMC.',
+  },
+  {
     name: 'GenomegaMap',
     href: 'https://github.com/danny-wilson/genomegaMap',
     copy: 'Bayesian estimates of dN/dS along the genome. I compare the posteriors across conditions on the cluster.',

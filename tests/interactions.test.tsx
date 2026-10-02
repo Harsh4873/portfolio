@@ -99,6 +99,8 @@ describe('Research', () => {
     expect(container.textContent).toContain('Shatby');
     const links = [...container.querySelectorAll('a')].map((link) => link.getAttribute('href'));
     expect(links).toContain('https://github.com/ioerger/TB_diabetes_positive_selection');
+    expect(links).toContain('https://orca2.tamu.edu/U19/');
+    expect(links).toContain('https://harsh.bet/genes/');
     expect(links).toContain('https://github.com/danny-wilson/genomegaMap');
     expect(links).toContain('https://github.com/abacus-gene/paml');
   });
