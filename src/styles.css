@@ -133,7 +133,9 @@ summary::-webkit-details-marker { display: none; }
 .detail-panel summary span, .past-updates > summary span { transition: transform 200ms ease; }
 .detail-panel[open] summary span, .past-updates[open] > summary span { transform: rotate(45deg); }
 .experience-detail-inner { padding: 4px 0 10px 18px; border-left: 2px solid var(--rule); }
-.experience-detail-inner ul { display: grid; gap: 8px; margin: 0; padding-left: 16px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.experience-detail-inner ul { display: grid; gap: 2px; margin: 0; padding-left: 14px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.experience-detail-inner li { padding-left: 2px; }
+.experience-detail-inner li::marker { content: "- "; color: var(--muted); }
 .past-updates { border-top: 1px solid var(--rule); padding-top: 10px; }
 .news-heading { display: none; }
 .news-list { padding: 0; margin: 14px 0 0; list-style: none; }
