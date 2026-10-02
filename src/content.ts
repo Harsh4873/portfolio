@@ -66,7 +66,7 @@ export const profile = {
   role: 'Graduate research assistant',
   degree: 'M.S. Computer Science, Texas A&M',
   thesis:
-    'I study how tuberculosis bacteria respond to drugs and evolve, using statistics and genomic data.',
+    'I study positive selection in tuberculosis bacteria, using genomic data and statistical models.',
   summary:
     'I also build software for reading papers, exploring genes, studying, and keeping up with everyday tasks.',
   advisor: 'Thomas R. Ioerger',
@@ -93,7 +93,7 @@ export const profile = {
   portrait: '/portfolio/portrait.jpg',
   portraitFallback: '/portfolio/portrait.svg',
   researchLead:
-    'My research in the Ioerger Lab focuses on Mycobacterium tuberculosis. I write analysis code, compare statistical models, and build tools for working with genomic data.',
+    'In the Ioerger Lab I study positive selection in Mycobacterium tuberculosis. I compared 922 clinical isolates, 178 from patients with diabetes and 744 from patients without it, and I write the analysis code around GenomegaMap, PAML, and pN/pS.',
   contact: 'Interested in the research or something I’ve built? I’m happy to talk.',
 };
 
@@ -165,7 +165,7 @@ export const researchCode: ResearchCode[] = [
   {
     name: 'GenomegaMap',
     href: 'https://github.com/danny-wilson/genomegaMap',
-    copy: 'Bayesian estimates of dN/dS along the genome. I compare the posteriors across conditions on the cluster.',
+    copy: 'Bayesian dN/dS from MCMC samples. DPD uses those samples to estimate the probability that selection in one cohort is higher than in the other. The diabetes comparison is 178 isolates against 744.',
   },
   {
     name: 'PAML / codeml',
@@ -213,11 +213,11 @@ export const experiences: Experience[] = [
     organization: 'Ioerger Lab · Texas A&M University',
     kind: 'Research',
     summary:
-      'Analyze TB drug-response experiments and genomic selection in the Ioerger Lab, using statistical models and high-performance computing.',
+      'Positive selection in M. tuberculosis, including a comparison of 922 clinical isolates from patients with and without diabetes.',
     highlights: [
-      'Fit gene-level linear models to TnSeq data and test drug effects and interactions with growth conditions.',
-      'Prepare genomic data and run GenomegaMap and PAML/codeml analyses using Python and Slurm.',
-      'Compare model results, apply multiple-testing corrections, and prepare research figures and tables.',
+      'Ran gene-by-gene selection analysis on 178 diabetic and 744 non-diabetic isolates.',
+      'Built DPD from GenomegaMap MCMC samples of dN/dS: the probability that selection in one cohort is higher than in the other.',
+      'Compared DPD with PAML and pN/pS on the same alignments, and ran the gene-level jobs as Slurm array tasks.',
     ],
     tools: ['Python', 'Slurm', 'TnSeq', 'GenomegaMap', 'PAML / codeml'],
   },
