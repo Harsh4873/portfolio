@@ -66,7 +66,7 @@ export const profile = {
   role: 'Graduate research assistant',
   degree: 'M.S. Computer Science, Texas A&M',
   thesis:
-    'I study positive selection in tuberculosis bacteria, using genomic data and statistical models.',
+    'I study positive selection in tuberculosis bacteria, including differences across lineages and drug response, using Bayesian models and genomic data.',
   summary:
     'I also build software for reading papers, exploring genes, studying, and keeping up with everyday tasks.',
   advisor: 'Thomas R. Ioerger',
@@ -93,7 +93,7 @@ export const profile = {
   portrait: '/portfolio/portrait.jpg',
   portraitFallback: '/portfolio/portrait.svg',
   researchLead:
-    'In the Ioerger Lab I study positive selection in Mycobacterium tuberculosis. I compared 922 clinical isolates, 178 from patients with diabetes and 744 from patients without it, and I write the analysis code around GenomegaMap, PAML, and pN/pS.',
+    'In the Ioerger Lab I study positive selection in Mycobacterium tuberculosis with Bayesian dN/dS models. That includes lineage comparisons (L1-L4), a diabetes cohort comparison of 922 isolates (178 and 744), and rifampicin TnSeq, with the same genes checked in PAML and pN/pS.',
   contact: 'Interested in the research or something I’ve built? I’m happy to talk.',
 };
 
@@ -165,7 +165,7 @@ export const researchCode: ResearchCode[] = [
   {
     name: 'GenomegaMap',
     href: 'https://github.com/danny-wilson/genomegaMap',
-    copy: 'Bayesian dN/dS from MCMC samples. DPD uses those samples to estimate the probability that selection in one cohort is higher than in the other. The diabetes comparison is 178 isolates against 744.',
+    copy: 'Bayesian dN/dS from MCMC samples. DPD estimates the probability that selection in one group is higher than in another, for lineages L1-L4 and for 178 diabetic isolates against 744 non-diabetic isolates.',
   },
   {
     name: 'PAML / codeml',
@@ -213,11 +213,12 @@ export const experiences: Experience[] = [
     organization: 'Ioerger Lab · Texas A&M University',
     kind: 'Research',
     summary:
-      'Positive selection in M. tuberculosis, including a comparison of 922 clinical isolates from patients with and without diabetes.',
+      'Positive selection in M. tuberculosis: Bayesian dN/dS across lineages, a 922-isolate diabetes comparison, and rifampicin TnSeq.',
     highlights: [
-      'Ran gene-by-gene selection analysis on 178 diabetic and 744 non-diabetic isolates.',
-      'Built DPD from GenomegaMap MCMC samples of dN/dS: the probability that selection in one cohort is higher than in the other.',
-      'Compared DPD with PAML and pN/pS on the same alignments, and ran the gene-level jobs as Slurm array tasks.',
+      'Compare selection across lineages L1-L4 with GenomegaMap posteriors of dN/dS.',
+      'Ran the diabetes comparison on 178 diabetic and 744 non-diabetic isolates. DPD is the probability that selection in one group is higher than in the other.',
+      'Fit gene-level linear models to rifampicin TnSeq fitness and test them with likelihood-ratio tests.',
+      'Checked the same genes with PAML and pN/pS, and ran the gene-level jobs as Slurm array tasks.',
     ],
     tools: ['Python', 'Slurm', 'TnSeq', 'GenomegaMap', 'PAML / codeml'],
   },
