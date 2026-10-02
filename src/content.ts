@@ -66,7 +66,7 @@ export const profile = {
   role: 'Graduate research assistant',
   degree: 'M.S. Computer Science, Texas A&M',
   thesis:
-    'I study positive selection in tuberculosis bacteria, including differences across lineages and drug response, using Bayesian models and genomic data.',
+    'I use statistical models and genomic data to study how tuberculosis bacteria evolve and respond to antibiotics.',
   summary:
     'I also build software for reading papers, exploring genes, studying, and keeping up with everyday tasks.',
   advisor: 'Thomas R. Ioerger',
@@ -93,7 +93,7 @@ export const profile = {
   portrait: '/portfolio/portrait.jpg',
   portraitFallback: '/portfolio/portrait.svg',
   researchLead:
-    'In the Ioerger Lab I study positive selection in Mycobacterium tuberculosis with Bayesian dN/dS models. That includes lineage comparisons (L1-L4), a diabetes cohort comparison of 922 isolates (178 and 744), and rifampicin TnSeq, with the same genes checked in PAML and pN/pS.',
+    'My work in the Ioerger Lab focuses on positive selection and antibiotic response in Mycobacterium tuberculosis. I build analysis pipelines to compare selection across bacterial lineages and patient cohorts, and model gene fitness under rifampicin treatment.',
   contact: 'Interested in the research or something I’ve built? I’m happy to talk.',
 };
 
@@ -155,6 +155,21 @@ export interface ResearchCode {
   source?: { label: string; href: string };
 }
 
+export const researchStudies: ProjectDetail[] = [
+  {
+    heading: 'Selection across lineages',
+    copy: 'Compare lineages L1–L4 using Bayesian estimates of dN/dS, a measure of evolutionary selection. GenomegaMap posterior samples capture uncertainty in each estimate.',
+  },
+  {
+    heading: 'TB and diabetes',
+    copy: 'Analyze 922 clinical isolates: 178 from patients with diabetes and 744 from patients without diabetes. DPD (difference in posterior distributions) estimates the probability that a gene has higher dN/dS in one cohort than the other. Compare results with PAML/codeml and pN/pS.',
+  },
+  {
+    heading: 'Rifampicin response',
+    copy: 'Fit gene-level linear models to transposon-sequencing (TnSeq) fitness data and use likelihood-ratio tests to assess gene responses to rifampicin treatment.',
+  },
+];
+
 export const researchCode: ResearchCode[] = [
   {
     name: 'MtbScope',
@@ -165,22 +180,22 @@ export const researchCode: ResearchCode[] = [
   {
     name: 'GenomegaMap',
     href: 'https://github.com/danny-wilson/genomegaMap',
-    copy: 'Bayesian dN/dS from MCMC samples. DPD estimates the probability that selection in one group is higher than in another, for lineages L1-L4 and for 178 diabetic isolates against 744 non-diabetic isolates.',
+    copy: 'Bayesian inference of dN/dS. I use its MCMC posterior samples for comparisons across lineages and patient cohorts.',
   },
   {
     name: 'PAML / codeml',
     href: 'https://github.com/abacus-gene/paml',
-    copy: 'Site and branch models for the same alignments. Nested models are compared with a likelihood-ratio test.',
+    copy: 'An independent comparison for the genomic selection analysis, using codon models and likelihood-ratio tests.',
   },
   {
     name: 'pN/pS and codeml inputs',
     href: 'https://github.com/ioerger/TB_diabetes_positive_selection',
-    copy: 'Counts nonsynonymous and synonymous changes against a reference, then collapses identical isolates into the alignment and tree codeml expects.',
+    copy: 'Analysis code for the diabetes comparison: counts nonsynonymous and synonymous variants and prepares alignments and trees for codeml.',
   },
   {
     name: 'TTN-Fitness',
     href: 'https://github.com/ioerger/TTN-Fitness',
-    copy: 'Statistical analysis of Himar1 TnSeq. Drug-response work fits gene-level linear models to these fitness counts and tests them with likelihood-ratio tests.',
+    copy: 'Fitness analysis of Himar1 transposon-sequencing data, used in the rifampicin work.',
   },
   {
     name: 'TRANSIT',
@@ -213,12 +228,11 @@ export const experiences: Experience[] = [
     organization: 'Ioerger Lab · Texas A&M University',
     kind: 'Research',
     summary:
-      'Positive selection in M. tuberculosis: Bayesian dN/dS across lineages, a 922-isolate diabetes comparison, and rifampicin TnSeq.',
+      'Build computational workflows to study M. tuberculosis evolution across lineages and patient cohorts, alongside gene fitness under rifampicin treatment.',
     highlights: [
-      'Compare selection across lineages L1-L4 with GenomegaMap posteriors of dN/dS.',
-      'Ran the diabetes comparison on 178 diabetic and 744 non-diabetic isolates. DPD is the probability that selection in one group is higher than in the other.',
-      'Fit gene-level linear models to rifampicin TnSeq fitness and test them with likelihood-ratio tests.',
-      'Checked the same genes with PAML and pN/pS, and ran the gene-level jobs as Slurm array tasks.',
+      'Built Python pipelines for Bayesian dN/dS analysis and comparisons across lineages L1–L4, with gene-level jobs parallelized through Slurm arrays.',
+      'Implemented DPD using GenomegaMap posterior samples to compare 178 isolates from patients with diabetes and 744 from patients without diabetes; compared the selection results with PAML/codeml and pN/pS.',
+      'Fit gene-level linear models to rifampicin TnSeq fitness data and evaluated them with likelihood-ratio tests.',
     ],
     tools: ['Python', 'Slurm', 'TnSeq', 'GenomegaMap', 'PAML / codeml'],
   },
