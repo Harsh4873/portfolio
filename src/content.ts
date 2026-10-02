@@ -162,7 +162,7 @@ export const researchStudies: ProjectDetail[] = [
   },
   {
     heading: 'TB and diabetes',
-    copy: 'Analyze 922 clinical isolates: 178 from patients with diabetes and 744 from patients without diabetes. DPD (difference in posterior distributions) estimates the probability that a gene has higher dN/dS in one cohort than the other. Compare results with PAML/codeml and pN/pS.',
+    copy: 'Analyze 922 clinical isolates: 178 from patients with diabetes and 744 from patients without diabetes. DPD (difference in posterior distributions) estimates the probability that a gene has higher dN/dS in one cohort than the other. The findings were supported by concordant results from PAML/codeml and pN/pS analyses of the same alignments.',
   },
   {
     heading: 'Rifampicin response',
@@ -231,7 +231,7 @@ export const experiences: Experience[] = [
       'Build computational workflows to study M. tuberculosis evolution across lineages and patient cohorts, alongside gene fitness under rifampicin treatment.',
     highlights: [
       'Built Python pipelines for Bayesian dN/dS analysis and comparisons across lineages L1–L4, with gene-level jobs parallelized through Slurm arrays.',
-      'Implemented DPD using GenomegaMap posterior samples to compare 178 isolates from patients with diabetes and 744 from patients without diabetes; compared the selection results with PAML/codeml and pN/pS.',
+      'Implemented DPD using GenomegaMap posterior samples to compare 178 isolates from patients with diabetes and 744 from patients without diabetes; corroborated the selection findings through concordant PAML/codeml and pN/pS analyses of the same alignments.',
       'Fit gene-level linear models to rifampicin TnSeq fitness data and evaluated them with likelihood-ratio tests.',
     ],
     tools: ['Python', 'Slurm', 'TnSeq', 'GenomegaMap', 'PAML / codeml'],
