@@ -9,8 +9,6 @@ import ProjectGallery from './components/ProjectGallery';
 import ResearchExplorer from './components/ResearchExplorer';
 import Contact from './components/Contact';
 
-const THEME_KEY = 'harsh-theme';
-
 const sections = [
   { id: 'start', label: 'Profile' },
   { id: 'research', label: 'Research' },
@@ -18,8 +16,6 @@ const sections = [
   { id: 'projects', label: 'Projects' },
   { id: 'about', label: 'Contact' },
 ] as const;
-
-type Theme = 'light' | 'dark';
 
 function WithOrganism({ text }: { text: string }) {
   const parts = text.split(/(Mycobacterium tuberculosis)/);
@@ -32,69 +28,15 @@ function WithOrganism({ text }: { text: string }) {
   );
 }
 
-function initialTheme(): Theme {
-  const initial = document.documentElement.dataset.theme;
-  if (initial === 'light' || initial === 'dark') return initial;
-  try {
-    const saved = window.localStorage.getItem(THEME_KEY);
-    if (saved === 'light' || saved === 'dark') return saved;
-  } catch {
-    // Use the operating-system preference when storage is unavailable.
-  }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
-function storedTheme(): Theme | null {
-  try {
-    const saved = window.localStorage.getItem(THEME_KEY);
-    return saved === 'light' || saved === 'dark' ? saved : null;
-  } catch {
-    return null;
-  }
-}
-
-function useTheme() {
-  const [theme, setTheme] = useState<Theme>(initialTheme);
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#290d15' : '#450c18');
-  }, [theme]);
-
-  useEffect(() => {
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
-    const followSystemTheme = (event: MediaQueryListEvent) => {
-      if (!storedTheme()) setTheme(event.matches ? 'dark' : 'light');
-    };
-
-    systemTheme.addEventListener('change', followSystemTheme);
-    return () => systemTheme.removeEventListener('change', followSystemTheme);
-  }, []);
-
-  const chooseTheme = (nextTheme: Theme) => {
-    setTheme(nextTheme);
-    try {
-      window.localStorage.setItem(THEME_KEY, nextTheme);
-    } catch {
-      // The selected theme still applies for the current visit.
-    }
-  };
-
-  return [theme, chooseTheme] as const;
-}
-
 interface SiteRailProps {
-  theme: Theme;
   mobileOpen: boolean;
   activeSection: string;
-  onThemeChange: (theme: Theme) => void;
   onToggleMobile: () => void;
   onNavigate: () => void;
   menuButtonRef: RefObject<HTMLButtonElement>;
 }
 
-function SiteRail({ theme, mobileOpen, activeSection, onThemeChange, onToggleMobile, onNavigate, menuButtonRef }: SiteRailProps) {
+function SiteRail({ mobileOpen, activeSection, onToggleMobile, onNavigate, menuButtonRef }: SiteRailProps) {
   return (
     <aside className="site-rail" data-mobile-open={mobileOpen ? 'true' : 'false'} aria-label="Portfolio navigation">
       <div className="rail-topline">
@@ -132,11 +74,6 @@ function SiteRail({ theme, mobileOpen, activeSection, onThemeChange, onToggleMob
         </nav>
 
         <div className="rail-footer rail-detail">
-          <div className="theme-switch" role="group" aria-label="Color theme">
-            <button type="button" aria-pressed={theme === 'light'} onClick={() => onThemeChange('light')}>Light</button>
-            <span aria-hidden="true">·</span>
-            <button type="button" aria-pressed={theme === 'dark'} onClick={() => onThemeChange('dark')}>Dark</button>
-          </div>
           <a href={profile.labHref} target="_blank" rel="noreferrer">Lab</a>
           <a href="/portfolio/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
           <a href="/portfolio/cv.pdf" target="_blank" rel="noopener noreferrer">CV</a>
@@ -334,7 +271,6 @@ function SiteFooter() {
 }
 
 export default function App() {
-  const [theme, setTheme] = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('start');
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -445,10 +381,8 @@ export default function App() {
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to content</a>
       <SiteRail
-        theme={theme}
         mobileOpen={mobileOpen}
         activeSection={activeSection}
-        onThemeChange={setTheme}
         onToggleMobile={() => {
           if (mobileOpen) restoreMenuFocus.current = true;
           setMobileOpen((open) => !open);
