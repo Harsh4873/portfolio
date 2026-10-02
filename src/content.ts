@@ -162,7 +162,7 @@ export const researchStudies: ProjectDetail[] = [
   },
   {
     heading: 'TB and diabetes',
-    copy: 'Compare selection in 922 clinical isolates: 178 from patients with diabetes and 744 from patients without diabetes. DPD uses Bayesian posterior samples to compare the cohorts. PAML/codeml and pN/pS analyses produced concordant findings.',
+    copy: 'Developed a Bayesian comparison pipeline using DPD (difference in posterior distributions) to estimate the probability of higher gene-level dN/dS in one patient cohort than the other. Compared 922 clinical isolates: 178 from patients with diabetes and 744 without. PAML/codeml and pN/pS analyses produced concordant findings.',
   },
   {
     heading: 'Rifampicin response',
@@ -231,7 +231,7 @@ export const experiences: Experience[] = [
       'Build computational workflows to study M. tuberculosis evolution across lineages and patient cohorts, alongside gene fitness under rifampicin treatment.',
     highlights: [
       'Built Python pipelines for Bayesian dN/dS analysis with GenomegaMap across M. tuberculosis lineages L1–L4.',
-      'Implemented DPD using posterior samples to compare 922 clinical isolates: 178 from patients with diabetes and 744 from patients without diabetes.',
+      'Developed a Bayesian comparison pipeline using DPD (difference in posterior distributions) to estimate the probability of higher gene-level dN/dS in one cohort than the other, comparing 922 clinical isolates (178 from patients with diabetes; 744 without).',
       'Corroborated selection findings through PAML/codeml and pN/pS analyses, obtaining concordant results across all three methods.',
       'Modeled gene-level fitness under rifampicin treatment using TnSeq data, linear models, and likelihood-ratio tests.',
     ],
