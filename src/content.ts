@@ -144,7 +144,7 @@ export const news: NewsItem[] = [
 
 export const manuscript = {
   status: 'In preparation',
-  authors: 'Dave, H., Shatby, A., and Ioerger, T.',
+  authors: 'Dave, H., Shatby, A., Smith, M., and Ioerger, T.',
   title: 'Differential Bayesian analysis of genomic sequences identifies M. tuberculosis genes under positive selection in TB patients with diabetes.',
 };
 

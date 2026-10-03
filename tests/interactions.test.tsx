@@ -96,7 +96,7 @@ describe('Research', () => {
     act(() => root.render(<ResearchExplorer />));
     expect(container.querySelector('[role="tab"]')).toBeNull();
     expect(container.textContent).toContain('In preparation');
-    expect(container.textContent).toContain('Shatby');
+    expect(container.textContent).toContain('Shatby, A., Smith, M., and Ioerger, T.');
     const links = [...container.querySelectorAll('a')].map((link) => link.getAttribute('href'));
     expect(links).toContain('https://github.com/ioerger/TB_diabetes_positive_selection');
     expect(links).toContain('https://orca2.tamu.edu/U19/');
